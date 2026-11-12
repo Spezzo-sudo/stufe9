@@ -1,6 +1,6 @@
 {
-  // Vorschau über Cloudflare: liefert den Ordner prototypes als statische Seite aus.
+  // Vorschau über Cloudflare: npm run build erzeugt die statischen Dateien.
   "name": "stufe9",
   "compatibility_date": "2025-01-01",
-  "assets": { "directory": "./prototypes" }
+  "assets": { "directory": "./dist" }
 }

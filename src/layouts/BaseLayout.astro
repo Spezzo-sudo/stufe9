@@ -1,0 +1,44 @@
+---
+import '@fontsource/barlow-condensed/latin-600.css';
+import '@fontsource/barlow-condensed/latin-700.css';
+import '@fontsource/ibm-plex-sans/latin-400.css';
+import '@fontsource/ibm-plex-sans/latin-500.css';
+import '@fontsource/ibm-plex-mono/latin-400.css';
+import '@fontsource/ibm-plex-mono/latin-500.css';
+import '../styles/global.css';
+import Logo from '../components/Logo.astro';
+
+interface Props { title: string; description?: string; }
+const { title, description = 'Frontier-Tech im Reality Check. Serienreif oder nur versprochen?' } = Astro.props;
+---
+<!doctype html>
+<html lang="de-CH">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title} · Stufe 9</title>
+  </head>
+  <body>
+    <a class="skip" href="#inhalt">Zum Inhalt</a>
+    <header class="top">
+      <div class="in">
+        <Logo />
+        <nav aria-label="Hauptnavigation"><a href="/">Start</a><a href="/prototypes/">Prototypen</a></nav>
+      </div>
+    </header>
+    <main id="inhalt" tabindex="-1"><slot /></main>
+    <footer class="dark"><div class="in">Vorschau im Aufbau · Prototypen enthalten erfundene Beispieldaten.</div></footer>
+  </body>
+</html>
+
+<style>
+  .top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--ink); color: var(--on-ink); border-bottom: 1px solid var(--ink-line); }
+  .top .in { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 12px; }
+  nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px 18px; font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+  nav a { color: var(--on-ink-muted); text-decoration: none; padding-block: 6px; }
+  nav a:hover { color: var(--signal); }
+  footer .in { padding-block: 22px 40px; color: var(--on-ink-muted); font-size: 14px; }
+</style>

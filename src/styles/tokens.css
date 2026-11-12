@@ -1,0 +1,22 @@
+:root {
+  color-scheme: light;
+  --ink: #070D0F;
+  --ink-2: #0D181B;
+  --ink-line: #2A3C40;
+  --paper: #EDF1EF;
+  --sheet: #F9FBFA;
+  --paper-line: #B5C0BF;
+  --signal: #FF5A0A;
+  --signal-dark: #C24100;
+  --on-ink: #EAF0ED;
+  --on-ink-muted: #8EA3A2;
+  --muted: #55666A;
+  --display: 'Barlow Condensed', 'Arial Narrow', Impact, sans-serif;
+  --body: 'IBM Plex Sans', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+  --content-width: 1040px;
+  --logo-segment-width: .17em;
+  --logo-segment-gap: .085em;
+  --logo-segment-height: .72em;
+  --logo-target-height: 1em;
+}

@@ -1,0 +1,14 @@
+@import './tokens.css';
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink-2); font: 400 16px/1.55 var(--body); }
+body::before { content: ''; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--ink); }
+h1, h2, p { margin: 0; }
+a { color: inherit; text-underline-offset: .2em; }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
+[hidden] { display: none !important; }
+.in { width: 100%; max-width: var(--content-width); margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.tag { font: 500 11px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.dark { background: var(--ink); color: var(--on-ink); }
+.skip { position: fixed; top: 8px; left: 16px; z-index: 20; transform: translateY(-200%); padding: 10px; background: var(--sheet); color: var(--ink); }
+.skip:focus { transform: none; }
