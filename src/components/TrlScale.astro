@@ -1,0 +1,25 @@
+---
+interface Props { ist: number; behauptet: number; compact?: boolean; }
+const { ist, behauptet, compact = false } = Astro.props;
+const gap = behauptet - ist;
+---
+<div class:list={['trl', { compact }]} role="img" aria-label={`Belegt Stufe ${ist} von 9, behauptet Stufe ${behauptet} von 9${gap > 0 ? `, Lücke ${gap}` : ''}`}>
+  {!compact && gap > 0 && <div class="gap" style={`grid-column:${ist + 1}/${behauptet + 1}`}><b>Lücke {gap}</b></div>}
+  {Array.from({ length: 9 }, (_, i) => <i aria-hidden="true" class:list={{ on: i < ist, claim: i >= ist && i < behauptet, target: i === 8 }} style={`grid-column:${i + 1};--i:${i}`} />)}
+  {!compact && Array.from({ length: 9 }, (_, i) => <span aria-hidden="true" style={`grid-column:${i + 1}`}>{i + 1}</span>)}
+</div>
+<style>
+  .trl { --seg: var(--on-ink); --off: var(--ink-line); display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); grid-template-rows: 26px auto 16px; gap: 6px clamp(4px, 1vw, 8px); }
+  i { grid-row: 2; height: clamp(44px, 8vw, 72px); border: 1px solid var(--off); transform-origin: bottom; }
+  .on { background: var(--seg); border-color: var(--seg); }
+  .on.target { background: var(--signal); border-color: var(--signal); }
+  .claim { border-color: var(--signal); background: repeating-linear-gradient(45deg, var(--signal) 0 2px, transparent 2px 8px); }
+  span { grid-row: 3; text-align: center; color: var(--on-ink-muted); font: 400 11px/1 var(--mono); }
+  .gap { grid-row: 1; position: relative; align-self: end; height: 10px; border: 1px solid var(--signal); border-bottom: 0; }
+  .gap b { position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%); padding-inline: 6px; background: var(--ink); color: var(--signal); font: 500 12px/1 var(--mono); white-space: nowrap; }
+  .compact { --seg: var(--card-ink, var(--ink-2)); --off: var(--card-line, var(--paper-line)); grid-template-rows: auto; gap: 3px; }
+  .compact i { grid-row: 1; height: 28px; }
+  .compact .claim { background-size: auto; }
+  @media (prefers-reduced-motion: no-preference) { .trl:not(.compact) i { animation: rise .25s ease-out both; animation-delay: calc(var(--i) * 55ms); } }
+  @keyframes rise { from { transform: scaleY(0); } }
+</style>

@@ -1,0 +1,20 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ExampleNotice from '../../components/ExampleNotice.astro';
+import SourceList from '../../components/SourceList.astro';
+import { datum, title } from '../../lib/magazin';
+export async function getStaticPaths() { return (await getCollection('artikel')).map((artikel) => ({ params: { slug: artikel.data.slug }, props: { artikel } })); }
+interface Props { artikel: CollectionEntry<'artikel'>; }
+const { artikel } = Astro.props;
+const a = artikel.data;
+const { Content } = await render(artikel);
+const projects = await getCollection('projekte', ({ data }) => a.projekte.includes(data.slug));
+---
+<BaseLayout title={title(a.titel)} description={a.zusammenfassung}>
+  <header class="page-head dark"><div class="in"><nav class="crumb tag" aria-label="Pfad"><a href="/">Start</a>{a.ressorts.map((id) => <a href={`/${id}/`}>{id}</a>)}</nav><p class="tag">{a.typ} · {datum(a.datum)}</p><h1 class="page-title">{title(a.titel)}</h1><p class="intro">{a.zusammenfassung}</p><p class="tag">{a.autor}</p></div></header>
+  <ExampleNotice beispiel={a.beispiel} />
+  <article class="section"><div class="in editorial"><Content /></div></article>
+  <section class="section"><div class="in"><div class="section-head"><h2 class="heading">Verknüpfte Projekte</h2></div><ul>{projects.map(({ data: p }) => <li><a href={`/projekt/${p.slug}/`}>{title(p.name)} →</a></li>)}</ul><SourceList quellen={a.quellen} prefix={a.slug} /></div></section>
+</BaseLayout>

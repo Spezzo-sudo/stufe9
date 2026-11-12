@@ -1,0 +1,44 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { title } from '../lib/magazin';
+import TrlScale from './TrlScale.astro';
+interface Props { projekte: CollectionEntry<'projekte'>[]; firmen: CollectionEntry<'firmen'>[]; }
+const { projekte, firmen } = Astro.props;
+---
+<table class="pipeline"><caption class="tag">Projekte im Vergleich</caption>
+  <thead><tr><th scope="col">Projekt / Firma</th><th scope="col">Reifegrad</th><th scope="col">Belegt</th><th scope="col">Behauptet</th></tr></thead>
+  <tbody>{projekte.map(({ data: p }) => <tr>
+    <th scope="row"><a href={`/projekt/${p.slug}/`}>{title(p.name)} <span aria-hidden="true">↗</span></a><span class="company">{title(firmen.find(({ data }) => data.slug === p.firma)!.data.name)}</span>{p.beispiel && <span class="tag example">Beispiel · frei erfunden</span>}</th>
+    <td class="scale-cell"><TrlScale ist={p.trl_ist} behauptet={p.trl_behauptet} compact /><span class="tag">{p.trl_behauptet > p.trl_ist ? `Lücke ${p.trl_behauptet - p.trl_ist}` : 'Ziel erreicht'}</span></td>
+    <td class="number"><span class="mobile-label">Belegt</span>{p.trl_ist}<small>/9</small></td>
+    <td class="number claimed"><span class="mobile-label">Behauptet</span>{p.trl_behauptet}<small>/9</small></td>
+  </tr>)}</tbody>
+</table>
+<style>
+  .pipeline { width: 100%; border-collapse: collapse; text-align: left; }
+  caption { text-align: left; padding-bottom: 16px; color: var(--muted); }
+  thead th { font: 500 11px/1.5 var(--mono); text-transform: uppercase; color: var(--muted); }
+  th, td { padding: 20px 16px; border-block: 1px solid var(--paper-line); vertical-align: middle; }
+  th:first-child { padding-left: 0; }
+  tbody th { max-width: 300px; font-weight: 400; }
+  th a { font: 700 28px/1 var(--display); text-decoration: none; text-transform: uppercase; }
+  th a:hover { text-decoration: underline; }
+  .company { display: block; margin-top: 8px; font-size: 14px; color: var(--muted); }
+  .example { display: block; margin-top: 10px; color: var(--muted); }
+  .scale-cell { min-width: 210px; }
+  .scale-cell > .tag { display: block; margin-top: 10px; color: var(--muted); }
+  .number { font: 700 48px/1 var(--display); }
+  .number small { font-size: .4em; opacity: .5; }
+  .claimed { color: var(--signal-dark); }
+  .mobile-label { display: none; }
+  @media (max-width: 700px) {
+    .pipeline, tbody { display: block; }
+    thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    caption { display: block; }
+    tbody tr { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink-2); padding-block: 20px; gap: 18px; }
+    tbody th, td { display: block; border: 0; padding: 0; max-width: none; }
+    tbody th, .scale-cell { grid-column: 1/-1; }
+    .mobile-label { display: block; margin-bottom: 8px; font: 500 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; }
+    .scale-cell { min-width: 0; }
+  }
+</style>

@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { datum } from '../lib/magazin';
+import SourceList from './SourceList.astro';
+interface Props { eintraege: CollectionEntry<'meilensteine'>[]; }
+const { eintraege } = Astro.props;
+const labels = { geplant: 'Geplant', erreicht: 'Erreicht', verspaetet: 'Verspätet', abgesagt: 'Abgesagt' };
+---
+<ul class="timeline">
+  {eintraege.toSorted((a, b) => (a.data.erreicht_am ?? a.data.angekuendigt_fuer).localeCompare(b.data.erreicht_am ?? b.data.angekuendigt_fuer)).map(({ data: m }) => <li>
+    <time datetime={m.erreicht_am ?? m.angekuendigt_fuer}>{datum(m.erreicht_am ?? m.angekuendigt_fuer)}</time>
+    <div><span class:list={['pill', { done: m.status === 'erreicht' }]}>{labels[m.status]}</span><h3>{m.titel}</h3>
+      {m.trl_aenderung && <p>Stufe {m.trl_aenderung.nach} · Freigabe: {m.trl_aenderung.freigabe.name}</p>}
+      {m.beispiel && <p class="tag">Beispiel · frei erfunden</p>}
+      <SourceList quellen={m.quellen} prefix={m.id} />
+    </div>
+  </li>)}
+</ul>
+<style>
+  .timeline { list-style: none; padding: 0; margin: 0; }
+  li { display: grid; grid-template-columns: 90px 1fr; gap: 12px; padding-block: 16px; border-bottom: 1px solid var(--paper-line); }
+  time { color: var(--muted); font: 400 11px/1.8 var(--mono); }
+  h3 { display: inline; font: 500 16px/1.5 var(--body); }
+  p { margin-top: 10px; font-size: 14px; }
+  .pill { display: inline-block; margin: 0 8px 4px 0; padding: 4px 6px; border: 1px solid var(--ink-2); font: 500 10px/1 var(--mono); text-transform: uppercase; }
+  .done { background: var(--ink-2); color: var(--on-ink); }
+  @media (max-width: 400px) { li { grid-template-columns: 1fr; gap: 6px; } }
+</style>

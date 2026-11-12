@@ -6,7 +6,6 @@ const [ressorts, firmen, projekte, meilensteine, artikel, updates] = await Promi
   getCollection('projekte', ({ data }) => data.beispiel), getCollection('meilensteine', ({ data }) => data.beispiel),
   getCollection('artikel', ({ data }) => data.beispiel), getCollection('updates', ({ data }) => data.beispiel),
 ]);
-const renderedArticles = await Promise.all(artikel.map(async (entry) => ({ entry, ...await render(entry) })));
 const renderedUpdates = await Promise.all(updates.map(async (entry) => ({ entry, ...await render(entry) })));
 const groups = [
   { title: 'Forschungsfelder', entries: ressorts.map(({ data }) => ({ title: data.name, text: data.intro, sources: data.quellen })) },
@@ -41,8 +40,8 @@ const groups = [
       </article>)}
     </section>
     <section id="artikel"><h2>Artikel</h2>
-      {renderedArticles.map(({ entry, Content }) => <article>
-        <p class="tag">Beispiel · frei erfunden</p><h3>{entry.data.titel}</h3><Content />
+      {artikel.map((entry) => <article>
+        <p class="tag">Beispiel · frei erfunden</p><h3>{entry.data.titel}</h3><p>{entry.data.zusammenfassung}</p><a href={`/artikel/${entry.data.slug}/`}>Artikel lesen →</a>
         <p class="source">{entry.data.quellen.map((source) => <span>{source.titel} · kein echter Beleg<br /></span>)}</p>
       </article>)}
     </section>

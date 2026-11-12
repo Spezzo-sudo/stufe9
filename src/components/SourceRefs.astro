@@ -1,0 +1,7 @@
+---
+import { sourceId } from '../lib/magazin';
+interface Props { ids: string[]; prefix?: string; }
+const { ids, prefix = 'projekt' } = Astro.props;
+---
+<span class="refs">{ids.map((id, i) => <a href={`#${sourceId(prefix, id)}`} aria-label={`Quelle zu dieser Aussage ${i + 1}`}>[Quelle{i > 0 ? ` ${i + 1}` : ''}]</a>)}</span>
+<style>.refs { display: inline-flex; flex-wrap: wrap; gap: 6px; margin-left: 6px; vertical-align: baseline; font: 400 11px/1.5 var(--mono); } a { color: var(--muted); }</style>

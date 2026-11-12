@@ -1,0 +1,10 @@
+---
+import type { Projekt } from '../lib/magazin';
+import SourceRefs from './SourceRefs.astro';
+interface Props { risiken: Projekt['risiken']; }
+const { risiken } = Astro.props;
+const status = { belegt: 'Belegt', behauptet: 'Behauptet', kritik: 'Kritik' };
+---
+<ul class="risks">{risiken.map((r) => <li><p class="tag">{status[r.status]}</p><h3>{r.thema}</h3><p>{r.beschreibung}<SourceRefs ids={r.quellen} /></p>{r.stellungnahme_firma && <p><b>Stellungnahme der Firma:</b> {r.stellungnahme_firma.text}<SourceRefs ids={r.stellungnahme_firma.quellen} /></p>}</li>)}</ul>
+{!risiken.length && <p>Zu diesem Eintrag sind noch keine Risiken erfasst. Das ist keine Aussage über seine Unbedenklichkeit.</p>}
+<style>.risks { list-style: none; padding: 0; margin: 0; } li { display: grid; gap: 8px; padding-block: 14px; border-bottom: 1px solid var(--paper-line); } h3 { font: 500 16px/1.4 var(--body); } .tag { color: var(--muted); } p { font-size: 14px; }</style>

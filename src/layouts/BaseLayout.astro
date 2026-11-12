@@ -27,14 +27,21 @@ const { title, description = 'Frontier-Tech im Reality Check. Serienreif oder nu
     <header class="top">
       <div class="in">
         <Logo />
-        <nav aria-label="Hauptnavigation"><a href="/">Start</a><a href="/prototypes/">Prototypen</a></nav>
+        <nav aria-label="Hauptnavigation"><a href="/#forschungsfelder">Felder</a><a href="/#checks">Reality Checks</a></nav>
       </div>
     </header>
     <main id="inhalt" tabindex="-1"><slot /></main>
-    <footer class="dark"><div class="in">Vorschau im Aufbau · Prototypen enthalten erfundene Beispieldaten.</div></footer>
+    <footer class="dark"><div class="in"><div><b>STUFE 9</b><p>Serienreif oder nur versprochen?</p><p>Diese Ausgabe enthält frei erfundene Beispieldaten. Jeder Beispieleintrag ist gekennzeichnet.</p></div><nav aria-label="Weitere Seiten"><a href="/updates/">Updates</a><a href="/beispiele/">Beispieldaten</a><a href="/prototypes/">Design-Referenzen</a></nav></div></footer>
     <ScrollHint />
   </body>
 </html>
+
+<script>
+  const header = document.querySelector<HTMLElement>('.top');
+  if (header) new ResizeObserver(() => {
+    document.documentElement.style.setProperty('--header-height', `${header.getBoundingClientRect().height + Number.parseFloat(getComputedStyle(header).top || '0')}px`);
+  }).observe(header);
+</script>
 
 <style>
   .top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--ink); color: var(--on-ink); border-bottom: 1px solid var(--ink-line); }
@@ -43,4 +50,9 @@ const { title, description = 'Frontier-Tech im Reality Check. Serienreif oder nu
   nav a { color: var(--on-ink-muted); text-decoration: none; padding-block: 6px; }
   nav a:hover { color: var(--signal); }
   footer .in { padding-block: 22px 40px; color: var(--on-ink-muted); font-size: 14px; }
+  footer { border-top: 1px solid var(--ink-line); }
+  footer b { display: block; color: var(--on-ink); font: 700 28px/1 var(--display); letter-spacing: .07em; margin-bottom: 12px; }
+  footer p + p { margin-top: 8px; max-width: 60ch; font-size: 12px; }
+  footer nav { justify-content: flex-start; gap: 18px; margin-top: 24px; }
+  @media (max-width: 400px) { .top .in { gap: 10px; } .top nav { gap: 8px; font-size: 10px; } }
 </style>

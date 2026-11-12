@@ -20,7 +20,9 @@ Bis der Build-Befehl gesetzt ist, kann das Deployment scheitern, weil `dist` ers
 
 ## Was prüfen?
 
-- `/`: Astro-Grundlage mit Logo als Home-Link, Farben und lokalen Schriften.
+- `/`: Magazin-Startseite mit Teilchen-Auftritt, Ressort-Raster und Projektkarten.
+- `/fusion/` und `/robotik/`: Ressorts als Pipeline.
+- `/projekt/beispiel-fusion/`: Projekt mit Plasma-Schema, Reality Check und Quellen.
 - `/beispiele/`: zwölf klar markierte Beispiele für die Inhaltsgrundlage; auch zum Prüfen des Scroll-Pfeils.
 - `/prototypes/`: Übersicht aller unveränderten Prototypen.
 - `/prototypes/01-prototyp-gesamt.html`: verbindliche Design-Referenz.

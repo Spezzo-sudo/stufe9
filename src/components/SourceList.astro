@@ -1,0 +1,17 @@
+---
+import type { Quelle } from '../lib/magazin';
+import { datum, sourceId } from '../lib/magazin';
+interface Props { quellen: Quelle[]; prefix?: string; }
+const { quellen, prefix = 'quelle' } = Astro.props;
+---
+<ol class="sources">
+  {quellen.map((q) => <li id={sourceId(prefix, q.id)}>
+    {q.beispiel ? <span>{q.titel}</span> : <a href={q.url} target="_blank" rel="noopener noreferrer">{q.titel} ↗</a>}
+    <small>{datum(q.datum)} · {q.beispiel ? 'Erfunden · kein echter Beleg' : 'Externe Quelle'}</small>
+  </li>)}
+</ol>
+<style>
+  .sources { padding-left: 24px; margin: 0; }
+  li { padding: 10px 0; border-bottom: 1px solid var(--paper-line); scroll-margin-top: calc(var(--header-height, 56px) + 20px); font-size: 14px; overflow-wrap: anywhere; }
+  small { display: block; color: var(--muted); font-size: 12px; margin-top: 4px; }
+</style>

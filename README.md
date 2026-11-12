@@ -2,7 +2,7 @@
 
 Deutschsprachiges Frontier-Tech-Magazin: Jedes Zukunftsprojekt bekommt einen Reality Check auf der Reifegrad-Skala 1 bis 9. Serienreif oder nur versprochen?
 
-**Stand:** Schritte 1 und 2 sind umgesetzt: Astro-Grundlage, sechs Zod-Collections mit Quellen- und Beziehungsprüfung, je zwei sichtbare Beispiele pro Collection. Auftritt und Magazin-Seiten folgen.
+**Stand:** Das Magazin ist als statische Astro-Website umgesetzt: Startseite mit Teilchen-Auftritt und Ressort-Raster, Ressort- und Projektseiten sowie verlinkte Firmen, Artikel und Updates. Alle aktuellen Inhalte sind klar markierte erfundene Beispiele. Quellen- und Stufenprüfung sind aktiv.
 
 ## Einstieg
 
@@ -26,3 +26,5 @@ npm run dev
 `npm run check` prüft Astro und TypeScript. `npm run build` erzeugt die statische Seite in `dist`. `npm run preview` zeigt den Build lokal.
 
 Neue Inhalte liegen in `src/content/`. Anleitung: [`docs/CONTENT-GUIDE.md`](docs/CONTENT-GUIDE.md). Die Prüfseite `/beispiele/` zeigt die erfundenen Beispiele. `npm test` prüft die Schutzregeln. `npm run check` und `npm run build` prüfen vorab alle Inhaltsdateien, Quellenbezüge und Stufen.
+
+Design und Komponenten: [`docs/DESIGN-SYSTEM.md`](docs/DESIGN-SYSTEM.md). Nach dem Build prüft `npm run test:site` lokale Links, Quellenanker und Kerninhalte.

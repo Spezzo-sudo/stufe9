@@ -9,7 +9,8 @@
     "build": "npm run validate:content && astro build",
     "preview": "astro preview --host 0.0.0.0",
     "validate:content": "node --experimental-strip-types scripts/validate-content.ts",
-    "test": "node --experimental-strip-types --test tests/content-validation.test.ts"
+    "test": "node --experimental-strip-types --test tests/content-validation.test.ts",
+    "test:site": "node --test tests/site-build.test.mjs"
   },
   "engines": {
     "node": ">=22.12.0"

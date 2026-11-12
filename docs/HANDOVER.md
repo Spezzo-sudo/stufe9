@@ -10,7 +10,7 @@ Der ursprüngliche Plan steht in `docs/BAUPLAN-ORIGINAL.md`. **Wo dieses Dokumen
 
 ## 2. Stand der Arbeit
 
-Fertig ist das **Konzept und das Design als klickbare HTML-Prototypen** in `public/prototypes/`. **Schritt 1 ist umgesetzt:** statisches Astro-Projekt, striktes TypeScript, Tokens, lokale Schriften, `BaseLayout` und Logo als Home-Link. Die Startseite ist vorerst eine klar bezeichnete Prüfseite für diese Grundlage.
+Fertig ist das **Konzept und das Design als klickbare HTML-Prototypen** in `public/prototypes/`. **Schritt 1 ist umgesetzt:** statisches Astro-Projekt, striktes TypeScript, Tokens, lokale Schriften, `BaseLayout` und Logo als Home-Link. **Schritte 3 und 4 sind ebenfalls umgesetzt:** Die Startseite ist jetzt der Magazin-Auftritt mit Ressort-Raster, Update-Leiste, Projektkarten und Artikeln. Ressort-, Projekt-, Firmen-, Artikel- und Update-Seiten sind miteinander verlinkt.
 
 | Datei | Inhalt | Status |
 | --- | --- | --- |
@@ -52,9 +52,9 @@ Die Prototypen sind einzelne HTML-Dateien ohne `<html>`/`<body>`-Gerüst und ohn
 - **Grosser Auftritt** (nur Startseite, nur einmal pro Besuch): Wortmarke und leere Segment-Umrisse stehen in der Mitte, die Forschungsfelder stehen als Punktwolken darum herum, fliessen hinein und füllen die Skala von 1 bis 9. Dauer rund 3 s. Antippen des grossen Logos spielt ihn nochmal.
 - Unterseiten: kein Auftritt, nur kurzer Balken-Durchlauf im Seitenkopf beim Seitenwechsel.
 
-### Offene Design-Frage (vom Auftraggeber zuletzt angestossen)
+### Ressort-Navigation (am 12.11.2026 umgesetzt)
 
-Die Startseite besteht nach dem Auftritt nur aus dem grossen Logo. Wunsch: Die Feld-Motive sollen **als Navigation dienen** (Klick auf Helix → Ressort Biotech mit seinen Projekten). Vorschlag, noch nicht gebaut:
+Die Startseite besteht nach dem Auftritt nur aus dem grossen Logo. Wunsch: Die Feld-Motive sollen **als Navigation dienen** (Klick auf Helix → Ressort Biotech mit seinen Projekten). Umgesetzt:
 
 - Nach dem Auftritt bleiben die Motive als **Ressort-Raster** direkt unter dem Hero stehen (statische Punktwolke + Name + Anzahl Projekte), jedes verlinkt auf `/[ressort]`.
 - **Erweiterbar:** Der Auftritt zeigt höchstens sechs Felder (Auswahl wechselt), das Raster zeigt alle. Die neun Segmente sind Stufen, keine Felder – die Zahl der Ressorts ist also frei.
@@ -98,9 +98,9 @@ docs/                HANDOVER.md, DESIGN-SYSTEM.md, CONTENT-GUIDE.md
 
 1. **Umgesetzt am 12.11.2026:** Astro-Projekt, Tokens und lokale Schriften, `BaseLayout` mit Seitenkopf-Logo. Der damalige Zwischenhalt ist erfolgt; der Auftraggeber hat am 12.11.2026 die Fortsetzung beauftragt.
 2. **Umgesetzt am 12.11.2026:** sechs Content-Schemas (Zod), Quellen-/Beziehungsprüfung und je zwei Beispiel-Einträge pro Collection. Sichtbar auf `/beispiele/`, klar als erfunden markiert.
-3. Komponenten aus `01-prototyp-gesamt.html` herauslösen: Logo, LogoAuftritt, TrlScale mit Lücke, Karte, Ticker, Projektkopf, Meilensteine, Risiken, Quellen.
-4. Startseite inkl. Ressort-Raster als Navigation (siehe offene Design-Frage), Ressort-Seite als Pipeline-Tabelle, Projektseite.
-5. Fusion-Motiv übernehmen, Bauart Stellarator ergänzen.
+3. **Umgesetzt am 12.11.2026:** Komponenten aus `01-prototyp-gesamt.html`: Logo, LogoAuftritt, TrlScale mit Lücke, Karte, Update-Leiste, Projektkopf, Meilensteine, Risiken, Quellen.
+4. **Umgesetzt am 12.11.2026:** Startseite inkl. Ressort-Raster als Navigation, Ressort-Seite als responsive Pipeline-Tabelle und Projektseite. Ergänzt: Firmen-, Artikel- und Update-Seiten, damit Links echte Ziele haben.
+5. **Teilweise umgesetzt:** Tokamak-WebGL aus dem Prototyp übernommen, statischer SVG-Fallback und Pause-Knopf ergänzt. Offene Arbeit: eigene Stellarator-Geometrie und physikalisch passende Bauart-Darstellung.
 6. Weitere Motive: Motor (Hitze, Ölkühlung als Teilchenstrom), Quanten (Fehlerrauschen), Robotik (Punktwolken-Figur mit Gang; unsicherster Teil).
 7. Dockerfile, Staging auf dem VPS, danach restliche Seitentypen, Impressum, Datenschutz, Methodik.
 
@@ -176,3 +176,19 @@ docs/                HANDOVER.md, DESIGN-SYSTEM.md, CONTENT-GUIDE.md
 - Cloudflare Build-ID: `01ce94aa-21d4-441b-8b3b-693334609dcd`. Version: `eb3b5e4e-a64d-4ba9-9497-bd2f5bccdff2`.
 - Live-Abruf von `/beispiele/` an der Worker-Adresse liefert HTTP 200 mit «Inhalte zum Ausprobieren» und `data-scroll-hint`. Damit sind der automatische Build und die Veröffentlichung des neuen Astro-Stands belegt. Dies ersetzt den früher dokumentierten offenen Deployment-Status. Eine visuelle Handy-Abnahme bleibt davon getrennt.
 - Für weitere Schritte reicht der Push auf `ccr-7b8b05b1-pterr1`; anschliessend Check-Ergebnis und Live-Inhalt prüfen. Ein zusätzlicher GitHub-Actions-Deploy ist nicht nötig. Nächster Implementierungsschritt ist Abschnitt 5, Punkt 3 (Prototyp-Komponenten), danach Punkt 4 (Magazin-Seiten und Ressort-Raster).
+
+### Schritte 3 und 4 vom 12.11.2026: das Magazin statt der Prüfstartseite
+
+- Der Auftraggeber hat ausdrücklich die Umsetzung der eigentlichen Website verlangt. Die Prüfstartseite wurde durch den Auftritt aus der Design-Referenz, ein Ressort-Raster, eine Update-Leiste, Reality-Check-Karten und Artikel-Links ersetzt. `/beispiele/` bleibt als zusätzliche Daten-Prüfseite erreichbar, ist aber kein Haupteinstieg mehr.
+- Dynamische Routen: `/[ressort]/`, `/projekt/[slug]/`, `/firma/[slug]/`, `/artikel/[slug]/`; ausserdem `/updates/` und eine eigene 404-Seite. Alle Inhalte kommen aus den vorhandenen Collections. Aktuell entstehen zwölf Astro-Seiten einschliesslich der Prüf- und Fehlerseite.
+- Das Ressort-Raster zeigt alle tatsächlich angelegten Ressorts, aktuell Fusion und Robotik. Jedes Motiv und der ganze Eintrag sind als Home → Ressort → Projekt verlinkt. Projektzahlen werden aus den Daten ermittelt. Fehlendes oder unbekanntes Motiv erhält ein neutrales Punktfeld. Die Pipeline-Tabelle stapelt sich auf kleinen Bildschirmen, ohne horizontales Scrollen zu erzwingen.
+- Der Auftritt übernimmt alle sechs illustrativen Silhouetten und die Federbewegung aus dem Canvas-Prototyp. Die feste Auswahl ist noch nicht an Ressort-Dateien gekoppelt; sie ist eine Themen-Illustration und behauptet keine sechs veröffentlichten Ressorts. Variable Motivauswahl ist ein späterer Ausbau. Auftritt einmal pro Browser-Session, wiederholbar durch Antippen des grossen Logos, ruhige CSS-Fassung ohne JavaScript und bei reduzierter Bewegung.
+- Die Hero-Höhe berücksichtigt die kleine sichtbare Fläche (`svh`) und die gemessene Kopfhöhe. Niedrige Querformate bekommen eine kompakte Fassung. Die Astro-Seiten haben keinen Browser-Standardrand. Der gemeinsame Scroll-Pfeil bleibt bei weiterem Inhalt verfügbar.
+- Plasma: Original-WebGL-Shader des Tokamak-Prototyps wiederverwendet. Fallback ist eine serverseitige SVG-Punktwolke. Der Messwert im Kopf bleibt ein aus den Inhaltsdateien stammender Wert, kein animierter Stoppuhr-Beleg. Schema und Zeitvereinfachung sind sichtbar gekennzeichnet. Die Animation ist pausierbar, stoppt ausserhalb der Sichtfläche und bei verborgenem Tab und entfällt bei reduzierter Bewegung. Kontextverlust zeigt den Fallback. Andere Bauarten bekommen noch keine Tokamak-Animation.
+- Punktzahl vorläufig auf schmalen Fenstern reduziert: Auftritt 6'000, Plasma 10'000; sonst Originalwerte 15'000 und 30'000. Pixeldichte maximal 2. Ein echter Handy-Leistungstest bleibt offen.
+- Komponenten sind in `src/components/`, Animationen in `src/motive/`. `DESIGN-SYSTEM.md` dokumentiert Design, Verhalten, Erweiterung und Grenzen. Die orange Update-Leiste bleibt als Element der Referenz erhalten, läuft aber nicht endlos: Links sind jederzeit lesbar und ohne Bewegungssteuerung bedienbar.
+- Beispiele bleiben auf jeder Karte und auf den betroffenen Seiten sichtbar als erfunden gekennzeichnet. Aussagen und Risiken haben Quellenanker; Meilensteine zeigen ihre eigenen Quellen. Es wurden keine echten Firmenfakten ergänzt.
+- Zur Vermeidung doppelter automatisch erzeugter Überschriften-IDs zeigt `/beispiele/` nun Artikel-Zusammenfassungen mit Link auf die echte Artikelseite statt mehrere vollständige MDX-Texte untereinander.
+- Die Inhalts- und Stufenprüfung bleibt bestehen. Zusätzliche Tests prüfen gebaute lokale Links, Quellenanker, eindeutige HTML-IDs und die im HTML vorhandenen Kerninhalte ohne JavaScript.
+- Lokaler Browser-Test erneut versucht: der zusätzliche Headless-Shell-Download liefert kein gültiges ZIP; der bereits dokumentierte lokale Chromium-Socket-Fehler konnte daher nicht durch eine alternative Browserinstallation umgangen werden. Nach dem Push wird eine externe visuelle Prüfung versucht. Keine Handy-Performance oder visuelle Abnahme allein aus dem Build behaupten.
+- Prüfung vor dem Push: 8 Inhalts-Tests und 2 Tests der gebauten Seiten erfolgreich; Astro/TypeScript mit 0 Fehlern, Warnungen und Hinweisen. Statischer Build erstellt zwölf Seiten. `git diff --check` erfolgreich.

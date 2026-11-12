@@ -1,0 +1,24 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Motiv from './Motiv.astro';
+interface Props { ressorts: CollectionEntry<'ressorts'>[]; projekte: CollectionEntry<'projekte'>[]; }
+const { ressorts, projekte } = Astro.props;
+---
+<div class="fields">{ressorts.map(({ data: r }) => {
+  const count = projekte.filter(({ data: p }) => p.ressorts.includes(r.slug)).length;
+  return <a class="field" href={`/${r.slug}/`}>
+    <div class="motif"><Motiv motiv={r.motiv} label={r.name} /><span class="schema tag">Schema</span></div>
+    <div class="label"><div><h3>{r.name}</h3><p class="tag">{r.beispiel ? 'Beispiel · ' : ''}{count} {count === 1 ? 'Projekt' : 'Projekte'}</p></div><span aria-hidden="true">↗</span></div>
+  </a>;
+})}</div>
+<style>
+  .fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 14px; }
+  .field { color: var(--on-ink); background: var(--ink); border: 1px solid var(--ink-2); text-decoration: none; min-width: 0; }
+  .field:hover, .field:focus-visible { background: var(--ink-2); }
+  .motif { position: relative; height: clamp(170px, 24vw, 230px); border-bottom: 1px solid var(--ink-line); }
+  .schema { position: absolute; bottom: 12px; left: 16px; color: var(--on-ink-muted); font-size: 9px; }
+  .label { display: flex; align-items: center; justify-content: space-between; padding: 18px; gap: 12px; }
+  h3 { font: 700 32px/1 var(--display); text-transform: uppercase; margin-bottom: 8px; }
+  .label .tag { color: var(--on-ink-muted); }
+  .label > span { font: 400 28px/1 var(--mono); }
+</style>

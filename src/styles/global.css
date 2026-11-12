@@ -3,7 +3,7 @@
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--paper); color: var(--ink-2); font: 400 16px/1.55 var(--body); }
 body::before { content: ''; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--ink); }
-h1, h2, p { margin: 0; }
+h1, h2, h3, p, figure, dl, dd { margin: 0; }
 a { color: inherit; text-underline-offset: .2em; }
 :focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
 [hidden] { display: none !important; }
@@ -12,3 +12,29 @@ a { color: inherit; text-underline-offset: .2em; }
 .dark { background: var(--ink); color: var(--on-ink); }
 .skip { position: fixed; top: 8px; left: 16px; z-index: 20; transform: translateY(-200%); padding: 10px; background: var(--sheet); color: var(--ink); }
 .skip:focus { transform: none; }
+:root { --header-height: 56px; }
+html { scroll-padding-top: calc(var(--header-height) + 20px); }
+section[id], article[id] { scroll-margin-top: calc(var(--header-height) + 20px); }
+button { font: inherit; }
+main { min-height: 50svh; }
+.section { padding-block: 44px 52px; }
+.section + .section { border-top: 1px solid var(--paper-line); }
+.section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.heading { font: 700 clamp(34px, 6vw, 54px)/.95 var(--display); text-transform: uppercase; }
+.note { color: var(--muted); max-width: 65ch; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 14px; }
+.page-head { padding-block: 32px 40px; }
+.page-head .in { display: grid; gap: 18px; }
+.page-title { font: 700 clamp(42px, 9vw, 92px)/.95 var(--display); text-transform: uppercase; overflow-wrap: anywhere; }
+.crumb { display: flex; flex-wrap: wrap; gap: 8px 16px; color: var(--on-ink-muted); }
+.page-head .intro { max-width: 65ch; color: var(--on-ink-muted); }
+.text-link { font: 500 12px/1.5 var(--mono); text-transform: uppercase; letter-spacing: .04em; }
+.editorial { display: grid; gap: 18px; }
+.editorial > * { max-width: 68ch; }
+.editorial h2 { margin-top: 14px; font: 700 30px/1 var(--display); text-transform: uppercase; }
+.article-list { list-style: none; padding: 0; margin: 0; }
+.article-list li { border-bottom: 1px solid var(--paper-line); }
+.article-list a { display: grid; gap: 10px; padding-block: 22px; text-decoration: none; }
+.article-list h3 { font: 700 30px/1 var(--display); text-transform: uppercase; }
+.article-list a:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 400px) { .section { padding-block: 32px 40px; } }

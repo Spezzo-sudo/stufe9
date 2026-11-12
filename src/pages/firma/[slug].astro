@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ExampleNotice from '../../components/ExampleNotice.astro';
+import RealityCheckCard from '../../components/RealityCheckCard.astro';
+import SourceList from '../../components/SourceList.astro';
+import { title } from '../../lib/magazin';
+export async function getStaticPaths() { return (await getCollection('firmen')).map((firma) => ({ params: { slug: firma.data.slug }, props: { firma } })); }
+interface Props { firma: CollectionEntry<'firmen'>; }
+const { firma: { data: f } } = Astro.props;
+const [projekte, ressorts] = await Promise.all([getCollection('projekte', ({ data }) => data.firma === f.slug), getCollection('ressorts')]);
+---
+<BaseLayout title={title(f.name)}>
+  <header class="page-head dark"><div class="in"><nav class="crumb tag" aria-label="Pfad"><a href="/#checks">Reality Checks</a><span>Firma</span></nav><h1 class="page-title">{title(f.name)}</h1><p class="intro">{f.land}{f.ticker ? ` · ${f.ticker}` : ''}</p></div></header>
+  <ExampleNotice beispiel={f.beispiel} />
+  <section class="section"><div class="in"><div class="section-head"><h2 class="heading">Projekte der Firma</h2><p class="note">Die Stufe gehört zum einzelnen Projekt.</p></div><div class="cards">{projekte.map(({ data: p }) => <RealityCheckCard projekt={p} firma={f.name} ressort={ressorts.find(({ data }) => data.slug === p.ressorts[0])!.data.name} />)}</div>{!projekte.length && <p>Noch kein Projekt veröffentlicht.</p>}</div></section>
+  <section class="section"><div class="in"><h2 class="heading">Quellen</h2><SourceList quellen={f.quellen} prefix={f.slug} /></div></section>
+</BaseLayout>

@@ -1,32 +1,31 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import LogoAuftritt from '../components/LogoAuftritt.astro';
+import RessortGrid from '../components/RessortGrid.astro';
+import RealityCheckCard from '../components/RealityCheckCard.astro';
+import ExampleNotice from '../components/ExampleNotice.astro';
+import UpdateTicker from '../components/UpdateTicker.astro';
+import { title } from '../lib/magazin';
+const [ressorts, projekte, firmen, artikel, updates] = await Promise.all([
+  getCollection('ressorts'), getCollection('projekte'), getCollection('firmen'), getCollection('artikel'), getCollection('updates'),
+]);
+const latestUpdates = updates.toSorted((a, b) => b.data.datum.localeCompare(a.data.datum));
 ---
-<BaseLayout title="Vorschau">
-  <section class="intro dark">
-    <div class="in">
-      <p class="tag">Frontier-Tech im Reality Check</p>
-      <h1>Serienreif oder nur <em>versprochen?</em></h1>
-    </div>
-  </section>
-  <section class="foundation"><div class="in">
-    <p class="tag">Schritt 2 · Inhaltsgrundlage</p>
-    <h2>Das Fundament steht.</h2>
-    <p>Die Inhaltsgrundlage steht. Frei erfundene Beispiele zeigen, wie Projekte, Firmen, Meilensteine, Artikel und Updates zusammengehören.</p>
-    <p>Der grosse Auftritt und die Forschungsfelder folgen im nächsten Schritt. Hier kannst du zuerst die Schriften und das Logo am Handy prüfen.</p>
-    <a href="/beispiele/">Beispieldaten ansehen →</a>
-    <a href="/prototypes/01-prototyp-gesamt.html">Design-Referenz öffnen →</a>
-    <a href="/prototypes/">Alle Prototypen ansehen →</a>
+<BaseLayout title="Serienreif oder nur versprochen?">
+  <LogoAuftritt />
+  <ExampleNotice beispiel={projekte.some(({ data }) => data.beispiel)} />
+  <section class="section" id="forschungsfelder"><div class="in">
+    <div class="section-head"><h2 class="heading">Forschungsfelder</h2><p class="tag">Technik verstehen. Versprechen prüfen.</p></div>
+    <RessortGrid ressorts={ressorts} projekte={projekte} />
+  </div></section>
+  <UpdateTicker updates={latestUpdates} />
+  <section class="section" id="checks"><div class="in">
+    <div class="section-head"><h2 class="heading">Reality Checks</h2><p class="note">Jedes Projekt wird einzeln bewertet. Voll ist belegt, orange schraffiert ist behauptet.</p></div>
+    <div class="cards">{projekte.map(({ data: p }) => <RealityCheckCard projekt={p} firma={firmen.find(({ data }) => data.slug === p.firma)!.data.name} ressort={ressorts.find(({ data }) => data.slug === p.ressorts[0])!.data.name} />)}</div>
+  </div></section>
+  <section class="section"><div class="in">
+    <div class="section-head"><h2 class="heading">Unter der Oberfläche</h2><span class="tag">Erklärstücke</span></div>
+    <ul class="article-list">{artikel.toSorted((a, b) => b.data.datum.localeCompare(a.data.datum)).map(({ data: a }) => <li><a href={`/artikel/${a.slug}/`}><span class="tag">{a.beispiel ? 'Beispiel · frei erfunden' : a.typ}</span><h3>{title(a.titel)} <span aria-hidden="true">↗</span></h3><p class="note">{a.zusammenfassung}</p></a></li>)}</ul>
   </div></section>
 </BaseLayout>
-
-<style>
-  .intro .in { padding-block: 64px 56px; display: flex; flex-direction: column; gap: 20px; }
-  .intro .tag { color: var(--on-ink-muted); }
-  h1 { max-width: 15ch; font: 700 clamp(40px, 9vw, 92px)/.95 var(--display); text-transform: uppercase; }
-  h1 em { color: var(--signal); font-style: normal; }
-  .foundation .in { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; padding-block: 40px 56px; }
-  .foundation .tag { color: var(--muted); }
-  h2 { font: 700 clamp(32px, 6vw, 52px)/.95 var(--display); text-transform: uppercase; }
-  .foundation p:not(.tag) { max-width: 60ch; }
-  .foundation a { font-weight: 500; }
-</style>

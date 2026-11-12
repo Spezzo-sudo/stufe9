@@ -1,0 +1,59 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ExampleNotice from '../../components/ExampleNotice.astro';
+import EngpassStage from '../../components/EngpassStage.astro';
+import TrlScale from '../../components/TrlScale.astro';
+import MilestoneTimeline from '../../components/MilestoneTimeline.astro';
+import RiskPanel from '../../components/RiskPanel.astro';
+import SourceList from '../../components/SourceList.astro';
+import SourceRefs from '../../components/SourceRefs.astro';
+import { title, stageLabels } from '../../lib/magazin';
+export async function getStaticPaths() { return (await getCollection('projekte')).map((projekt) => ({ params: { slug: projekt.data.slug }, props: { projekt } })); }
+interface Props { projekt: CollectionEntry<'projekte'>; }
+const { projekt: { data: p } } = Astro.props;
+const [firmen, ressorts, meilensteine] = await Promise.all([getCollection('firmen'), getCollection('ressorts'), getCollection('meilensteine', ({ data }) => data.projekt === p.slug)]);
+const firma = firmen.find(({ data }) => data.slug === p.firma)!.data;
+const ressort = ressorts.find(({ data }) => data.slug === p.ressorts[0])!.data;
+---
+<BaseLayout title={title(p.name)} description={p.stand_heute.text}>
+  <header class="page-head dark"><div class="in">
+    <nav class="crumb tag" aria-label="Pfad"><a href="/#checks">Reality Checks</a><a href={`/${ressort.slug}/`}>{ressort.name}</a><span aria-current="page">Projekt</span></nav>
+    <ExampleNotice beispiel={p.beispiel} compact />
+    <div><p class="tag company"><a href={`/firma/${firma.slug}/`}>{title(firma.name)} ↗</a></p><h1 class="page-title">{title(p.name)}</h1></div>
+    <EngpassStage projekt={p} />
+    <TrlScale ist={p.trl_ist} behauptet={p.trl_behauptet} />
+    <div class="nums"><div><strong>{p.trl_ist}</strong><span class="tag">belegt · {stageLabels[p.trl_ist]}</span></div><div class="claimed"><strong>{p.trl_behauptet}</strong><span class="tag">behauptet · {stageLabels[p.trl_behauptet]}</span></div></div>
+    <p class="legend">Voll ist belegt. Orange schraffiert ist behauptet. Der Reifegrad bewertet keine Unbedenklichkeit.</p>
+  </div></header>
+  <section class="body"><div class="in columns">
+    <div class="primary">
+      <section><h2>Reality Check</h2><dl class="facts">{[['Versprochen', p.versprochen], ['Geliefert', p.geliefert], ['Stand heute', p.stand_heute]].map(([label, fact]) => {
+        const value = fact as typeof p.versprochen;
+        return <><dt>{label as string}</dt><dd>{value.text}<SourceRefs ids={value.quellen} /></dd></>;
+      })}</dl></section>
+      <section><h2>Engpass und Testziel</h2><p>{p.engpass.kennzahl}: {p.engpass.wert} {p.engpass.einheit}. Testziel: {p.engpass.ziel} {p.engpass.einheit}.<SourceRefs ids={[p.engpass.quelle]} /></p></section>
+      <section><h2>Wie das Versprechen eingeordnet wird</h2><p>{p.behauptung.begruendung}<SourceRefs ids={[p.behauptung.quelle]} /></p></section>
+      <section><h2>Meilensteine</h2><MilestoneTimeline eintraege={meilensteine} /></section>
+      <a class="text-link" href={`/${ressort.slug}/`}>← Alle Projekte: {ressort.name}</a>
+    </div>
+    <aside><section><h2>Risiken</h2><RiskPanel risiken={p.risiken} /></section><section><h2>Quellen</h2><SourceList quellen={p.quellen} prefix="projekt" /></section></aside>
+  </div></section>
+</BaseLayout>
+<style>
+  .company { color: var(--on-ink-muted); margin-bottom: 12px; }
+  .nums { display: flex; flex-wrap: wrap; gap: 22px 40px; padding-top: 10px; }
+  .nums div { display: grid; gap: 10px; }
+  .nums strong { font: 700 clamp(58px, 9vw, 84px)/.85 var(--display); }
+  .nums .tag, .legend { color: var(--on-ink-muted); }
+  .claimed strong { color: transparent; -webkit-text-stroke: 2px var(--signal); }
+  .legend { max-width: 65ch; font-size: 12px; }
+  .columns { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 32px 48px; padding-block: 36px 56px; }
+  .primary, aside { display: flex; flex-direction: column; gap: 32px; min-width: 0; }
+  h2 { font: 700 26px/1 var(--display); text-transform: uppercase; padding-bottom: 10px; margin-bottom: 16px; border-bottom: 1px solid var(--ink-2); }
+  .facts { display: grid; grid-template-columns: 120px 1fr; gap: 14px 16px; }
+  dt { color: var(--muted); font: 500 11px/1.8 var(--mono); text-transform: uppercase; }
+  @media (max-width: 760px) { .columns { grid-template-columns: 1fr; } }
+  @media (max-width: 480px) { .facts { grid-template-columns: 1fr; gap: 4px; } dd { margin-bottom: 12px; } }
+</style>

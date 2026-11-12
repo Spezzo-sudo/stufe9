@@ -1,5 +1,5 @@
 <a class="logo" href="/" aria-label="Stufe 9, zur Startseite">
-  <span class="mark" aria-hidden="true">{Array.from({ length: 9 }, () => <i />)}</span>
+  <span class:list={['mark', { sweep: Astro.url.pathname !== '/' }]} aria-hidden="true">{Array.from({ length: 9 }, (_, i) => <i style={`--i:${i}`} />)}</span>
   <b aria-hidden="true">STUFE 9</b>
 </a>
 
@@ -9,4 +9,6 @@
   .mark { display: inline-flex; align-items: flex-end; gap: var(--logo-segment-gap); height: 1em; }
   .mark i { width: var(--logo-segment-width); height: var(--logo-segment-height); background: var(--on-ink); }
   .mark i:last-child { height: var(--logo-target-height); background: var(--signal); }
+  @media (prefers-reduced-motion: no-preference) { .mark.sweep i { transform-origin: bottom; animation: rise .22s ease-out both; animation-delay: calc(var(--i) * 45ms); } }
+  @keyframes rise { from { transform: scaleY(0); } }
 </style>

@@ -1,0 +1,9 @@
+---
+interface Props { beispiel: boolean; compact?: boolean; }
+const { beispiel, compact = false } = Astro.props;
+---
+{beispiel && <p class:list={['example', 'tag', { compact }]}>{compact ? 'Beispiel · frei erfunden' : 'Beispielausgabe · Alle Firmen, Projekte, Quellen und Bewertungen sind frei erfunden.'}</p>}
+<style>
+  .example { padding: 12px 16px; border-block: 1px solid var(--paper-line); background: var(--sheet); color: var(--muted); }
+  .compact { padding: 0; border: 0; background: transparent; color: inherit; opacity: .8; }
+</style>
