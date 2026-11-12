@@ -1,0 +1,149 @@
+<title>Stufe 9 Logo, Teilchen-Fassung</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Layout: dunkle Bühne mit dem lebenden Logo, darunter die ruhigen Fassungen für kleine Grössen auf den drei Markenfarben. */
+:root {
+  color-scheme: dark;
+  --ink: #070D0F; --ink-line: #2A3C40; --sheet: #F9FBFA; --signal: #FF5A0A;
+  --on-ink: #EAF0ED; --on-ink-muted: #8EA3A2; --dark: #0D181B;
+  --display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+  --body: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+body { background: var(--ink); color: var(--on-ink); font: 400 16px/1.55 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 56px; }
+p, h2, figure { margin: 0; }
+.wrap { max-width: 960px; margin: 0 auto; display: flex; flex-direction: column; gap: 30px; }
+.tag { font: 500 11px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--on-ink-muted); }
+h2 { font: 700 30px/1 var(--display); text-transform: uppercase; }
+p { max-width: 60ch; color: var(--on-ink-muted); } p b { color: var(--on-ink); font-weight: 500; }
+
+.stage { border: 1px solid var(--ink-line); display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 8px 0 16px; overflow: hidden; }
+.live { all: unset; cursor: pointer; display: flex; align-items: flex-end; gap: .4em; font-size: clamp(40px, 10.5vw, 104px); padding: .75em .3em .55em; -webkit-tap-highlight-color: transparent; }
+.live:focus-visible { outline: 2px solid var(--signal); outline-offset: -6px; }
+.live canvas { display: block; width: 3.41em; height: 2.2em; margin: -.6em; pointer-events: none; }
+.live b { font: 700 1.08em/.72 var(--display); letter-spacing: .07em; white-space: nowrap; }
+
+.motifs { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; padding: 4px 12px 6px; }
+.motifs button { font: 500 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 10px 12px; background: none; color: var(--on-ink); border: 1px solid var(--ink-line); cursor: pointer; }
+.motifs button[aria-pressed="true"] { background: var(--on-ink); color: var(--ink); border-color: var(--on-ink); }
+.motifs button:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.plates { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); border: 1px solid var(--ink-line); }
+.plate { padding: 30px 20px 14px; display: flex; flex-direction: column; gap: 22px; align-items: flex-start; min-width: 0; }
+.plate.p1 { background: var(--dark); color: var(--on-ink); --seg: var(--on-ink); --nine: var(--signal); }
+.plate.p2 { background: var(--sheet); color: var(--dark); --seg: var(--dark); --nine: var(--signal); }
+.plate.p3 { background: var(--signal); color: var(--dark); --seg: var(--dark); --nine: var(--dark); }
+.plate .tag { color: inherit; opacity: .8; }
+.logo { display: inline-flex; align-items: flex-end; gap: .4em; font-size: 32px; }
+.logo b { font: 700 1.08em/.72 var(--display); letter-spacing: .07em; white-space: nowrap; }
+.mark { display: inline-flex; align-items: flex-end; gap: .085em; height: 1em; }
+.mark i { width: .17em; height: .72em; background: var(--seg); } .mark i:last-child { height: 1em; background: var(--nine); }
+.fav { display: flex; align-items: flex-end; gap: 22px; flex-wrap: wrap; }
+.fav figure { display: flex; flex-direction: column; gap: 8px; }
+.fav svg { background: var(--dark); display: block; border: 1px solid var(--ink-line); }
+</style>
+
+<div class="wrap">
+  <section class="stage">
+    <button class="live" id="live" aria-label="Stufe 9 Logo, neu zusammensetzen"><canvas id="cv"></canvas><b>STUFE 9</b></button>
+    <div class="tag" id="cap" style="color:var(--signal)"></div>
+    <div class="motifs" id="motifs" role="group" aria-label="Motiv wählen"></div>
+    <div class="tag" style="padding:0 12px;text-align:center">Antippen oder drüberfahren zeigt das nächste Motiv</div>
+  </section>
+
+  <p><b>Das Zeichen bleibt gleich: neun Segmente, das neunte in Orange und eine Stufe höher.</b> Im grossen Auftritt besteht es aus Messpunkten. Sie formen zuerst ein Motiv aus einem Forschungsfeld und ordnen sich dann von Stufe 1 bis 9 zu Balken. Jede Vision landet am Ende auf derselben Skala, das ist die Idee des Magazins in einer Bewegung.</p>
+
+  <section style="display:flex;flex-direction:column;gap:14px">
+    <h2>Ruhige Fassung</h2>
+    <p>Für Seitenkopf, Druck und alles Kleine gibt es dieselbe Form als feste Balken. Sie ist das eigentliche Logo, die Teilchen sind seine Bewegung.</p>
+    <div class="plates">
+      <div class="plate p1"><span class="logo"><span class="mark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><b>STUFE 9</b></span><span class="tag">Auf Tinte</span></div>
+      <div class="plate p2"><span class="logo"><span class="mark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><b>STUFE 9</b></span><span class="tag">Auf Blatt</span></div>
+      <div class="plate p3"><span class="logo"><span class="mark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><b>STUFE 9</b></span><span class="tag">Auf Signal</span></div>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:14px">
+    <h2>Favicon</h2>
+    <div class="fav">
+      <figure><svg width="64" height="64" viewBox="0 0 32 32" role="img" aria-label="App-Icon"><rect x="5" y="13" width="5" height="13" fill="#EAF0ED"/><rect x="13.5" y="13" width="5" height="13" fill="#EAF0ED"/><rect x="22" y="6" width="5" height="20" fill="#FF5A0A"/></svg><span class="tag">App-Icon</span></figure>
+      <figure><svg width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Favicon 32"><rect x="5" y="13" width="5" height="13" fill="#EAF0ED"/><rect x="13.5" y="13" width="5" height="13" fill="#EAF0ED"/><rect x="22" y="6" width="5" height="20" fill="#FF5A0A"/></svg><span class="tag">32</span></figure>
+      <figure><svg width="16" height="16" viewBox="0 0 32 32" role="img" aria-label="Favicon 16"><rect x="4" y="13" width="6" height="14" fill="#EAF0ED"/><rect x="13" y="13" width="6" height="14" fill="#EAF0ED"/><rect x="22" y="5" width="6" height="22" fill="#FF5A0A"/></svg><span class="tag">16</span></figure>
+    </div>
+    <p>Bei 16 Pixeln bleiben zwei Segmente und die Stufe. Teilchen wären in dieser Grösse nur Rauschen.</p>
+  </section>
+</div>
+
+<script>
+const cv = document.getElementById("cv"), ctx = cv.getContext("2d"), live = document.getElementById("live");
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const N = 5600; let P = [], F = 0, d = 1, t0 = 0, cur = 0, W = 0, H = 0;
+
+// Motive: jedes wird als Fläche gezeichnet und dann in Punkte zerlegt.
+const hexPath = (c, x, y, r) => { c.beginPath(); for (let i = 0; i < 6; i++) c.lineTo(x + r * Math.cos(i * Math.PI / 3), y + r * Math.sin(i * Math.PI / 3)); c.closePath(); c.fill(); };
+const SHAPES = [
+  ["Fusion", "Plasmaring", (c, s) => { c.lineWidth = .3 * s; c.beginPath(); c.ellipse(0, 0, 1.05 * s, .5 * s, 0, 0, 7); c.stroke(); }],
+  ["Raumfahrt", "Spiegelteleskop", (c, s) => { const r = .21 * s; for (let q = -2; q <= 2; q++) for (let k = -2; k <= 2; k++) { if (Math.abs(q + k) > 2 || (!q && !k)) continue; hexPath(c, 1.5 * r * q, Math.sqrt(3) * r * (k + q / 2), r * .9); } }],
+  ["Biotech", "Doppelhelix", (c, s) => { c.lineWidth = .1 * s; for (const sg of [1, -1]) { c.beginPath(); for (let x = -1.25; x <= 1.25; x += .02) c.lineTo(x * s, sg * .48 * s * Math.sin(x * 3.6)); c.stroke(); } c.lineWidth = .05 * s; for (let x = -1.2; x <= 1.21; x += .16) { const y = .48 * s * Math.sin(x * 3.6); c.beginPath(); c.moveTo(x * s, -y); c.lineTo(x * s, y); c.stroke(); } }],
+  ["Teilchenphysik", "Kollision", (c, s) => { c.lineWidth = .045 * s; c.beginPath(); c.arc(0, 0, .95 * s, 0, 7); c.stroke(); for (let i = 0; i < 22; i++) { const a = i * 2.399, l = (.35 + ((i * 37) % 10) / 10 * .55) * s, b = ((i * 53) % 7 - 3) * .12; c.beginPath(); c.moveTo(0, 0); c.quadraticCurveTo(Math.cos(a + b) * l * .6, Math.sin(a + b) * l * .6, Math.cos(a) * l, Math.sin(a) * l); c.stroke(); } c.beginPath(); c.arc(0, 0, .09 * s, 0, 7); c.fill(); }],
+  ["Raumfahrt", "Rakete", (c, s) => { c.rotate(Math.PI / 2); c.beginPath(); c.moveTo(0, -1.2 * s); c.bezierCurveTo(.36 * s, -.75 * s, .3 * s, .1 * s, .24 * s, .55 * s); c.lineTo(-.24 * s, .55 * s); c.bezierCurveTo(-.3 * s, .1 * s, -.36 * s, -.75 * s, 0, -1.2 * s); c.fill();
+    for (const g of [1, -1]) { c.beginPath(); c.moveTo(g * .24 * s, .1 * s); c.lineTo(g * .58 * s, .7 * s); c.lineTo(g * .24 * s, .55 * s); c.fill(); }
+    c.globalCompositeOperation = "destination-out"; c.beginPath(); c.arc(0, -.45 * s, .13 * s, 0, 7); c.fill(); c.globalCompositeOperation = "source-over";
+    c.globalAlpha = .5; c.beginPath(); c.moveTo(-.16 * s, .62 * s); c.lineTo(0, 1.2 * s); c.lineTo(.16 * s, .62 * s); c.fill(); c.globalAlpha = 1; }],
+  ["Robotik", "Humanoid", (c, s) => { const rr = (x, y, w, h, r) => { c.beginPath(); c.roundRect(x, y, w, h, r); c.fill(); };
+    rr(-.6 * s, -.75 * s, 1.2 * s, 1.1 * s, .26 * s); rr(-.76 * s, -.38 * s, .11 * s, .42 * s, .04 * s); rr(.65 * s, -.38 * s, .11 * s, .42 * s, .04 * s);
+    rr(-.035 * s, -1.0 * s, .07 * s, .26 * s, 0); c.beginPath(); c.arc(0, -1.04 * s, .09 * s, 0, 7); c.fill();
+    rr(-.2 * s, .38 * s, .4 * s, .26 * s, 0); rr(-.95 * s, .66 * s, 1.9 * s, .3 * s, .14 * s);
+    c.globalCompositeOperation = "destination-out"; rr(-.44 * s, -.46 * s, .88 * s, .38 * s, .16 * s); c.globalCompositeOperation = "source-over";
+    c.beginPath(); c.arc(-.2 * s, -.27 * s, .085 * s, 0, 7); c.arc(.2 * s, -.27 * s, .085 * s, 0, 7); c.fill(); }],
+];
+function sample(k) {
+  const o = document.createElement("canvas"); o.width = Math.ceil(W); o.height = Math.ceil(H); const c = o.getContext("2d");
+  c.fillStyle = c.strokeStyle = "#fff"; c.lineCap = "round"; c.translate(W / 2, H / 2); SHAPES[k][2](c, F * .82);
+  const px = c.getImageData(0, 0, o.width, o.height).data, pts = [];
+  for (let y = 0; y < o.height; y++) for (let x = 0; x < o.width; x++) { const al = px[(y * o.width + x) * 4 + 3]; if (al > 40 && Math.random() * 255 < al) pts.push([x, y]); }
+  pts.sort((a, b) => a[0] - b[0]);
+  // Links bleibt links: so wandern die Punkte ohne Durcheinander vom Motiv in ihren Balken.
+  P.forEach((p, i) => { const q = pts[Math.min(pts.length - 1, Math.floor((i + Math.random() * 60) / (P.length + 60) * pts.length))] || [W / 2, H / 2]; p.sx = q[0] + Math.random(); p.sy = q[1] + Math.random(); });
+}
+function build() {
+  F = parseFloat(getComputedStyle(live).fontSize); d = Math.min(2, devicePixelRatio || 1);
+  W = 3.41 * F; H = 2.2 * F; const pad = .6 * F;
+  cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+  const bars = Array.from({ length: 9 }, (_, i) => ({ x: pad + i * .255 * F, w: .17 * F, h: (i === 8 ? 1 : .72) * F }));
+  const total = bars.reduce((s, b) => s + b.h, 0); P = [];
+  bars.forEach((b, i) => { const n = Math.round(N * b.h / total);
+    for (let k = 0; k < n; k++) P.push({ bar: i, tx: b.x + Math.random() * b.w, ty: pad + F - Math.random() * b.h, x: W / 2 + (Math.random() - .5) * W * .9, y: H / 2 + (Math.random() - .5) * H * .9, vx: 0, vy: 0, s: Math.random() * 6.28 }); });
+  if (reduced) { P.forEach(p => { p.x = p.tx; p.y = p.ty; }); draw(); } else play(cur);
+}
+function play(k) {
+  cur = k; document.querySelectorAll("#motifs button").forEach((b, i) => b.setAttribute("aria-pressed", i === k));
+  document.getElementById("cap").textContent = SHAPES[k][0] + " · " + SHAPES[k][1];
+  if (reduced) return; sample(k); t0 = performance.now();
+  P.forEach(p => { const a = Math.random() * 6.28, v = Math.random() * .03 * F; p.vx += Math.cos(a) * v; p.vy += Math.sin(a) * v; });
+}
+function draw() {
+  ctx.clearRect(0, 0, W, H); const r = Math.max(1, F / 70);
+  ctx.fillStyle = "#EAF0ED"; P.forEach(p => p.bar < 8 && ctx.fillRect(p.x, p.y, r, r));
+  ctx.fillStyle = "#FF5A0A"; P.forEach(p => p.bar === 8 && ctx.fillRect(p.x, p.y, r, r));
+}
+const HOLD = 1700;
+function frame(now) {
+  const e = now - t0, t = now / 1000;
+  for (const p of P) {
+    const inBar = e > HOLD + p.bar * 110, j = (inBar ? (p.bar === 8 ? .022 : .006) : .012) * F;
+    const gx = inBar ? p.tx : p.sx, gy = inBar ? p.ty : p.sy;
+    p.vx += (gx + Math.sin(t * 2.3 + p.s) * j - p.x) * .07; p.vy += (gy + Math.cos(t * 1.9 + p.s) * j - p.y) * .07; p.vx *= .8; p.vy *= .8;
+    p.x += p.vx; p.y += p.vy;
+  }
+  draw(); requestAnimationFrame(frame);
+}
+const mo = document.getElementById("motifs");
+SHAPES.forEach((s, i) => { const b = document.createElement("button"); b.id = "motif-" + i; b.textContent = s[1]; b.onclick = () => play(i); mo.appendChild(b); });
+live.addEventListener("pointerenter", e => e.pointerType === "mouse" && play((cur + 1) % SHAPES.length));
+live.addEventListener("click", () => play((cur + 1) % SHAPES.length));
+let rw = 0; new ResizeObserver(() => { const w = live.clientWidth; if (Math.abs(w - rw) > 2) { rw = w; build(); } }).observe(live);
+build(); if (!reduced) requestAnimationFrame(frame);
+</script>

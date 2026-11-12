@@ -1,0 +1,235 @@
+<title>Stufe 9 Startseite-Entwurf</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Layout: volle Bänder im Wechsel. Dunkles Instrument (Hero), oranger Ticker, helles Blatt mit Karten, Markenblatt. Eine feste Welt, kein Themenwechsel. */
+:root {
+  color-scheme: light;
+  --ink: #0D181B; --ink-2: #16272B; --ink-line: #34494D;
+  --paper: #EDF1EF; --sheet: #F9FBFA; --paper-line: #B5C0BF;
+  --signal: #FF5A0A;
+  --on-ink: #EAF0ED; --on-ink-muted: #8EA3A2; --muted: #55666A;
+  --display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+  --body: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+body { background: var(--paper); color: var(--ink); font: 400 16px/1.55 var(--body); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--ink); }
+[hidden] { display: none !important; }
+p, h1, h2, h3, figure { margin: 0; }
+.in { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.tag { font: 500 11px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+
+/* Segmente: eine Bauform für Logo, Hero-Skala und Karten */
+.sg { position: relative; border: 1px solid var(--seg-line); box-sizing: border-box; }
+.sg::before { content: ""; position: absolute; inset: 0; opacity: 0; transition: opacity .2s; background: repeating-linear-gradient(45deg, var(--hatch) 0 var(--hw, 1.5px), transparent var(--hw, 1.5px) var(--hg, 6px)); }
+.sg::after { content: ""; position: absolute; inset: -1px; background: var(--seg); transform: scaleY(0); transform-origin: bottom; transition: transform .22s cubic-bezier(.2, .9, .3, 1.3); }
+.sg.claim { border-color: var(--hatch); } .sg.claim::before { opacity: 1; }
+.sg.on::after { transform: scaleY(1); }
+.sg:nth-child(9)::after { background: var(--nine); }
+@media (prefers-reduced-motion: reduce) { .sg::after, .sg::before { transition: none; } }
+
+.mark { display: inline-flex; align-items: flex-end; gap: .085em; height: 1em; --hw: 1px; --hg: 3.5px; }
+.mark .sg { width: .17em; height: .72em; } .mark .sg:nth-child(9) { height: 1em; }
+.logo { display: inline-flex; align-items: flex-end; gap: .4em; font-size: 26px; color: inherit; text-decoration: none; background: none; border: 0; padding: 0; cursor: pointer; }
+.logo b { font: 700 1.08em/.72 var(--display); letter-spacing: .07em; white-space: nowrap; }
+
+/* ───── Hero ───── */
+.hero { background: var(--ink); color: var(--on-ink); --seg: var(--on-ink); --nine: var(--signal); --hatch: var(--signal); --seg-line: var(--ink-line);
+  background-image: linear-gradient(var(--ink-2) 1px, transparent 1px), linear-gradient(90deg, var(--ink-2) 1px, transparent 1px); background-size: 32px 32px; }
+.hero .in { padding-block: 18px 36px; display: flex; flex-direction: column; gap: 34px; }
+.top { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+.top nav { display: flex; gap: 20px; font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.top nav a { color: var(--on-ink-muted); text-decoration: none; } .top nav a:hover { color: var(--signal); }
+@media (max-width: 640px) { .top nav a:not(:last-child) { display: none; } }
+.hero h1 { font: 700 clamp(52px, 13.5vw, 148px)/.86 var(--display); text-transform: uppercase; letter-spacing: -.005em; }
+.hero h1 em { font-style: normal; color: var(--signal); }
+.lede { max-width: 46ch; color: var(--on-ink-muted); font-size: 17px; }
+.lede b { color: var(--on-ink); font-weight: 500; }
+
+.inst { background: var(--ink); border: 1px solid var(--ink-line); }
+.inst-head { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--ink-line); color: var(--on-ink-muted); }
+.inst-head span:last-child { color: var(--signal); }
+.scale { display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: 26px auto 18px; gap: 8px clamp(4px, 1vw, 10px); padding: 16px 14px 12px; }
+.scale .sg { grid-row: 2; height: clamp(96px, 20vw, 190px); --hw: 2px; --hg: 9px; }
+.scale .n { grid-row: 3; font: 400 12px/1 var(--mono); text-align: center; color: var(--on-ink-muted); }
+.scale .dim { grid-row: 1; border: 1px solid var(--signal); border-bottom: 0; height: 12px; align-self: end; position: relative; animation: open .6s ease-out .55s both; }
+.scale .dim span { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); font: 500 12px/1 var(--mono); color: var(--signal); background: var(--ink); padding: 0 6px; white-space: nowrap; }
+@keyframes open { from { clip-path: inset(-20px 50% 0 50%); } to { clip-path: inset(-20px 0 0 0); } }
+@media (prefers-reduced-motion: reduce) { .scale .dim { animation: none; } }
+.read { display: grid; grid-template-columns: 1fr auto; gap: 16px 28px; padding: 16px 14px; border-top: 1px solid var(--ink-line); align-items: end; }
+.read > * { min-width: 0; }
+.read h2 { font: 700 clamp(28px, 5vw, 44px)/1 var(--display); text-transform: uppercase; letter-spacing: .01em; margin: 6px 0 8px; }
+.read p { color: var(--on-ink-muted); } .read p b { color: var(--on-ink); font-weight: 500; }
+.read .tag { color: var(--signal); }
+.nums { display: flex; gap: 22px; }
+.nums div { display: flex; flex-direction: column; gap: 4px; }
+.nums strong { font: 700 clamp(56px, 10vw, 92px)/.8 var(--display); font-variant-numeric: tabular-nums; }
+.nums .beh strong { color: transparent; -webkit-text-stroke: 2px var(--signal); }
+.nums .tag { color: var(--on-ink-muted); }
+@media (max-width: 600px) { .read { grid-template-columns: 1fr; } }
+.pick { display: flex; gap: 6px; padding: 0 14px 14px; }
+.pick button { flex: 1; height: 28px; background: none; border: 0; border-top: 3px solid var(--ink-line); color: var(--on-ink-muted); font: 500 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; text-align: left; padding: 8px 0 0; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.pick button[aria-pressed="true"] { border-top-color: var(--signal); color: var(--on-ink); }
+
+/* ───── Ticker ───── */
+.ticker { background: var(--signal); color: var(--ink); overflow: hidden; font: 500 13px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+.ticker .run { display: flex; width: max-content; animation: run 38s linear infinite; }
+.ticker:hover .run { animation-play-state: paused; }
+.ticker span { padding: 13px 22px; white-space: nowrap; border-right: 1px solid var(--ink); }
+.ticker span b { font-weight: 500; background: var(--ink); color: var(--signal); padding: 2px 6px; margin-right: 8px; }
+@keyframes run { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .ticker .run { animation: none; flex-wrap: wrap; width: auto; } .ticker .dup { display: none; } }
+
+/* ───── Karten ───── */
+.sec .in { padding-block: 44px; display: flex; flex-direction: column; gap: 22px; }
+.sec h2.h { font: 700 clamp(34px, 6vw, 56px)/.95 var(--display); text-transform: uppercase; }
+.sec .note { color: var(--muted); max-width: 60ch; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.card { background: var(--sheet); border: 1px solid var(--ink); padding: 14px; display: flex; flex-direction: column; gap: 14px; cursor: pointer; text-align: left; font: inherit; color: var(--ink);
+  --seg: var(--ink); --nine: var(--signal); --hatch: var(--signal); --seg-line: var(--paper-line); transition: background .15s, color .15s; min-width: 0; }
+.card:hover, .card:focus-visible { background: var(--ink); color: var(--on-ink); --seg: var(--on-ink); --seg-line: var(--ink-line); }
+.card .tag { display: flex; justify-content: space-between; gap: 8px; opacity: .7; }
+.card h3 { font: 700 26px/1 var(--display); text-transform: uppercase; }
+.card .mini { display: grid; grid-template-columns: repeat(9, 1fr); gap: 3px; --hw: 1.2px; --hg: 4.5px; }
+.card .mini .sg { height: 30px; }
+.card .v { display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; }
+.card .v strong { font: 700 54px/.8 var(--display); font-variant-numeric: tabular-nums; }
+.card .v strong small { font-size: .5em; opacity: .55; }
+.card .v span { font: 500 12px/1.2 var(--mono); color: var(--signal); text-transform: uppercase; letter-spacing: .06em; text-align: right; }
+
+/* ───── Markenblatt ───── */
+.brand { border-top: 1px solid var(--ink); }
+.plates { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.plate { padding: 34px 20px 14px; display: flex; flex-direction: column; gap: 26px; align-items: flex-start; min-width: 0; }
+.plate .logo { font-size: 34px; cursor: default; }
+.plate.p1 { background: var(--ink); color: var(--on-ink); --seg: var(--on-ink); --nine: var(--signal); --hatch: var(--signal); --seg-line: var(--ink-line); }
+.plate.p2 { background: var(--sheet); color: var(--ink); --seg: var(--ink); --nine: var(--signal); --hatch: var(--signal); --seg-line: var(--paper-line); border-block: 1px solid var(--ink); }
+.plate.p3 { background: var(--signal); color: var(--ink); --seg: var(--ink); --nine: var(--ink); --hatch: var(--ink); --seg-line: var(--ink); }
+.plate .tag { opacity: .75; } .plate.p3 .tag { opacity: 1; }
+.fav { display: flex; align-items: flex-end; gap: 22px; flex-wrap: wrap; }
+.fav figure { display: flex; flex-direction: column; gap: 8px; }
+.fav svg { background: var(--ink); display: block; }
+</style>
+
+<header class="hero">
+  <div class="in">
+    <div class="top">
+      <button class="logo" id="logo" aria-label="Stufe 9, Skala abspielen"><span class="mark"></span><b>STUFE 9</b></button>
+      <nav aria-label="Beispiel-Navigation"><a href="#karten">Reality Checks</a><a href="#karten">Ressorts</a><a href="#karten">Updates</a><a href="#marke">Marke</a></nav>
+    </div>
+
+    <h1>Serienreif<br>oder nur <em>versprochen?</em></h1>
+    <p class="lede">Jede Zukunftstechnik bekommt eine Stufe von 1 bis 9. <b>Weiss ist belegt, Orange schraffiert ist behauptet.</b> Dazwischen liegt die Lücke.</p>
+
+    <section class="inst" aria-label="Reality Check, Beispieldaten">
+      <div class="inst-head tag"><span>Reality Check · <span id="rc-no"></span></span><span>Beispieldaten, frei erfunden</span></div>
+      <div class="scale" id="scale"></div>
+      <div class="read">
+        <div>
+          <div class="tag" id="rc-res"></div>
+          <h2 id="rc-name"></h2>
+          <p><b>Versprochen:</b> <span id="rc-v"></span><br><b>Belegt:</b> <span id="rc-g"></span></p>
+        </div>
+        <div class="nums">
+          <div><strong id="rc-ist"></strong><span class="tag">belegt · <span id="rc-lab"></span></span></div>
+          <div class="beh"><strong id="rc-beh"></strong><span class="tag">behauptet</span></div>
+        </div>
+      </div>
+      <div class="pick" id="pick" role="group" aria-label="Beispiel wählen"></div>
+    </section>
+  </div>
+</header>
+
+<div class="ticker" aria-label="Updates, Beispieldaten">
+  <div class="run" id="run"></div>
+</div>
+
+<section class="sec" id="karten">
+  <div class="in">
+    <h2 class="h">Reality Checks</h2>
+    <p class="note">Antippen lädt die Karte oben ins Instrument. Alle vier Firmen sind erfunden und dienen nur als Beispiel.</p>
+    <div class="cards" id="cards"></div>
+  </div>
+</section>
+
+<section class="brand" id="marke">
+  <div class="plates">
+    <div class="plate p1"><span class="logo"><span class="mark"></span><b>STUFE 9</b></span><span class="tag">Tinte #0D181B · Hero, Dunkelmodus</span></div>
+    <div class="plate p2"><span class="logo"><span class="mark"></span><b>STUFE 9</b></span><span class="tag">Blatt #F9FBFA · Lesetext, Karten</span></div>
+    <div class="plate p3"><span class="logo"><span class="mark"></span><b>STUFE 9</b></span><span class="tag">Signal #FF5A0A · Ticker, Lücke, Stufe 9</span></div>
+  </div>
+  <div class="in" style="padding-block: 28px 56px; display:flex; flex-direction:column; gap:14px">
+    <div class="fav">
+      <figure><svg width="64" height="64" viewBox="0 0 32 32" role="img" aria-label="App-Icon"><rect x="5" y="13" width="5" height="13" fill="#EAF0ED"/><rect x="13.5" y="13" width="5" height="13" fill="#EAF0ED"/><rect x="22" y="6" width="5" height="20" fill="#FF5A0A"/></svg><span class="tag">App-Icon</span></figure>
+      <figure><svg width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Favicon 32"><rect x="5" y="13" width="5" height="13" fill="#EAF0ED"/><rect x="13.5" y="13" width="5" height="13" fill="#EAF0ED"/><rect x="22" y="6" width="5" height="20" fill="#FF5A0A"/></svg><span class="tag">32</span></figure>
+      <figure><svg width="16" height="16" viewBox="0 0 32 32" role="img" aria-label="Favicon 16"><rect x="4" y="13" width="6" height="14" fill="#EAF0ED"/><rect x="13" y="13" width="6" height="14" fill="#EAF0ED"/><rect x="22" y="5" width="6" height="22" fill="#FF5A0A"/></svg><span class="tag">16</span></figure>
+    </div>
+    <p class="note" style="color:var(--muted);max-width:62ch">Drei Farben tragen alles. Orange hat genau eine Bedeutung: das Ziel. Schraffiert heisst «behauptet», voll heisst «erreicht». Das Favicon zeigt den Schluss der Skala, also zwei Segmente und die Stufe.</p>
+  </div>
+</section>
+
+<script>
+const LAB = ["", "Theorie", "Theorie", "Labor", "Labor", "Prototyp", "Prototyp", "Pilot", "Pilot", "Serienreif"];
+const DATA = [
+  { no: "RC-0042", res: "Fusion", name: "Helvetia Fusion AG", v: "Strom ins Netz bis 2028.", g: "Plasma im Testreaktor gezündet.", ist: 4, beh: 7 },
+  { no: "RC-0017", res: "Robotik", name: "Alpen Robotics", v: "Humanoide in Serie ab 2027.", g: "Zwölf Geräte im Pilotbetrieb bei einem Kunden.", ist: 6, beh: 8 },
+  { no: "RC-0031", res: "Quanten", name: "Qubitwerk", v: "Fehlerkorrigierter Rechner bis 2029.", g: "Ein logisches Qubit im Labor gezeigt.", ist: 3, beh: 6 },
+  { no: "RC-0008", res: "Unter der Haube", name: "Wellgetriebe Muster", v: "Getriebe für Humanoide in Grossserie.", g: "Seit 2019 in Serie verbaut.", ist: 9, beh: 9 },
+];
+const NEWS = [["Robotik", "Alpen Robotics: Stufe 5 → 6"], ["Fusion", "Helvetia Fusion verschiebt Pilotanlage auf 2029"], ["Quanten", "Qubitwerk: neues Paper, Stufe bleibt 3"], ["Kernspaltung", "Behörde verlangt Nachweise für Mikroreaktor"], ["KI & Compute", "Rechenzentrum sichert sich SMR-Strom, vorerst nur auf Papier"]];
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const $ = id => document.getElementById(id), segs = n => Array.from({ length: n }, () => '<i class="sg"></i>').join("");
+
+// Eine Funktion füllt jede Skala: Logo, Hero, Karte.
+function fill(el, ist, beh, step = 55) {
+  const s = [...el.querySelectorAll(".sg")], run = (el._r = (el._r || 0) + 1);
+  const set = k => s.forEach((x, i) => { x.classList.toggle("on", i < Math.min(k, ist)); x.classList.toggle("claim", i >= ist && i < Math.min(k, beh)); });
+  if (reduced) return set(9);
+  set(0);
+  for (let k = 1; k <= 9; k++) setTimeout(() => el._r === run && set(k), 80 + k * step);
+}
+
+document.querySelectorAll(".mark").forEach(m => { m.innerHTML = segs(9); fill(m, 9, 9, 0); });
+const logoMark = $("logo").querySelector(".mark");
+let cur = 0;
+
+function show(i) {
+  cur = i; const d = DATA[i], gap = d.beh - d.ist, sc = $("scale");
+  sc.innerHTML = (gap ? `<div class="dim" style="grid-column:${d.ist + 1}/${d.beh + 1}"><span>Lücke ${gap}</span></div>` : "")
+    + Array.from({ length: 9 }, (_, k) => `<i class="sg" style="grid-column:${k + 1}"></i>`).join("")
+    + Array.from({ length: 9 }, (_, k) => `<span class="n" style="grid-column:${k + 1}">${k + 1}</span>`).join("");
+  sc.setAttribute("role", "img"); sc.setAttribute("aria-label", `Belegt Stufe ${d.ist}, behauptet Stufe ${d.beh}`);
+  fill(sc, d.ist, d.beh); fill(logoMark, d.ist, d.beh, 40);
+  $("rc-no").textContent = d.no; $("rc-res").textContent = d.res; $("rc-name").textContent = d.name;
+  $("rc-v").textContent = d.v; $("rc-g").textContent = d.g; $("rc-ist").textContent = d.ist; $("rc-beh").textContent = d.beh; $("rc-lab").textContent = LAB[d.ist];
+  $("pick").querySelectorAll("button").forEach((b, k) => b.setAttribute("aria-pressed", k === i));
+}
+
+let timer = null;
+const stop = () => { clearInterval(timer); timer = null; };
+DATA.forEach((d, i) => {
+  const b = document.createElement("button"); b.id = "pick-" + i; b.textContent = d.res;
+  b.onclick = () => { stop(); show(i); }; $("pick").appendChild(b);
+
+  const c = document.createElement("button"); c.className = "card"; c.id = "card-" + i;
+  const gap = d.beh - d.ist;
+  c.innerHTML = `<div class="tag"><span>${d.res}</span><span>${d.no}</span></div><h3>${d.name}</h3><div class="mini">${segs(9)}</div>
+    <div class="v"><strong>${d.ist}<small>/9</small></strong><span>${gap ? "Lücke " + gap : LAB[d.ist]}</span></div>`;
+  const mini = c.querySelector(".mini"); fill(mini, d.ist, d.beh, 0);
+  c.addEventListener("pointerenter", e => e.pointerType === "mouse" && fill(mini, d.ist, d.beh, 35));
+  c.onclick = () => { stop(); show(i); fill(mini, d.ist, d.beh, 35); $("scale").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" }); };
+  $("cards").appendChild(c);
+});
+
+const item = ([r, t]) => `<span><b>${r}</b>${t}</span>`;
+$("run").innerHTML = NEWS.map(item).join("") + `<span class="dup" aria-hidden="true" style="display:contents">${NEWS.map(item).join("")}</span>`;
+
+$("logo").addEventListener("pointerenter", e => e.pointerType === "mouse" && fill(logoMark, DATA[cur].ist, DATA[cur].beh, 40));
+$("logo").onclick = () => fill(logoMark, DATA[cur].ist, DATA[cur].beh, 40);
+
+show(0);
+if (!reduced) timer = setInterval(() => { if (!document.hidden) show((cur + 1) % DATA.length); }, 5200);
+</script>

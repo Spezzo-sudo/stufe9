@@ -1,0 +1,176 @@
+<title>Stufe 9 Engpass Fusion</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Layout: eine dunkle Bühne, die fast den ganzen Schirm füllt. Das Plasma ist das Bild, Schrift und Skala liegen als Messanzeige darüber und darunter. */
+:root {
+  color-scheme: dark;
+  --ink: #070D0F; --ink-line: #2A3C40; --signal: #FF5A0A;
+  --on-ink: #EAF0ED; --on-ink-muted: #8EA3A2;
+  --display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+  --body: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+body { background: var(--ink); color: var(--on-ink); font: 400 16px/1.55 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 56px; }
+p, h1, h2 { margin: 0; }
+.wrap { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+.tag { font: 500 11px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--on-ink-muted); }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+
+.stage { position: relative; border: 1px solid var(--ink-line); }
+canvas { display: block; width: 100%; height: clamp(360px, 52vw, 520px); }
+.ov { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 14px; pointer-events: none; }
+.ov > div { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.ov > div:last-child { align-items: flex-end; }
+h1 { font: 700 clamp(30px, 6vw, 60px)/.92 var(--display); text-transform: uppercase; margin-top: 6px; }
+.timer { text-align: right; }
+.timer strong { display: block; font: 500 clamp(26px, 5vw, 46px)/1 var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.timer strong.bad { color: var(--signal); }
+.sample { color: var(--signal); }
+#scene { font: 700 clamp(22px, 4vw, 34px)/1 var(--display); text-transform: uppercase; }
+
+.scale { display: grid; grid-template-columns: repeat(9, 1fr); gap: 6px; }
+.scale i { height: 26px; border: 1px solid var(--ink-line); box-sizing: border-box; }
+.scale i.on { background: var(--on-ink); border-color: var(--on-ink); }
+.scale i.on:nth-child(9) { background: var(--signal); border-color: var(--signal); }
+.scale i.claim { border-color: var(--signal); background: repeating-linear-gradient(45deg, var(--signal) 0 1.5px, transparent 1.5px 6px); }
+.scale span { font: 400 11px/1 var(--mono); text-align: center; color: var(--on-ink-muted); }
+.row { display: grid; grid-template-columns: 1fr auto; gap: 14px 28px; align-items: start; }
+.row > * { min-width: 0; }
+.row p { color: var(--on-ink-muted); max-width: 58ch; } .row p b { color: var(--on-ink); font-weight: 500; }
+label { display: grid; grid-template-columns: auto 160px 1ch; gap: 10px; align-items: center; font: 400 12px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--on-ink-muted); }
+input { width: 100%; accent-color: var(--signal); } output { color: var(--on-ink); }
+@media (max-width: 640px) { .row { grid-template-columns: 1fr; } }
+</style>
+
+<div class="wrap">
+  <section class="stage">
+    <canvas id="cv" role="img" aria-label="Plasma im Fusionsreaktor, animiert"></canvas>
+    <div class="ov">
+      <div>
+        <div><div class="tag">Fusion · Engpass</div><h1>Hält das Plasma?</h1></div>
+        <div class="timer"><div class="tag" id="t-lab">Haltezeit</div><strong id="t-val">–</strong></div>
+      </div>
+      <div>
+        <div><div class="tag">Stufe <span id="s-ist"></span> · <span id="s-lab"></span></div><div id="scene"></div></div>
+        <div class="tag sample">Beispielwerte · Schema</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="scale" id="scale"></div>
+
+  <div class="row">
+    <p id="text"></p>
+    <label for="in-ist">belegt <input id="in-ist" type="range" min="1" max="9" value="5"><output id="o-ist">5</output></label>
+  </div>
+</div>
+
+<script>
+const LAB = ["", "Theorie", "Theorie", "Labor", "Labor", "Prototyp", "Prototyp", "Pilot", "Pilot", "Serienreif"];
+const band = s => s <= 2 ? 0 : s <= 4 ? 1 : s <= 6 ? 2 : s <= 8 ? 3 : 4;
+const SCENES = [
+  ["Nur die Spulen stehen", "Die Anlage ist entworfen, ein Plasma wurde noch nie gezündet."],
+  ["Zündet und bricht ab", "Das Plasma brennt gut eine Sekunde. Dann wird es instabil, trifft die Wand und erlischt."],
+  ["Hält, bis es kippt", "Das Plasma brennt mehrere Sekunden. Die Unruhe am Rand wächst, bis der Einschluss zusammenbricht."],
+  ["Stabil mit Randausbrüchen", "Das Plasma brennt durch. Am Rand lösen sich noch regelmässig Teilchen, der Kern bleibt ruhig."],
+  ["Dauerbetrieb", "Das Plasma brennt ruhig und dauerhaft. Erst hier ist ein Kraftwerk möglich."],
+];
+const $ = id => document.getElementById(id), cv = $("cv");
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let ist = 5, start = performance.now();
+
+const VS = `
+attribute vec4 a; attribute float k;
+uniform float t, life, burst, stab, asp, px, f;
+varying float al; varying float hot;
+float h(float n){ return fract(sin(n*91.7)*43758.5); }
+void main(){
+  vec3 p; float size;
+  if (k < .5) {
+    float th = a.x + t*a.w;
+    float ph = a.y + th*3. + t*.4;
+    float rr = .33*sqrt(a.z)*(1. + (1.-stab)*.32*sin(4.*ph + t*5. + a.x*3.));
+    float e = burst*(.2 + h(a.x+a.y)*1.6);
+    rr += e;
+    float kx = (1.-stab)*.13*sin(2.*th - t*2.5);
+    float c = 1. + rr*cos(ph) + kx;
+    p = vec3(c*cos(th), rr*sin(ph) + kx*.6*cos(th*3.), c*sin(th));
+    al = life*(1.-burst*burst)*(1.-.6*a.z)*.17;
+    hot = clamp(e*2.2 + (1.-stab)*a.z*.9, 0., 1.);
+    size = 3. + 4.*(1.-a.z);
+  } else {
+    float c = 1. + .52*cos(a.y);
+    p = vec3(c*cos(a.x), .52*sin(a.y), c*sin(a.x));
+    al = .85; hot = -1.; size = 1.7;
+  }
+  float cy = cos(.62), sy = sin(.62);
+  vec3 q = vec3(p.x, p.y*cy - p.z*sy, p.y*sy + p.z*cy);
+  float d = 4.2 - q.z;
+  gl_Position = vec4(q.x*f/asp, q.y*f - .02*d, 0., d);
+  gl_PointSize = px*size*4.2/d;
+}`;
+const FS = `
+precision mediump float; varying float al; varying float hot;
+void main(){
+  float s = smoothstep(.5, .05, length(gl_PointCoord - .5));
+  vec3 c = hot < 0. ? vec3(.34,.50,.54) : mix(vec3(1.,.95,.88), vec3(1.,.33,.03), hot);
+  gl_FragColor = vec4(c, al*s);
+}`;
+
+const gl = cv.getContext("webgl", { antialias: false, alpha: false });
+let U = {}, N = 0;
+if (gl) {
+  const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+  const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(pr); gl.useProgram(pr);
+  const NP = 30000, coils = 18, per = 110; N = NP + coils * per;
+  const A = new Float32Array(N * 5); let o = 0;
+  for (let i = 0; i < NP; i++) { A[o++] = Math.random() * 6.2832; A[o++] = Math.random() * 6.2832; A[o++] = Math.random(); A[o++] = .5 + Math.random() * .6; A[o++] = 0; }
+  for (let c = 0; c < coils; c++) for (let j = 0; j < per; j++) { A[o++] = c / coils * 6.2832; A[o++] = j / per * 6.2832; A[o++] = 0; A[o++] = 0; A[o++] = 1; }
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer()); gl.bufferData(gl.ARRAY_BUFFER, A, gl.STATIC_DRAW);
+  const la = gl.getAttribLocation(pr, "a"), lk = gl.getAttribLocation(pr, "k");
+  gl.enableVertexAttribArray(la); gl.vertexAttribPointer(la, 4, gl.FLOAT, false, 20, 0);
+  gl.enableVertexAttribArray(lk); gl.vertexAttribPointer(lk, 1, gl.FLOAT, false, 20, 16);
+  ["t", "life", "burst", "stab", "asp", "px", "f"].forEach(n => U[n] = gl.getUniformLocation(pr, n));
+  gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE); gl.clearColor(.027, .051, .059, 1);
+} else { $("scene").textContent = "Vorschau braucht WebGL"; }
+
+function size() {
+  const r = cv.getBoundingClientRect(), d = Math.min(2, devicePixelRatio || 1);
+  cv.width = r.width * d; cv.height = r.height * d;
+  if (gl) { gl.viewport(0, 0, cv.width, cv.height); const asp = r.width / r.height; gl.uniform1f(U.asp, asp); gl.uniform1f(U.f, Math.min(2.7, 2.35 * asp)); gl.uniform1f(U.px, d * Math.max(.75, Math.min(1.25, r.width / 800))); }
+}
+const cl = x => Math.max(0, Math.min(1, x));
+
+// Zustand des Plasmas je Reifegrad: brennt es, wie ruhig ist es, bricht es gerade ab?
+function plasma(e, t) {
+  switch (band(ist)) {
+    case 0: return { life: 0, burst: 0, stab: 1, val: "kein Plasma", lab: "Status" };
+    case 1: { const c = e % 3.6, bad = c > 1.2 && c < 1.9; return { life: c < 1.9 ? cl(c / .15) : 0, burst: cl((c - 1.2) / .7), stab: .45, val: c < 1.2 ? c.toFixed(1) + " s" : bad ? "Abbruch" : "1.2 s", lab: "Haltezeit", bad }; }
+    case 2: { const c = e % 10.5, bad = c > 7 && c < 7.9, g = cl(c / 7); return { life: c < 7.9 ? cl(c / .2) : 0, burst: cl((c - 7) / .9), stab: .9 - .55 * g * g, val: c < 7 ? c.toFixed(1) + " s" : bad ? "Abbruch" : "7.0 s", lab: "Haltezeit", bad }; }
+    case 3: return { life: 1, burst: 0, stab: .93 - .2 * Math.pow(Math.max(0, Math.sin(t * 1.1)), 10), val: "stabil", lab: "Status" };
+    default: return { life: 1, burst: 0, stab: 1, val: "Dauerbetrieb", lab: "Status" };
+  }
+}
+function frame(now) {
+  const t = now / 1000, s = plasma(reduced ? .9 : (now - start) / 1000, t);
+  if (gl) {
+    gl.uniform1f(U.t, reduced ? 0 : t); gl.uniform1f(U.life, s.life); gl.uniform1f(U.burst, s.burst); gl.uniform1f(U.stab, s.stab);
+    gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.POINTS, 0, N);
+  }
+  const v = $("t-val"); if (v.textContent !== s.val) v.textContent = s.val; v.classList.toggle("bad", !!s.bad); $("t-lab").textContent = s.lab;
+  if (!reduced) requestAnimationFrame(frame);
+}
+function sync() {
+  ist = +$("in-ist").value; start = performance.now(); const beh = Math.max(8, ist), sc = SCENES[band(ist)];
+  $("o-ist").textContent = ist; $("s-ist").textContent = ist; $("s-lab").textContent = LAB[ist]; $("scene").textContent = sc[0];
+  $("text").innerHTML = `<b>${sc[1]}</b> ` + (ist < beh ? `Behauptet ist in diesem Beispiel Stufe ${beh}.` : "Behauptung und Beleg decken sich.");
+  $("scale").innerHTML = Array.from({ length: 9 }, (_, i) => `<i class="${i < ist ? "on" : i < beh ? "claim" : ""}"></i>`).join("") + Array.from({ length: 9 }, (_, i) => `<span>${i + 1}</span>`).join("");
+  if (reduced) requestAnimationFrame(frame);
+}
+$("in-ist").oninput = sync;
+new ResizeObserver(() => { size(); if (reduced) requestAnimationFrame(frame); }).observe(cv);
+size(); sync(); if (!reduced) requestAnimationFrame(frame);
+</script>

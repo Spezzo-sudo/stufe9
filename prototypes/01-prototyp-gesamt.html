@@ -1,0 +1,371 @@
+<title>Stufe 9 Prototyp</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Layout: fester Seitenkopf mit Logo als Home-Knopf. Dunkle Bühnen für Auftritt und Engpass, helles Blatt für Karten und Lesetext. */
+:root {
+  color-scheme: light;
+  --ink: #070D0F; --ink-2: #0D181B; --ink-line: #2A3C40;
+  --paper: #EDF1EF; --sheet: #F9FBFA; --paper-line: #B5C0BF;
+  --signal: #FF5A0A; --signal-dark: #C24100;
+  --on-ink: #EAF0ED; --on-ink-muted: #8EA3A2; --muted: #55666A;
+  --display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+  --body: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+body { background: var(--paper); color: var(--ink-2); font: 400 16px/1.55 var(--body); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--ink); }
+[hidden] { display: none !important; }
+p, h1, h2, h3, dl, dd, ul, figure { margin: 0; } ul { padding: 0; list-style: none; }
+.in { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.tag { font: 500 11px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+.dark { background: var(--ink); color: var(--on-ink); }
+.sample { color: var(--signal); }
+
+/* Seitenkopf */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--ink); color: var(--on-ink); border-bottom: 1px solid var(--ink-line); }
+.top .in { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 12px; }
+.hlogo { display: inline-flex; align-items: flex-end; gap: .4em; font-size: 22px; color: inherit; text-decoration: none; }
+.hlogo b { font: 700 1.08em/.72 var(--display); letter-spacing: .07em; white-space: nowrap; }
+.mark { display: inline-flex; align-items: flex-end; gap: .085em; height: 1em; }
+.mark i { width: .17em; height: .72em; background: var(--on-ink); transform-origin: bottom; } .mark i:last-child { height: 1em; background: var(--signal); }
+.mark.sweep i { animation: up .22s cubic-bezier(.2,.9,.3,1.3) both; }
+.mark.sweep i:nth-child(2){animation-delay:45ms}.mark.sweep i:nth-child(3){animation-delay:90ms}.mark.sweep i:nth-child(4){animation-delay:135ms}.mark.sweep i:nth-child(5){animation-delay:180ms}.mark.sweep i:nth-child(6){animation-delay:225ms}.mark.sweep i:nth-child(7){animation-delay:270ms}.mark.sweep i:nth-child(8){animation-delay:315ms}.mark.sweep i:nth-child(9){animation-delay:360ms}
+@keyframes up { from { transform: scaleY(0); } }
+.top nav { display: flex; gap: 18px; font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.top nav a { color: var(--on-ink-muted); text-decoration: none; padding: 6px 0; } .top nav a:hover { color: var(--signal); }
+
+/* Auftritt */
+.hero { position: relative; height: clamp(540px, 58vw, 640px); overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(20px, 4vw, 36px); padding: 16px; box-sizing: border-box; }
+.hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.lock { all: unset; cursor: pointer; display: flex; align-items: flex-end; gap: .4em; font-size: clamp(34px, 9.2vw, 100px); -webkit-tap-highlight-color: transparent; }
+.lock .ph { width: 2.21em; height: 1em; }
+.lock b { font: 700 1.08em/.72 var(--display); letter-spacing: .07em; white-space: nowrap; }
+.copy { text-align: center; display: flex; flex-direction: column; gap: 10px; align-items: center; transition: opacity .6s ease-out; }
+.copy h1 { font: 700 clamp(26px, 5vw, 52px)/.95 var(--display); text-transform: uppercase; }
+.copy h1 em, .ph1 em { font-style: normal; color: var(--signal); }
+.copy .tag { color: var(--on-ink-muted); }
+.hero.pre .copy { opacity: 0; }
+
+/* Ticker */
+.ticker { background: var(--signal); color: var(--ink); overflow: hidden; font: 500 13px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+.ticker .run { display: flex; width: max-content; animation: run 40s linear infinite; }
+.ticker span { padding: 13px 22px; white-space: nowrap; border-right: 1px solid var(--ink); }
+.ticker span b { font-weight: 500; background: var(--ink); color: var(--signal); padding: 2px 6px; margin-right: 8px; }
+@keyframes run { to { transform: translateX(-50%); } }
+
+/* Karten */
+.sec .in { padding-block: 40px; display: flex; flex-direction: column; gap: 20px; }
+.h { font: 700 clamp(32px, 6vw, 52px)/.95 var(--display); text-transform: uppercase; }
+.note { color: var(--muted); max-width: 60ch; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.card { background: var(--sheet); border: 1px solid var(--ink-2); padding: 14px; display: flex; flex-direction: column; gap: 14px; text-decoration: none; color: var(--ink-2); min-width: 0; transition: background .15s, color .15s; --seg: var(--ink-2); --off: var(--paper-line); }
+.card:hover, .card:focus-visible { background: var(--ink-2); color: var(--on-ink); --seg: var(--on-ink); --off: var(--ink-line); }
+.card .tag { display: flex; justify-content: space-between; gap: 8px; opacity: .7; }
+.card h3 { font: 700 26px/1 var(--display); text-transform: uppercase; }
+.mini { display: grid; grid-template-columns: repeat(9, 1fr); gap: 3px; }
+.mini i { height: 28px; border: 1px solid var(--off); box-sizing: border-box; }
+.mini i.on { background: var(--seg); border-color: var(--seg); } .mini i.on:nth-child(9) { background: var(--signal); border-color: var(--signal); }
+.mini i.claim { border-color: var(--signal); background: repeating-linear-gradient(45deg, var(--signal) 0 1.2px, transparent 1.2px 4.5px); }
+.card .v { display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; }
+.card .v strong { font: 700 52px/.8 var(--display); } .card .v strong small { font-size: .5em; opacity: .55; }
+.card .v span { font: 500 12px/1.2 var(--mono); color: var(--signal-dark); text-transform: uppercase; letter-spacing: .06em; text-align: right; }
+.card:hover .v span, .card:focus-visible .v span { color: var(--signal); }
+
+/* Projektseite */
+.phead .in { padding-block: 22px 30px; display: flex; flex-direction: column; gap: 18px; }
+.crumb { display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: space-between; color: var(--on-ink-muted); }
+.crumb a { color: var(--on-ink-muted); }
+.ph1 { font: 700 clamp(40px, 9vw, 92px)/.9 var(--display); text-transform: uppercase; }
+.pstage { position: relative; border: 1px solid var(--ink-line); }
+.pstage canvas { display: block; width: 100%; height: clamp(320px, 46vw, 460px); }
+.pstage .ov { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 14px; pointer-events: none; }
+.pstage .ov > div { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.pstage .ov > div:last-child { align-items: flex-end; }
+.pstage .tag { color: var(--on-ink-muted); }
+.q { font: 700 clamp(26px, 5vw, 46px)/.95 var(--display); text-transform: uppercase; margin-top: 4px; }
+.timer { text-align: right; } .timer strong { display: block; font: 500 clamp(24px, 4.6vw, 40px)/1 var(--mono); white-space: nowrap; } .timer strong.bad { color: var(--signal); }
+.pstage.plain { padding: 22px 14px; display: flex; flex-direction: column; gap: 10px; }
+.pstage.plain p { color: var(--on-ink-muted); max-width: 52ch; }
+.scale { display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: 22px auto 16px; gap: 6px clamp(4px, 1vw, 8px); }
+.scale i { grid-row: 2; height: clamp(44px, 8vw, 72px); border: 1px solid var(--ink-line); box-sizing: border-box; transform-origin: bottom; animation: up .25s cubic-bezier(.2,.9,.3,1.3) both; animation-delay: calc(var(--i) * 55ms); }
+.scale i.on { background: var(--on-ink); border-color: var(--on-ink); } .scale i.on:nth-of-type(9) { background: var(--signal); border-color: var(--signal); }
+.scale i.claim { border-color: var(--signal); background: repeating-linear-gradient(45deg, var(--signal) 0 2px, transparent 2px 8px); }
+.scale span { grid-row: 3; font: 400 11px/1 var(--mono); text-align: center; color: var(--on-ink-muted); }
+.scale .dim { grid-row: 1; align-self: end; height: 10px; border: 1px solid var(--signal); border-bottom: 0; position: relative; animation: open .6s ease-out .6s both; }
+.scale .dim b { position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%); font: 500 12px/1 var(--mono); color: var(--signal); background: var(--ink); padding: 0 6px; white-space: nowrap; }
+@keyframes open { from { clip-path: inset(-20px 50% 0 50%); } to { clip-path: inset(-20px 0 0 0); } }
+.nums { display: flex; flex-wrap: wrap; gap: 10px 28px; align-items: flex-end; }
+.nums div { display: flex; flex-direction: column; gap: 4px; } .nums .tag { color: var(--on-ink-muted); }
+.nums strong { font: 700 clamp(52px, 9vw, 84px)/.8 var(--display); }
+.nums .beh strong { color: transparent; -webkit-text-stroke: 2px var(--signal); }
+.body .in { padding-block: 36px 48px; display: grid; grid-template-columns: 2fr 1fr; gap: 32px 48px; }
+.body .in > * { min-width: 0; display: flex; flex-direction: column; gap: 26px; }
+@media (max-width: 760px) { .body .in { grid-template-columns: 1fr; } }
+.body h2 { font: 700 24px/1 var(--display); text-transform: uppercase; padding-bottom: 8px; border-bottom: 1px solid var(--ink-2); margin-bottom: 12px; }
+.facts { display: grid; grid-template-columns: 120px 1fr; gap: 10px 16px; }
+.facts dt { font: 500 11px/1.7 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+@media (max-width: 480px) { .facts { grid-template-columns: 1fr; gap: 2px; } .facts dd { margin-bottom: 10px; } }
+.list li { display: grid; grid-template-columns: 76px 1fr; gap: 4px 12px; padding: 10px 0; border-bottom: 1px solid var(--paper-line); }
+.list li > span:first-child { font: 400 12px/1.7 var(--mono); color: var(--muted); }
+.pill { display: inline-block; font: 500 10px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 4px 6px; border: 1px solid var(--ink-2); margin-right: 8px; vertical-align: 2px; }
+.pill.warn { background: var(--signal); border-color: var(--signal); color: var(--ink); } .pill.ok { background: var(--ink-2); color: var(--on-ink); }
+.src li { padding: 6px 0; font-size: 14px; color: var(--muted); border-bottom: 1px solid var(--paper-line); }
+.back { font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+
+footer .in { padding-block: 22px 40px; display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; color: var(--on-ink-muted); font-size: 14px; }
+footer button { font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 11px 14px; background: none; color: var(--on-ink); border: 1px solid var(--ink-line); cursor: pointer; }
+@media (prefers-reduced-motion: reduce) { .ticker .run { animation: none; flex-wrap: wrap; width: auto; } .ticker .dup { display: none !important; } .mark.sweep i, .scale i, .scale .dim { animation: none; } .copy { transition: none; } }
+</style>
+
+<header class="top"><div class="in">
+  <a class="hlogo" href="#start" id="hlogo" aria-label="Stufe 9, zur Startseite"><span class="mark" id="hmark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><b>STUFE 9</b></a>
+  <nav aria-label="Hauptnavigation"><a href="#start">Start</a><a href="#checks">Reality Checks</a></nav>
+</div></header>
+
+<main>
+  <div id="v-home">
+    <section class="hero dark" id="hero">
+      <canvas id="icv" aria-hidden="true"></canvas>
+      <button class="lock" id="lock" aria-label="Auftritt nochmal abspielen"><span class="ph" id="ph"></span><b>STUFE 9</b></button>
+      <div class="copy"><h1>Serienreif oder nur <em>versprochen?</em></h1><div class="tag">Frontier-Tech im Reality Check</div></div>
+    </section>
+    <div class="ticker" aria-label="Updates, Beispieldaten"><div class="run" id="run"></div></div>
+    <section class="sec" id="cards-sec"><div class="in">
+      <h2 class="h">Reality Checks</h2>
+      <p class="note">Jede Karte ist ein Projekt. Schwarz ist belegt, Orange schraffiert ist behauptet. Alle vier Firmen sind erfunden.</p>
+      <div class="cards" id="cards"></div>
+    </div></section>
+  </div>
+  <div id="v-proj" hidden></div>
+</main>
+
+<footer class="dark"><div class="in">
+  <span>Prototyp mit erfundenen Beispieldaten. Weitere Seiten folgen im echten Projekt.</span>
+  <button id="again">Auftritt nochmal zeigen</button>
+</div></footer>
+
+<script>
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches, $ = id => document.getElementById(id);
+const LAB = ["", "Theorie", "Theorie", "Labor", "Labor", "Prototyp", "Prototyp", "Pilot", "Pilot", "Serienreif"];
+const band = s => s <= 2 ? 0 : s <= 4 ? 1 : s <= 6 ? 2 : s <= 8 ? 3 : 4;
+const DATA = [
+  { id: "p-fusion", no: "RC-0042", res: "Fusion", name: "Helvetia Fusion", ist: 5, beh: 8, plasma: true, q: "Hält das Plasma?", metric: "Haltezeit 7 Sekunden belegt. Ziel ist Dauerbetrieb.",
+    v: "Strom ins Netz bis 2028.", g: "Plasma brennt im Testreaktor mehrere Sekunden.", s: "Der Einschluss bricht nach rund sieben Sekunden zusammen. Eine positive Energiebilanz ist nicht belegt.",
+    ms: [["03.2024", "Erstes Plasma gezündet", "ok", "erreicht"], ["09.2026", "Haltezeit über 5 Sekunden", "ok", "erreicht"], ["2027", "Pilotanlage genehmigt", "warn", "verspätet"], ["2028", "Strom ins Netz", "", "geplant"]],
+    risks: [["Brennstoff", "belegt", "Tritium ist knapp und muss in der Anlage selbst erbrütet werden."], ["Zeitplan", "Kritik", "Fachleute halten 2028 für nicht erreichbar."]] },
+  { id: "p-robotik", no: "RC-0017", res: "Robotik", name: "Alpen Robotics", ist: 6, beh: 8, q: "Läuft er eine ganze Schicht?", metric: "Laufzeit 2 Stunden belegt. Ziel sind 8 Stunden.",
+    v: "Humanoide in Serie ab 2027.", g: "Zwölf Geräte im Pilotbetrieb bei einem Kunden.", s: "Die Geräte arbeiten in einer abgesperrten Zone. Nach zwei Stunden muss der Akku getauscht werden.",
+    ms: [["06.2025", "Erster freier Gang", "ok", "erreicht"], ["04.2026", "Pilot bei Kunde gestartet", "ok", "erreicht"], ["2027", "Serienfertigung", "", "geplant"]],
+    risks: [["Sicherheit", "belegt", "Betrieb neben Menschen ist noch nicht zugelassen."]] },
+  { id: "p-quanten", no: "RC-0031", res: "Quanten", name: "Qubitwerk", ist: 3, beh: 6, q: "Rechnet er ohne Fehler?", metric: "Ein logisches Qubit belegt. Ziel sind hundert.",
+    v: "Fehlerkorrigierter Rechner bis 2029.", g: "Ein logisches Qubit im Labor gezeigt.", s: "Die Fehlerrate sinkt mit mehr Qubits, aber noch zu langsam für nützliche Rechnungen.",
+    ms: [["11.2025", "Erstes logisches Qubit", "ok", "erreicht"], ["2027", "Zehn logische Qubits", "", "geplant"]],
+    risks: [["Vergleichbarkeit", "Kritik", "Die Firma misst Fehler anders als die Konkurrenz."]] },
+  { id: "p-getriebe", no: "RC-0008", res: "Unter der Haube", name: "Wellgetriebe Muster", ist: 9, beh: 9, q: "Hält es im Dauerlauf?", metric: "20'000 Stunden im Feld belegt.",
+    v: "Getriebe für Humanoide in Grossserie.", g: "Seit 2019 in Serie verbaut.", s: "Das Getriebe ist bewährt. Offen ist, ob die Fertigung mit der Nachfrage mitkommt.",
+    ms: [["2019", "Serienstart", "ok", "erreicht"], ["2025", "Zweites Werk eröffnet", "ok", "erreicht"]],
+    risks: [["Lieferkette", "belegt", "Ein einziger Lieferant für das Spezialstahlband."]] },
+];
+const NEWS = [["Robotik", "Alpen Robotics: Stufe 5 → 6"], ["Fusion", "Helvetia Fusion verschiebt Pilotanlage"], ["Quanten", "Qubitwerk: neues Paper, Stufe bleibt 3"], ["Unter der Haube", "Wellgetriebe eröffnet zweites Werk"]];
+const cells = (d, tag = "i") => Array.from({ length: 9 }, (_, i) => `<${tag} class="${i < d.ist ? "on" : i < d.beh ? "claim" : ""}" style="--i:${i};grid-column:${i + 1}"></${tag}>`).join("");
+
+/* ───── Auftritt: Felder fliessen ins Logo ───── */
+const hero = $("hero"), cv = $("icv"), ctx = cv.getContext("2d"), ph = $("ph");
+const N = 15000; let P = [], bars = [], F = 0, W = 0, H = 0, mark = { x: 0, y: 0 }, t0 = 0, hold = -1e9, labels = [], shown = true, running = false;
+const hexPath = (c, x, y, r) => { c.beginPath(); for (let i = 0; i < 6; i++) c.lineTo(x + r * Math.cos(i * Math.PI / 3), y + r * Math.sin(i * Math.PI / 3)); c.closePath(); c.fill(); };
+const SHAPES = [
+  ["Fusion", (c, s) => { c.lineWidth = .3 * s; c.beginPath(); c.ellipse(0, 0, 1.05 * s, .5 * s, 0, 0, 7); c.stroke(); }],
+  ["Teleskope", (c, s) => { const r = .21 * s; for (let q = -2; q <= 2; q++) for (let k = -2; k <= 2; k++) { if (Math.abs(q + k) > 2 || (!q && !k)) continue; hexPath(c, 1.5 * r * q, Math.sqrt(3) * r * (k + q / 2), r * .9); } }],
+  ["Biotech", (c, s) => { c.lineWidth = .1 * s; for (const sg of [1, -1]) { c.beginPath(); for (let x = -1.25; x <= 1.25; x += .02) c.lineTo(x * s, sg * .48 * s * Math.sin(x * 3.6)); c.stroke(); } c.lineWidth = .05 * s; for (let x = -1.2; x <= 1.21; x += .16) { const y = .48 * s * Math.sin(x * 3.6); c.beginPath(); c.moveTo(x * s, -y); c.lineTo(x * s, y); c.stroke(); } }],
+  ["Teilchenphysik", (c, s) => { c.lineWidth = .045 * s; c.beginPath(); c.arc(0, 0, .95 * s, 0, 7); c.stroke(); for (let i = 0; i < 22; i++) { const a = i * 2.399, l = (.35 + ((i * 37) % 10) / 10 * .55) * s, b = ((i * 53) % 7 - 3) * .12; c.beginPath(); c.moveTo(0, 0); c.quadraticCurveTo(Math.cos(a + b) * l * .6, Math.sin(a + b) * l * .6, Math.cos(a) * l, Math.sin(a) * l); c.stroke(); } c.beginPath(); c.arc(0, 0, .09 * s, 0, 7); c.fill(); }],
+  ["Raumfahrt", (c, s) => { c.rotate(Math.PI / 2); c.beginPath(); c.moveTo(0, -1.2 * s); c.bezierCurveTo(.36 * s, -.75 * s, .3 * s, .1 * s, .24 * s, .55 * s); c.lineTo(-.24 * s, .55 * s); c.bezierCurveTo(-.3 * s, .1 * s, -.36 * s, -.75 * s, 0, -1.2 * s); c.fill();
+    for (const g of [1, -1]) { c.beginPath(); c.moveTo(g * .24 * s, .1 * s); c.lineTo(g * .58 * s, .7 * s); c.lineTo(g * .24 * s, .55 * s); c.fill(); }
+    c.globalCompositeOperation = "destination-out"; c.beginPath(); c.arc(0, -.45 * s, .13 * s, 0, 7); c.fill(); c.globalCompositeOperation = "source-over";
+    c.globalAlpha = .5; c.beginPath(); c.moveTo(-.16 * s, .62 * s); c.lineTo(0, 1.2 * s); c.lineTo(.16 * s, .62 * s); c.fill(); c.globalAlpha = 1; }],
+  ["Robotik", (c, s) => { const rr = (x, y, w, h, r) => { c.beginPath(); c.roundRect(x, y, w, h, r); c.fill(); };
+    rr(-.6 * s, -.75 * s, 1.2 * s, 1.1 * s, .26 * s); rr(-.76 * s, -.38 * s, .11 * s, .42 * s, .04 * s); rr(.65 * s, -.38 * s, .11 * s, .42 * s, .04 * s);
+    rr(-.035 * s, -1.0 * s, .07 * s, .26 * s, 0); c.beginPath(); c.arc(0, -1.04 * s, .09 * s, 0, 7); c.fill();
+    rr(-.2 * s, .38 * s, .4 * s, .26 * s, 0); rr(-.95 * s, .66 * s, 1.9 * s, .3 * s, .14 * s);
+    c.globalCompositeOperation = "destination-out"; rr(-.44 * s, -.46 * s, .88 * s, .38 * s, .16 * s); c.globalCompositeOperation = "source-over";
+    c.beginPath(); c.arc(-.2 * s, -.27 * s, .085 * s, 0, 7); c.arc(.2 * s, -.27 * s, .085 * s, 0, 7); c.fill(); }],
+];
+// Zeichnet ein Motiv als Fläche und gibt seine Punkte zurück, von links nach rechts sortiert.
+function sample(k, cx, cy, s) {
+  const w = Math.ceil(2.9 * s), h = Math.ceil(2.7 * s), o = document.createElement("canvas"); o.width = w; o.height = h; const c = o.getContext("2d");
+  c.fillStyle = c.strokeStyle = "#fff"; c.lineCap = "round"; c.translate(w / 2, h / 2); SHAPES[k][1](c, s);
+  const px = c.getImageData(0, 0, w, h).data, pts = [];
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const al = px[(y * w + x) * 4 + 3]; if (al > 40 && Math.random() * 255 < al) pts.push([cx - w / 2 + x, cy - h / 2 + y]); }
+  return pts.sort((a, b) => a[0] - b[0]);
+}
+function give(list, pts) { list.forEach((p, j) => { const q = pts[Math.min(pts.length - 1, Math.floor((j + Math.random() * 20) / (list.length + 20) * pts.length))]; p.sx = q[0] + Math.random(); p.sy = q[1] + Math.random(); }); }
+
+
+function build() {
+  const r = hero.getBoundingClientRect(), b = ph.getBoundingClientRect(), d = Math.min(3, devicePixelRatio || 1);
+  W = r.width; H = r.height; F = parseFloat(getComputedStyle(ph).fontSize); mark = { x: b.left - r.left, y: b.bottom - r.top };
+  cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+  bars = Array.from({ length: 9 }, (_, i) => ({ x: mark.x + i * .255 * F, w: .17 * F, h: (i === 8 ? 1 : .72) * F }));
+  const total = bars.reduce((s, x) => s + x.h, 0); P = [];
+  bars.forEach((x, i) => { const n = Math.round(N * x.h / total); for (let k = 0; k < n; k++) { const tx = x.x + Math.random() * x.w, ty = mark.y - Math.random() * x.h; P.push({ bar: i, tx, ty, sx: tx, sy: ty, x: tx, y: ty, vx: 0, vy: 0, s: Math.random() * 6.28, r: Math.random(), in: true }); } });
+}
+function play(first) {
+  hold = first ? 1900 : 1300; labels = []; shown = false;
+  const cw = (W - 24) / 3, s = Math.min(cw / 3.0, H * .27 / 2.9), groups = SHAPES.map(() => []);
+  P.forEach((p, i) => groups[i % 6].push(p));
+  SHAPES.forEach((sh, k) => { const cx = 12 + cw * (k % 3 + .5), cy = H * (k < 3 ? .16 : .84) - 8; give(groups[k], sample(k, cx, cy, s)); labels.push([sh[0], cx, cy + 1.35 * s + 14]);
+    groups[k].forEach(p => { p.in = false; if (first) { p.x = cx + (Math.random() - .5) * cw; p.y = cy + (Math.random() - .5) * cw; p.vx = p.vy = 0; } }); });
+  hero.classList.add("pre"); t0 = performance.now();
+  if (!running) { running = true; requestAnimationFrame(frame); }
+}
+function draw(e) {
+  ctx.clearRect(0, 0, W, H); const r = Math.max(.7, F / 105), oa = Math.max(0, 1 - (e - hold - 500) / 700);
+  if (oa > 0) { ctx.globalAlpha = oa; ctx.lineWidth = 1; bars.forEach((b, i) => { ctx.strokeStyle = i === 8 ? "#8A3A12" : "#34494D"; ctx.strokeRect(b.x + .5, mark.y - b.h + .5, b.w - 1, b.h - 1); }); ctx.globalAlpha = 1; }
+  ctx.fillStyle = "#EAF0ED"; for (const p of P) if (p.bar < 8) ctx.fillRect(p.x, p.y, r, r);
+  ctx.fillStyle = "#FF5A0A"; for (const p of P) if (p.bar === 8) ctx.fillRect(p.x, p.y, r, r);
+  const a = Math.min(1, e / 500) * Math.max(0, 1 - (e - hold) / 250);
+  if (labels.length && a > 0) { ctx.globalAlpha = a; ctx.fillStyle = "#8EA3A2"; ctx.font = '500 10px "IBM Plex Mono", monospace'; ctx.textAlign = "center"; labels.forEach(l => ctx.fillText(l[0].toUpperCase(), l[1], l[2])); ctx.globalAlpha = 1; }
+}
+function frame() {
+  const now = performance.now(), e = now - t0, t = now / 1000, mx = mark.x + 1.1 * F, my = mark.y - .5 * F;
+  for (const p of P) {
+    if (!p.in && e > hold + p.bar * 90 + p.r * 220) { p.in = true; const dx = p.x - mx, dy = p.y - my, l = Math.hypot(dx, dy) || 1; p.vx += -dy / l * F * .09; p.vy += dx / l * F * .09; }
+    const j = (p.in ? (p.bar === 8 ? .02 : .006) : .01) * F, gx = p.in ? p.tx : p.sx, gy = p.in ? p.ty : p.sy;
+    p.vx = (p.vx + (gx + Math.sin(t * 2.3 + p.s) * j - p.x) * .06) * .81; p.vy = (p.vy + (gy + Math.cos(t * 1.9 + p.s) * j - p.y) * .06) * .81; p.x += p.vx; p.y += p.vy;
+  }
+  draw(e);
+  if (!shown && e > hold + 1300) { shown = true; hero.classList.remove("pre"); }
+  if (e < hold + 5000 && !$("v-home").hidden) requestAnimationFrame(frame); else { running = false; hero.classList.remove("pre"); }
+}
+function rest() { build(); labels = []; hold = -1e9; hero.classList.remove("pre"); draw(1e9); }
+const replay = () => { if (reduced) return; if (!P.length) build(); play(false); };
+
+/* ───── Engpass Fusion: Plasma aus Teilchen ───── */
+const VS = `
+attribute vec4 a; attribute float k;
+uniform float t, life, burst, stab, asp, px, f;
+varying float al; varying float hot;
+float h(float n){ return fract(sin(n*91.7)*43758.5); }
+void main(){
+  vec3 p; float size;
+  if (k < .5) {
+    float th = a.x + t*a.w;
+    float ph = a.y + th*3. + t*.4;
+    float rr = .33*sqrt(a.z)*(1. + (1.-stab)*.32*sin(4.*ph + t*5. + a.x*3.));
+    float e = burst*(.2 + h(a.x+a.y)*1.6);
+    rr += e;
+    float kx = (1.-stab)*.13*sin(2.*th - t*2.5);
+    float c = 1. + rr*cos(ph) + kx;
+    p = vec3(c*cos(th), rr*sin(ph) + kx*.6*cos(th*3.), c*sin(th));
+    al = life*(1.-burst*burst)*(1.-.6*a.z)*.17;
+    hot = clamp(e*2.2 + (1.-stab)*a.z*.9, 0., 1.);
+    size = 3. + 4.*(1.-a.z);
+  } else {
+    float c = 1. + .52*cos(a.y);
+    p = vec3(c*cos(a.x), .52*sin(a.y), c*sin(a.x));
+    al = .85; hot = -1.; size = 1.7;
+  }
+  float cy = cos(.62), sy = sin(.62);
+  vec3 q = vec3(p.x, p.y*cy - p.z*sy, p.y*sy + p.z*cy);
+  float d = 4.2 - q.z;
+  gl_Position = vec4(q.x*f/asp, q.y*f - .02*d, 0., d);
+  gl_PointSize = px*size*4.2/d;
+}`;
+const FS = `
+precision mediump float; varying float al; varying float hot;
+void main(){
+  float s = smoothstep(.5, .05, length(gl_PointCoord - .5));
+  vec3 c = hot < 0. ? vec3(.34,.50,.54) : mix(vec3(1.,.95,.88), vec3(1.,.33,.03), hot);
+  gl_FragColor = vec4(c, al*s);
+}`;
+
+
+let gl = null, U = {}, GN = 0, pcv = null, pist = 5, pstart = 0, prun = false;
+function plasmaInit() {
+  pcv = document.createElement("canvas"); pcv.setAttribute("role", "img"); pcv.setAttribute("aria-label", "Plasma im Fusionsreaktor, animiert");
+  gl = pcv.getContext("webgl", { antialias: false, alpha: false }); if (!gl) return;
+  const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+  const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(pr); gl.useProgram(pr);
+  const NP = 30000, coils = 18, per = 110; GN = NP + coils * per; const A = new Float32Array(GN * 5); let o = 0;
+  for (let i = 0; i < NP; i++) { A[o++] = Math.random() * 6.2832; A[o++] = Math.random() * 6.2832; A[o++] = Math.random(); A[o++] = .5 + Math.random() * .6; A[o++] = 0; }
+  for (let c = 0; c < coils; c++) for (let j = 0; j < per; j++) { A[o++] = c / coils * 6.2832; A[o++] = j / per * 6.2832; A[o++] = 0; A[o++] = 0; A[o++] = 1; }
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer()); gl.bufferData(gl.ARRAY_BUFFER, A, gl.STATIC_DRAW);
+  const la = gl.getAttribLocation(pr, "a"), lk = gl.getAttribLocation(pr, "k");
+  gl.enableVertexAttribArray(la); gl.vertexAttribPointer(la, 4, gl.FLOAT, false, 20, 0); gl.enableVertexAttribArray(lk); gl.vertexAttribPointer(lk, 1, gl.FLOAT, false, 20, 16);
+  ["t", "life", "burst", "stab", "asp", "px", "f"].forEach(n => U[n] = gl.getUniformLocation(pr, n));
+  gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE); gl.clearColor(.027, .051, .059, 1);
+}
+function psize() { const r = pcv.getBoundingClientRect(), d = Math.min(2, devicePixelRatio || 1); if (!r.width) return; pcv.width = r.width * d; pcv.height = r.height * d;
+  if (gl) { gl.viewport(0, 0, pcv.width, pcv.height); const asp = r.width / r.height; gl.uniform1f(U.asp, asp); gl.uniform1f(U.f, Math.min(2.7, 2.35 * asp)); gl.uniform1f(U.px, d * Math.max(.75, Math.min(1.25, r.width / 800))); } }
+const cl = x => Math.max(0, Math.min(1, x));
+function plasma(e, t) {
+  switch (band(pist)) {
+    case 0: return { life: 0, burst: 0, stab: 1, val: "kein Plasma" };
+    case 1: { const c = e % 3.6, bad = c > 1.2 && c < 1.9; return { life: c < 1.9 ? cl(c / .15) : 0, burst: cl((c - 1.2) / .7), stab: .45, val: c < 1.2 ? c.toFixed(1) + " s" : bad ? "Abbruch" : "1.2 s", bad }; }
+    case 2: { const c = e % 10.5, bad = c > 7 && c < 7.9, g = cl(c / 7); return { life: c < 7.9 ? cl(c / .2) : 0, burst: cl((c - 7) / .9), stab: .9 - .55 * g * g, val: c < 7 ? c.toFixed(1) + " s" : bad ? "Abbruch" : "7.0 s", bad }; }
+    case 3: return { life: 1, burst: 0, stab: .93 - .2 * Math.pow(Math.max(0, Math.sin(t * 1.1)), 10), val: "stabil" };
+    default: return { life: 1, burst: 0, stab: 1, val: "Dauerbetrieb" };
+  }
+}
+function pframe() {
+  const now = performance.now(), t = now / 1000, s = plasma(reduced ? .9 : (now - pstart) / 1000, t), v = $("t-val");
+  if (!pcv.isConnected || !v) { prun = false; return; }
+  if (gl) { gl.uniform1f(U.t, reduced ? 0 : t); gl.uniform1f(U.life, s.life); gl.uniform1f(U.burst, s.burst); gl.uniform1f(U.stab, s.stab); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.POINTS, 0, GN); }
+  if (v.textContent !== s.val) v.textContent = s.val; v.classList.toggle("bad", !!s.bad);
+  if (!reduced) requestAnimationFrame(pframe); else prun = false;
+}
+
+/* ───── Seiten ───── */
+function renderProj(d) {
+  const gap = d.beh - d.ist;
+  $("v-proj").innerHTML = `
+  <section class="phead dark"><div class="in">
+    <div class="crumb tag"><span><a href="#checks">Reality Checks</a> · ${d.res} · ${d.no}</span><span class="sample">Beispieldaten, frei erfunden</span></div>
+    <h1 class="ph1">${d.name}</h1>
+    <div class="pstage ${d.plasma ? "" : "plain"}" id="pstage">${d.plasma
+      ? `<div class="ov"><div><div><div class="tag">Engpass</div><div class="q">${d.q}</div></div><div class="timer"><div class="tag">Haltezeit</div><strong id="t-val">–</strong></div></div><div><div class="tag">${d.metric}</div></div></div>`
+      : `<div class="tag">Engpass</div><div class="q">${d.q}</div><p>${d.metric}</p><p class="tag">Das bewegte Motiv für dieses Ressort ist noch nicht gebaut.</p>`}</div>
+    <div class="scale" role="img" aria-label="Belegt Stufe ${d.ist}, behauptet Stufe ${d.beh}">${gap ? `<div class="dim" style="grid-column:${d.ist + 1}/${d.beh + 1}"><b>Lücke ${gap}</b></div>` : ""}${cells(d)}${Array.from({ length: 9 }, (_, i) => `<span style="grid-column:${i + 1}">${i + 1}</span>`).join("")}</div>
+    <div class="nums"><div><strong>${d.ist}</strong><span class="tag">belegt · ${LAB[d.ist]}</span></div><div class="beh"><strong>${d.beh}</strong><span class="tag">behauptet · ${LAB[d.beh]}</span></div></div>
+  </div></section>
+  <section class="body"><div class="in">
+    <div>
+      <div><h2>Reality Check</h2><dl class="facts"><dt>Versprochen</dt><dd>${d.v}</dd><dt>Geliefert</dt><dd>${d.g}</dd><dt>Stand heute</dt><dd>${d.s}</dd></dl></div>
+      <div><h2>Meilensteine</h2><ul class="list">${d.ms.map(m => `<li><span>${m[0]}</span><span><span class="pill ${m[2]}">${m[3]}</span>${m[1]}</span></li>`).join("")}</ul></div>
+      <a class="back" href="#checks">← Alle Reality Checks</a>
+    </div>
+    <div>
+      <div><h2>Risiken</h2><ul class="list">${d.risks.map(r => `<li style="grid-template-columns:1fr"><span><span class="pill">${r[1]}</span><b>${r[0]}</b></span><span>${r[2]}</span></li>`).join("")}</ul></div>
+      <div><h2>Quellen</h2><ul class="src"><li>[1] Pressemitteilung der Firma (Beispiel)</li><li>[2] Fachartikel mit Messdaten (Beispiel)</li><li>[3] Behördenentscheid (Beispiel)</li></ul></div>
+    </div>
+  </div></section>`;
+  if (d.plasma) { if (!pcv) plasmaInit(); $("pstage").prepend(pcv); pist = d.ist; pstart = performance.now(); psize(); if (!prun) { prun = true; requestAnimationFrame(pframe); } }
+}
+let first = true;
+function route() {
+  const h = location.hash.slice(1) || "start", d = DATA.find(x => x.id === h);
+  $("v-home").hidden = !!d; $("v-proj").hidden = !d;
+  if (d) { renderProj(d); scrollTo(0, 0); }
+  else { $("v-proj").innerHTML = ""; if (!first) rest(); h === "checks" ? $("cards-sec").scrollIntoView() : scrollTo(0, 0); }
+  if (!first) { const m = $("hmark"); m.classList.remove("sweep"); void m.offsetWidth; m.classList.add("sweep"); }
+  first = false;
+}
+
+$("cards").innerHTML = DATA.map(d => `<a class="card" href="#${d.id}" id="card-${d.id}"><div class="tag"><span>${d.res}</span><span>${d.no}</span></div><h3>${d.name}</h3><div class="mini">${cells(d)}</div>
+  <div class="v"><strong>${d.ist}<small>/9</small></strong><span>${d.beh > d.ist ? "Lücke " + (d.beh - d.ist) : LAB[d.ist]}</span></div></a>`).join("");
+const item = ([r, t]) => `<span><b>${r}</b>${t}</span>`;
+$("run").innerHTML = NEWS.map(item).join("") + NEWS.map(item).join("") + `<span class="dup" aria-hidden="true" style="display:contents">${NEWS.map(item).join("") + NEWS.map(item).join("")}</span>`;
+
+$("lock").addEventListener("click", replay);
+$("again").addEventListener("click", () => { if (location.hash.slice(1) && location.hash !== "#start") { location.hash = "start"; setTimeout(replay, 60); } else { scrollTo(0, 0); replay(); } });
+$("hlogo").addEventListener("click", () => { if (!location.hash || location.hash === "#start") { scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" }); const m = $("hmark"); m.classList.remove("sweep"); void m.offsetWidth; m.classList.add("sweep"); } });
+let rw = 0; new ResizeObserver(() => { const w = hero.clientWidth; if (rw && w && Math.abs(w - rw) > 2) rest(); if (w) rw = w; if (pcv && pcv.isConnected) { psize(); if (reduced) pframe(); } }).observe(document.body);
+addEventListener("hashchange", route); route();
+
+// Der grosse Auftritt läuft nur einmal pro Besuch.
+let seen = false; try { seen = sessionStorage.getItem("s9-auftritt") === "1"; sessionStorage.setItem("s9-auftritt", "1"); } catch (e) {}
+const start = () => { if ($("v-home").hidden) return; build(); if (reduced || seen) draw(1e9); else play(true); };
+document.fonts && document.fonts.ready ? document.fonts.ready.then(start) : start();
+</script>
