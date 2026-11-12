@@ -94,7 +94,7 @@ docs/                HANDOVER.md, DESIGN-SYSTEM.md, CONTENT-GUIDE.md
 
 ## 5. Nächste Schritte in Reihenfolge
 
-0. Vorschau: Das Repo ist für Cloudflare Pages vorbereitet (`prototypes/index.html`, Anleitung in `docs/VORSCHAU.md`). Stand 12.11.2026: Der Auftraggeber muss das Repo noch einmalig mit Cloudflare verbinden. Nach dem Anlegen des Astro-Projekts die Build-Einstellungen wie in `docs/VORSCHAU.md` umstellen.
+0. Vorschau: Das Repo ist für Cloudflare Pages vorbereitet (`prototypes/index.html`, Anleitung in `docs/VORSCHAU.md`). Stand 12.11.2026: Eingerichtet als Cloudflare Worker `stufe9` mit statischen Dateien (`wrangler.jsonc`), Deploy bei jedem Push auf `ccr-7b8b05b1-pterr1`. Adresse laut Build-Log: https://stufe9.marco-speth.workers.dev Nach dem Anlegen des Astro-Projekts die Build-Einstellungen wie in `docs/VORSCHAU.md` umstellen.
 
 1. Astro-Projekt anlegen, Tokens und Schriften, `BaseLayout` mit Seitenkopf-Logo.
 2. Content-Schemas (Zod) und je zwei Beispiel-Einträge pro Collection, klar als Beispiel markiert.
