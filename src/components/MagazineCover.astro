@@ -37,8 +37,8 @@ const primary = ausgabe.felder.filter((f) => f.motiv);
   .area-3 { bottom: 0; right: 0; text-align: right; justify-content: flex-end; }
   .field-name { font: 600 clamp(20px, 3vw, 28px)/1.1 var(--display); text-transform: uppercase; }
   .field-name > span { font: 400 16px/1 var(--body); }
-  .field-description { font-size: 10px; line-height: 1.5; }
-  .field-status { font: 400 8px/1.7 var(--mono); color: var(--muted); }
+  .field-description { font-size: 11px; line-height: 1.5; }
+  .field-status { font: 400 10px/1.5 var(--mono); color: var(--muted); }
   .area:hover .field-name, .area:focus-visible .field-name { text-decoration: underline; text-underline-offset: 4px; }
   .area:focus-visible { outline-offset: 0; }
   .map-caption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; margin-top: 16px; font-size: 8px; color: var(--muted); letter-spacing: .03em; }
@@ -47,5 +47,6 @@ const primary = ausgabe.felder.filter((f) => f.motiv);
   .all-fields a { font-size: 13px; padding-block: 7px; text-decoration: none; }
   .all-fields a:hover { text-decoration: underline; }
   @media (min-width: 800px) { .cover-layout { display: grid; grid-template-columns: .85fr 1.15fr; gap: 30px; align-items: center; padding-block: 32px 12px; } h1 { font-size: clamp(60px, 6.5vw, 82px); } .atlas { margin-top: 0; } .cover-top { font-size: 10px; } .all-fields > .tag { width: auto; margin: 0 8px 0 0; } }
-  @media (max-width: 360px) { .cover-top { font-size: 8px; } h1 { font-size: 44px; } .field-name { font-size: 18px; } .field-description { font-size: 9px; } }
+  @media (max-width: 799px) { h1 { max-width: none; font-size: clamp(42px, 11.2vw, 60px); } }
+  @media (max-width: 360px) { .cover-top { font-size: 8px; } h1 { font-size: 40px; } .field-name { font-size: 18px; } .field-description { font-size: 9px; } }
 </style>
