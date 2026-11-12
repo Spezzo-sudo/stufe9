@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import LogoAuftritt from '../components/LogoAuftritt.astro';
+import Motiv from '../components/Motiv.astro';
 import RessortGrid from '../components/RessortGrid.astro';
 import RealityCheckCard from '../components/RealityCheckCard.astro';
 import UpdateTicker from '../components/UpdateTicker.astro';
@@ -9,10 +9,26 @@ import { title } from '../lib/magazin';
 const [ressorts, projekte, firmen, artikel, updates] = await Promise.all([
   getCollection('ressorts'), getCollection('projekte'), getCollection('firmen'), getCollection('artikel'), getCollection('updates'),
 ]);
+const aufmacher = projekte.toSorted((a, b) => a.data.slug.localeCompare(b.data.slug))[0]?.data;
+const aufmacherRessort = ressorts.find(({ data }) => data.slug === aufmacher?.ressorts[0])?.data;
 const latestUpdates = updates.toSorted((a, b) => b.data.datum.localeCompare(a.data.datum));
 ---
 <BaseLayout title="Serienreif oder nur versprochen?">
-  <LogoAuftritt />
+  <section class="lead-section"><div class="in">
+    <p class="masthead tag">Frontier-Tech im Reality Check</p>
+    {aufmacher ? <article class="lead">
+      <div class="lead-copy">
+        <p class="tag">{aufmacherRessort?.name} · Reality Check{aufmacher.beispiel ? ' · Beispiel, frei erfunden' : ''}</p>
+        <h1><a href={`/projekt/${aufmacher.slug}/`}>{aufmacher.engpass.frage}</a></h1>
+        <p class="lead-deck">{aufmacher.geliefert.text} {aufmacher.stand_heute.text}</p>
+        <a class="read-link text-link" href={`/projekt/${aufmacher.slug}/`}>Reality Check lesen <span aria-hidden="true">→</span></a>
+      </div>
+      <a class="lead-image dark" href={`/projekt/${aufmacher.slug}/`} aria-label={`${title(aufmacher.name)}: Reality Check lesen`}>
+        <Motiv motiv={aufmacherRessort?.motiv} label={aufmacherRessort?.name ?? title(aufmacher.name)} />
+        <span class="tag">Schema · {title(aufmacher.name)} <span aria-hidden="true">↗</span></span>
+      </a>
+    </article> : <h1>Serienreif oder nur versprochen?</h1>}
+  </div></section>
   <div class="home-content">
   <section class="home-section fields-section" id="forschungsfelder"><div class="in">
     <div class="section-head"><h2 class="heading">Forschungsfelder</h2><p class="section-intro">Wähle ein Feld. Entdecke die Projekte dahinter.</p></div>
@@ -30,6 +46,22 @@ const latestUpdates = updates.toSorted((a, b) => b.data.datum.localeCompare(a.da
   </div>
 </BaseLayout>
 <style>
+  .lead-section { padding-block: 24px 40px; border-bottom: 1px solid var(--paper-line); }
+  .masthead { color: var(--muted); padding-bottom: 20px; margin-bottom: 28px; border-bottom: 1px solid var(--ink-2); }
+  .lead { display: grid; gap: 28px; }
+  .lead-copy { display: grid; align-content: center; justify-items: start; gap: 18px; }
+  .lead-copy > .tag { color: var(--muted); font-size: 10px; letter-spacing: .04em; }
+  h1 { font: 700 clamp(48px, 8vw, 84px)/.98 var(--display); text-transform: uppercase; max-width: 15ch; }
+  h1 a { text-decoration: none; }
+  h1 a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
+  .lead-deck { max-width: 46ch; font-size: 18px; line-height: 1.55; }
+  .read-link { padding-block: 8px; }
+  .read-link span { margin-left: 12px; }
+  .lead-image { position: relative; display: grid; grid-template-rows: minmax(0, 1fr) auto; min-width: 0; height: clamp(200px, 29vw, 340px); text-decoration: none; }
+  .lead-image > .tag { padding: 12px 16px; border-top: 1px solid var(--ink-line); color: var(--on-ink-muted); font-size: 9px; }
+  .lead-image > .tag span { float: right; }
+  @media (min-width: 760px) { .lead-section { padding-bottom: 48px; } .lead { grid-template-columns: 1fr 1fr; align-items: center; gap: 48px; } }
+
   .home-section { padding-block: clamp(32px, 5vw, 64px); }
   .home-section + .home-section { border-top: 1px solid var(--paper-line); }
   .section-head { display: grid; gap: 12px; margin-bottom: 24px; }

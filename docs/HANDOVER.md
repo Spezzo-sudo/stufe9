@@ -215,3 +215,12 @@ docs/                HANDOVER.md, DESIGN-SYSTEM.md, CONTENT-GUIDE.md
 - Commit `d3a468bfbd17080b2101b4b066956baecadf9cb8` automatisch veröffentlicht: Cloudflare-Check `completed / success`, Build `d573380a-ce05-45de-96c8-d1cd100dbff0`, Version `0b1ada99-9dc8-443d-95e6-4ae0e91ca4b4`.
 - Live-Startseite HTTP 200; neue Texte und ausgeführter Canvas bestätigt. Browser-Aufnahmen bei 390 und 1280 Pixel Breite angesehen: kompakte Themenkarten nebeneinander, klare Abschnittsfolge, Scroll-Pfeil sichtbar, kein sichtbares horizontales Überlaufen. Die mobile Vollseiten-Aufnahme ist rund 2550 statt zuvor 3294 Pixel hoch. Das ist eine Sichtprüfung, keine gemessene Handy-Leistung oder vollständige Interaktionsprüfung.
 - Nächster Schritt: Rückmeldung zur Startseite am Handy abwarten. Danach die Gestaltung auf Ressort- und Projektseiten abstimmen.
+
+### Inhaltlicher Einstieg statt Logo-Auftritt am 12.11.2026
+
+- Auftraggeber bestätigt: Das grosse Logo hat im Einstieg keinen Navigations- oder Informationsnutzen und wirkt wie eine Technik-Demo. Diese Rückmeldung ersetzt die bisherige Vorgabe zum automatischen Startseiten-Auftritt.
+- Startseite beginnt jetzt mit einem lesbaren Aufmacher: Ressort, Frage zum Engpass als Titel, gelieferter Stand und heutiger Stand aus dem Projekt, sowie direkter Link zum Reality Check. Das zugehörige Punktwolken-Schema verlinkt ebenfalls auf dieses Projekt. Beispiel bleibt sichtbar als frei erfunden markiert.
+- Kleines Logo im Seitenkopf bleibt Absender und Home-Link. Der grosse Logo-Auftritt und sein Canvas-Skript werden auf der Startseite nicht mehr eingebunden. Die vorhandenen Module und Prototypen bleiben als Referenz erhalten.
+- Vorläufige Auswahl des Aufmachers: erstes Projekt nach Slug sortiert. Noch keine redaktionelle Gewichtung und kein Aktualitätsversprechen. Später explizite redaktionelle Auswahl in den Inhaltsdateien ergänzen. Keine neuen Fakten oder Zahlen eingeführt.
+- Forschungsfelder behalten ihre Funktion als Motiv-Navigation. Projektanimationen bleiben im fachlichen Kontext erreichbar.
+- Prüfung: Astro/TypeScript ohne Fehler oder Warnungen, Build mit zwölf Seiten und beide bestehenden Seiten-/Linktests erfolgreich. Live-Stand nach Push gesondert prüfen.

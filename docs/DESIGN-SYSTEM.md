@@ -63,3 +63,7 @@ Neue Einträge müssen ohne Design-Änderung funktionieren. Keine künstlichen Z
 ## Prüfen
 
 `npm test`, `npm run check`, `npm run build` und danach `npm run test:site` im Repo-Verzeichnis. Keine Platzhalter in diesen Befehlen. Die Seitenprüfung kontrolliert lokale Links, Quellenanker, eindeutige HTML-IDs und die ohne JavaScript vorhandenen Kerninhalte. Sie ersetzt keine visuelle Browser- oder Handy-Prüfung.
+
+## Änderung des Einstiegs vom 12.11.2026
+
+Der frühere Logo-Auftritt ist archivierte Gestaltung. Die aktuelle Startseite bindet ihn nicht ein. Ihr Einstieg ist ein Aufmacher aus dem Projektinhalt mit Frage, kurzem Text und lesbarem Link. Das Punktwolken-Schema ist ebenfalls ein Link. Das kleine Logo im Seitenkopf dient als Home-Link. Die frühere Beschreibung des Canvas-Auftritts dokumentiert weiterhin das erhaltene Modul, nicht den aktuellen Einstieg.
