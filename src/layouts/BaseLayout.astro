@@ -7,6 +7,7 @@ import '@fontsource/ibm-plex-mono/latin-400.css';
 import '@fontsource/ibm-plex-mono/latin-500.css';
 import '../styles/global.css';
 import Logo from '../components/Logo.astro';
+import ScrollHint from '../components/ScrollHint.astro';
 
 interface Props { title: string; description?: string; }
 const { title, description = 'Frontier-Tech im Reality Check. Serienreif oder nur versprochen?' } = Astro.props;
@@ -31,6 +32,7 @@ const { title, description = 'Frontier-Tech im Reality Check. Serienreif oder nu
     </header>
     <main id="inhalt" tabindex="-1"><slot /></main>
     <footer class="dark"><div class="in">Vorschau im Aufbau · Prototypen enthalten erfundene Beispieldaten.</div></footer>
+    <ScrollHint />
   </body>
 </html>
 

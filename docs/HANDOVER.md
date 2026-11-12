@@ -139,3 +139,12 @@ docs/                HANDOVER.md, DESIGN-SYSTEM.md, CONTENT-GUIDE.md
 - Gebautes HTML geprüft: neun Logo-Segmente, Home-Link, erreichbare lokale Linkziele, `noindex`, lokale WOFF2-Schriften, kein Client-JavaScript auf der Prüfseite. Alle sechs Prototyp-Dateien stimmen bytegenau mit dem bisherigen Stand überein.
 - Visuelle Prüfung versucht, aber in dieser Laufzeit blockiert: Chromium bricht bei `socket() failed: Operation not permitted` ab. Auch der lokale Preview-Server ist nicht erreichbar. Eine visuelle Handy-Abnahme bleibt daher offen; keine gemessene Handy-Leistung behauptet.
 - Live-Deployment kann erst nach der Cloudflare-Build-Einstellung durch den Auftraggeber bestätigt werden.
+
+### Rückmeldung und Ergänzung vom 12.11.2026: Scroll-Hinweis
+
+- Wunsch des Auftraggebers: Wo nach unten noch Inhalt folgt, soll ein dezenter Pfeil die Scroll-Möglichkeit zeigen. Die Design-Referenz bleibt `public/prototypes/01-prototyp-gesamt.html`; Tokens und Logo-Regeln aus Abschnitt 3 bleiben verbindlich.
+- Umsetzung: `ScrollHint.astro` liegt im gemeinsamen `BaseLayout` und gilt damit für alle künftigen Astro-Seiten. Unten rechts erscheint ein ruhiger Abwärtspfeil in Tinte und gedämpftem Hell, mit Haarlinie, ohne Rundung, Schatten oder Pulsieren. Orange bleibt dem Ziel vorbehalten. Die sichtbare Pfeilspitze ist klein, die Tippfläche 44 × 44 CSS-Pixel gross.
+- Der Pfeil erscheint nur bei weiterem Seiteninhalt (bis auf 2 Pixel Rundungstoleranz), verschwindet am Ende und reagiert auf Scrollen, Grössenänderungen und nachgeladene Inhalte. Antippen scrollt etwa drei Viertel der Fensterhöhe weiter. Bei reduzierter Bewegung erfolgt das sofort. Ohne JavaScript bleibt der Hinweis verborgen; der Seiteninhalt bleibt normal scrollbar.
+- Die archivierten HTML-Prototypen bleiben unverändert. Der gemeinsame Hinweis erscheint in der Astro-Vorschau und später in den echten Seiten.
+- Handy-Auftritt für den nächsten Umsetzungsschritt: die Höhe an der kleinen sichtbaren Browser-Fläche (`svh`) ausrichten, Seitenkopf berücksichtigen, Abstände und Motive bei wenig Höhe verkleinern. Keine starre Mindesthöhe erzwingen, die Inhalte abschneidet. Das wurde besprochen, ist im Auftritt noch nicht umgesetzt.
+- Prüfung der Ergänzung: `npm run check` ohne Fehler/Warnungen und `npm run build` erfolgreich. Visuelle Handy-Prüfung weiterhin offen (Laufzeit-Sperre wie oben dokumentiert).

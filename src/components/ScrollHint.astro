@@ -1,0 +1,70 @@
+<!-- Gemeinsamer Scroll-Hinweis: bleibt ohne JavaScript verborgen. -->
+<button
+  class="scroll-hint"
+  data-scroll-hint
+  type="button"
+  aria-label="Weiter nach unten scrollen"
+  title="Weiter nach unten"
+  hidden
+>
+  <span aria-hidden="true"></span>
+</button>
+
+<style>
+  .scroll-hint {
+    position: fixed;
+    right: max(12px, env(safe-area-inset-right, 0px));
+    bottom: max(12px, env(safe-area-inset-bottom, 0px));
+    z-index: 8;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--ink-line);
+    border-radius: 0;
+    background: var(--ink);
+    color: var(--on-ink-muted);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .scroll-hint span {
+    width: 12px;
+    height: 12px;
+    border-right: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    transform: translateY(-3px) rotate(45deg);
+  }
+  .scroll-hint:hover, .scroll-hint:focus-visible { color: var(--on-ink); }
+</style>
+
+<script>
+  const hint = document.querySelector<HTMLButtonElement>('[data-scroll-hint]');
+  if (hint) {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    let scheduled = false;
+    const update = () => {
+      scheduled = false;
+      const root = document.documentElement;
+      const remaining = root.scrollHeight - window.innerHeight - window.scrollY;
+      hint.hidden = remaining <= 2;
+    };
+    const schedule = () => {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(update);
+    };
+    hint.addEventListener('click', () => {
+      window.scrollBy({ top: window.innerHeight * .75, behavior: reduced.matches ? 'instant' : 'smooth' });
+    });
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    window.visualViewport?.addEventListener('resize', schedule);
+    // Reagiert auch auf spaeter geladene Bilder, Schriftwechsel und neue Inhalte.
+    const observer = new ResizeObserver(schedule);
+    observer.observe(document.body);
+    observer.observe(document.documentElement);
+    void document.fonts.ready.then(schedule);
+    schedule();
+  }
+</script>
