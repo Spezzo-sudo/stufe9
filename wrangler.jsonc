@@ -1,0 +1,6 @@
+{
+  // Vorschau über Cloudflare: liefert den Ordner prototypes als statische Seite aus.
+  "name": "stufe9",
+  "compatibility_date": "2025-01-01",
+  "assets": { "directory": "./prototypes" }
+}

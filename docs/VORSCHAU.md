@@ -29,3 +29,7 @@ Die Prototypen sollten dann nach `public/prototypes/` wandern, damit sie unter `
 ## Später: eigener VPS
 
 Docker-Container hinter Traefik, Staging-Subdomain mit Basic Auth und `noindex`. Der Wechsel ist klein, weil in beiden Fällen dieselben statischen Dateien ausgeliefert werden.
+
+## Falls Cloudflare nur «Workers» anbietet
+
+Im Repo liegt eine `wrangler.jsonc`, die den Ordner `prototypes` als statische Seite ausliefert. Damit funktioniert auch der Weg **Create application → Import a repository**: Repo `stufe9` wählen, Branch `ccr-7b8b05b1-pterr1`, Build command leer, Deploy command `npx wrangler deploy`. Die Adresse endet dann auf `.workers.dev`.
