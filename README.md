@@ -10,4 +10,6 @@ Deutschsprachiges Frontier-Tech-Magazin: Jedes Zukunftsprojekt bekommt einen Rea
 2. [`prototypes/01-prototyp-gesamt.html`](prototypes/01-prototyp-gesamt.html) – die Design-Referenz. Im Browser öffnen.
 3. [`docs/BAUPLAN-ORIGINAL.md`](docs/BAUPLAN-ORIGINAL.md) – der ursprüngliche Plan. Wo er der Übergabe widerspricht, gilt die Übergabe.
 
+Vorschau am Handy einrichten: [`docs/VORSCHAU.md`](docs/VORSCHAU.md).
+
 Wer mit einem KI-Modell weiterarbeitet: [`AGENTS.md`](AGENTS.md).

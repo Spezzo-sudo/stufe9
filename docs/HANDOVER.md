@@ -94,6 +94,8 @@ docs/                HANDOVER.md, DESIGN-SYSTEM.md, CONTENT-GUIDE.md
 
 ## 5. Nächste Schritte in Reihenfolge
 
+0. Vorschau: Das Repo ist für Cloudflare Pages vorbereitet (`prototypes/index.html`, Anleitung in `docs/VORSCHAU.md`). Stand 12.11.2026: Der Auftraggeber muss das Repo noch einmalig mit Cloudflare verbinden. Nach dem Anlegen des Astro-Projekts die Build-Einstellungen wie in `docs/VORSCHAU.md` umstellen.
+
 1. Astro-Projekt anlegen, Tokens und Schriften, `BaseLayout` mit Seitenkopf-Logo.
 2. Content-Schemas (Zod) und je zwei Beispiel-Einträge pro Collection, klar als Beispiel markiert.
 3. Komponenten aus `01-prototyp-gesamt.html` herauslösen: Logo, LogoAuftritt, TrlScale mit Lücke, Karte, Ticker, Projektkopf, Meilensteine, Risiken, Quellen.
