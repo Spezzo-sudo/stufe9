@@ -1,0 +1,15 @@
+{
+  "slug": "fusion",
+  "name": "Fusion",
+  "intro": "Beispiel-Ressort: Fusion. Hier werden später belegte Projekte eingeordnet.",
+  "motiv": "fusion",
+  "beispiel": true,
+  "quellen": [
+    {
+      "id": "quelle-fusion",
+      "titel": "Erfundene Beispielquelle fusion",
+      "datum": "2026-11-12",
+      "beispiel": true
+    }
+  ]
+}

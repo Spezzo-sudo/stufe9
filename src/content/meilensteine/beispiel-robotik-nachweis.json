@@ -1,0 +1,27 @@
+{
+  "id": "beispiel-robotik-nachweis",
+  "projekt": "beispiel-robotik",
+  "titel": "Erfundener Nachweis der Beispiel-Stufe",
+  "angekuendigt_fuer": "2026-11-01",
+  "erreicht_am": "2026-11-01",
+  "status": "erreicht",
+  "quelle": "quelle-robotik",
+  "trl_aenderung": {
+    "nach": 6,
+    "quelle": "quelle-robotik",
+    "freigabe": {
+      "art": "mensch",
+      "name": "Erfundene Beispielredaktion – keine echte Freigabe",
+      "datum": "2026-11-12"
+    }
+  },
+  "beispiel": true,
+  "quellen": [
+    {
+      "id": "quelle-robotik",
+      "titel": "Erfundene Beispielquelle robotik",
+      "datum": "2026-11-12",
+      "beispiel": true
+    }
+  ]
+}

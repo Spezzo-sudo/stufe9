@@ -1,0 +1,86 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+const [ressorts, firmen, projekte, meilensteine, artikel, updates] = await Promise.all([
+  getCollection('ressorts', ({ data }) => data.beispiel), getCollection('firmen', ({ data }) => data.beispiel),
+  getCollection('projekte', ({ data }) => data.beispiel), getCollection('meilensteine', ({ data }) => data.beispiel),
+  getCollection('artikel', ({ data }) => data.beispiel), getCollection('updates', ({ data }) => data.beispiel),
+]);
+const renderedArticles = await Promise.all(artikel.map(async (entry) => ({ entry, ...await render(entry) })));
+const renderedUpdates = await Promise.all(updates.map(async (entry) => ({ entry, ...await render(entry) })));
+const groups = [
+  { title: 'Forschungsfelder', entries: ressorts.map(({ data }) => ({ title: data.name, text: data.intro, sources: data.quellen })) },
+  { title: 'Firmen', entries: firmen.map(({ data }) => ({ title: data.name, text: data.land, sources: data.quellen })) },
+  { title: 'Meilensteine', entries: meilensteine.map(({ data }) => ({ title: data.titel, text: `${data.erreicht_am} · Stufe ${data.trl_aenderung?.nach} · ${data.trl_aenderung?.freigabe.name}`, sources: data.quellen })) },
+];
+---
+<BaseLayout title="Beispieldaten prüfen">
+  <section class="intro dark"><div class="in">
+    <p class="tag">Beispieldaten · frei erfunden</p>
+    <h1>Inhalte zum Ausprobieren</h1>
+    <p>Alle Firmen, Projekte, Quellen, Zahlen und Freigaben auf dieser Seite sind erfunden. Dies ist eine Prüfseite für den Aufbau des Magazins.</p>
+  </div></section>
+  <div class="in content">
+    <nav aria-label="Beispiele auf dieser Seite">
+      <a href="#projekte">Projekte</a><a href="#artikel">Artikel</a><a href="#updates">Updates</a><a href="#grunddaten">Grunddaten</a>
+    </nav>
+    <section id="projekte">
+      <h2>Projekte</h2>
+      {projekte.map(({ data }) => <article>
+        <p class="tag">Beispiel · frei erfunden</p>
+        <h3>{data.name}</h3>
+        <dl>
+          <dt>Belegte Beispiel-Stufe</dt><dd>{data.trl_ist} von 9</dd>
+          <dt>Behauptete Beispiel-Stufe</dt><dd>{data.trl_behauptet} von 9</dd>
+          <dt>Versprochen</dt><dd>{data.versprochen.text}</dd>
+          <dt>Geliefert</dt><dd>{data.geliefert.text}</dd>
+          <dt>Stand heute</dt><dd>{data.stand_heute.text}</dd>
+          <dt>Engpass</dt><dd>{data.engpass.frage} {data.engpass.kennzahl}: {data.engpass.wert} {data.engpass.einheit}. Testziel: {data.engpass.ziel} {data.engpass.einheit}.</dd>
+        </dl>
+        <p class="source">{data.quellen.map((source) => <span>{source.titel} · {source.datum} · kein echter Beleg<br /></span>)}</p>
+      </article>)}
+    </section>
+    <section id="artikel"><h2>Artikel</h2>
+      {renderedArticles.map(({ entry, Content }) => <article>
+        <p class="tag">Beispiel · frei erfunden</p><h3>{entry.data.titel}</h3><Content />
+        <p class="source">{entry.data.quellen.map((source) => <span>{source.titel} · kein echter Beleg<br /></span>)}</p>
+      </article>)}
+    </section>
+    <section id="updates"><h2>Updates</h2>
+      {renderedUpdates.map(({ entry, Content }) => <article>
+        <p class="tag">Beispiel · frei erfunden</p><h3>{entry.data.titel}</h3><Content />
+        <p class="source">{entry.data.quellen.map((source) => <span>{source.titel} · kein echter Beleg<br /></span>)}</p>
+      </article>)}
+    </section>
+    <div id="grunddaten">{groups.map((group) => <section>
+      <h2>{group.title}</h2>
+      {group.entries.map((entry) => <article>
+        <p class="tag">Beispiel · frei erfunden</p><h3>{entry.title}</h3><p>{entry.text}</p>
+        <p class="source">{entry.sources.map((source) => <span>{source.titel} · kein echter Beleg<br /></span>)}</p>
+      </article>)}
+    </section>)}</div>
+    <a href="/">← Zur Startseite</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .intro .in { display: grid; gap: 20px; padding-block: 40px; }
+  .intro p { max-width: 60ch; }
+  .intro .tag { color: var(--on-ink-muted); }
+  h1 { font: 700 clamp(40px, 9vw, 72px)/.95 var(--display); text-transform: uppercase; }
+  h2 { font: 700 clamp(32px, 6vw, 48px)/1 var(--display); text-transform: uppercase; padding-bottom: 12px; border-bottom: 1px solid var(--ink-2); }
+  h3 { font: 700 28px/1.1 var(--display); text-transform: uppercase; }
+  .content { padding-block: 32px 64px; overflow-wrap: anywhere; }
+  nav { display: flex; flex-wrap: wrap; gap: 12px 24px; padding-bottom: 32px; }
+  section { scroll-margin-top: 90px; }
+  .content section { padding-bottom: 36px; }
+  article { display: grid; gap: 14px; padding-block: 24px; border-bottom: 1px solid var(--paper-line); }
+  article .tag, .source { color: var(--muted); }
+  .source { font-size: 13px; }
+  dl { display: grid; grid-template-columns: 180px 1fr; gap: 10px 20px; margin: 0; }
+  dt { font: 500 11px/1.6 var(--mono); text-transform: uppercase; color: var(--muted); }
+  dd { margin: 0; }
+  article :global(p), article :global(h2) { max-width: 65ch; }
+  article :global(h2) { font-size: 24px; }
+  @media (max-width: 540px) { dl { grid-template-columns: 1fr; gap: 4px; } dd { margin-bottom: 12px; } }
+</style>

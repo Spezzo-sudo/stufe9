@@ -2,7 +2,7 @@
 
 Deutschsprachiges Frontier-Tech-Magazin: Jedes Zukunftsprojekt bekommt einen Reality Check auf der Reifegrad-Skala 1 bis 9. Serienreif oder nur versprochen?
 
-**Stand:** Schritt 1 ist umgesetzt: statisches Astro-Projekt, TypeScript, erste Zod-Collection, Design-Tokens, lokale Schriften und Seitenkopf-Logo. Auftritt und Inhaltsseiten folgen nach der Vorschau-Prüfung.
+**Stand:** Schritte 1 und 2 sind umgesetzt: Astro-Grundlage, sechs Zod-Collections mit Quellen- und Beziehungsprüfung, je zwei sichtbare Beispiele pro Collection. Auftritt und Magazin-Seiten folgen.
 
 ## Einstieg
 
@@ -25,4 +25,4 @@ npm run dev
 
 `npm run check` prüft Astro und TypeScript. `npm run build` erzeugt die statische Seite in `dist`. `npm run preview` zeigt den Build lokal.
 
-Neue Inhalte liegen in `src/content/`. In Schritt 1 ist erst die leere Ressort-Collection mit Zod eingerichtet. Die vollständigen Schemas und Beispieldaten sind der nächste offene Punkt der Übergabe.
+Neue Inhalte liegen in `src/content/`. Anleitung: [`docs/CONTENT-GUIDE.md`](docs/CONTENT-GUIDE.md). Die Prüfseite `/beispiele/` zeigt die erfundenen Beispiele. `npm test` prüft die Schutzregeln. `npm run check` und `npm run build` prüfen vorab alle Inhaltsdateien, Quellenbezüge und Stufen.

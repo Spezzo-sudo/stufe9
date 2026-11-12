@@ -1,0 +1,27 @@
+{
+  "id": "beispiel-fusion-nachweis",
+  "projekt": "beispiel-fusion",
+  "titel": "Erfundener Nachweis der Beispiel-Stufe",
+  "angekuendigt_fuer": "2026-11-01",
+  "erreicht_am": "2026-11-01",
+  "status": "erreicht",
+  "quelle": "quelle-fusion",
+  "trl_aenderung": {
+    "nach": 5,
+    "quelle": "quelle-fusion",
+    "freigabe": {
+      "art": "mensch",
+      "name": "Erfundene Beispielredaktion – keine echte Freigabe",
+      "datum": "2026-11-12"
+    }
+  },
+  "beispiel": true,
+  "quellen": [
+    {
+      "id": "quelle-fusion",
+      "titel": "Erfundene Beispielquelle fusion",
+      "datum": "2026-11-12",
+      "beispiel": true
+    }
+  ]
+}

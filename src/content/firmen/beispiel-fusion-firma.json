@@ -1,0 +1,14 @@
+{
+  "slug": "beispiel-fusion-firma",
+  "name": "Helvetia Fusion (Beispiel)",
+  "land": "Schweiz (erfundenes Beispiel)",
+  "beispiel": true,
+  "quellen": [
+    {
+      "id": "quelle-fusion",
+      "titel": "Erfundene Beispielquelle fusion",
+      "datum": "2026-11-12",
+      "beispiel": true
+    }
+  ]
+}

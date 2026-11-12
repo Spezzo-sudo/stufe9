@@ -1,0 +1,59 @@
+{
+  "slug": "beispiel-robotik",
+  "name": "Humanoider Testroboter (Beispiel)",
+  "firma": "beispiel-robotik-firma",
+  "ressorts": [
+    "robotik"
+  ],
+  "trl_ist": 6,
+  "trl_behauptet": 8,
+  "behauptung": {
+    "begruendung": "Erfundene Zusage einer fertig qualifizierten Anlage im Jahr 2028, hier als behauptete Stufe 8 übersetzt. Keine echte Firmenaussage.",
+    "quelle": "quelle-robotik"
+  },
+  "versprochen": {
+    "text": "Eine fertig qualifizierte Anlage bis 2028. Rein erfundenes Versprechen.",
+    "quellen": [
+      "quelle-robotik"
+    ]
+  },
+  "geliefert": {
+    "text": "Ein Testroboter arbeitet 2 Stunden im abgegrenzten Versuch.",
+    "quellen": [
+      "quelle-robotik"
+    ]
+  },
+  "stand_heute": {
+    "text": "Eine volle Schicht ist in diesem erfundenen Beispiel noch nicht erreicht.",
+    "quellen": [
+      "quelle-robotik"
+    ]
+  },
+  "engpass": {
+    "frage": "Läuft er eine ganze Schicht?",
+    "kennzahl": "Laufzeit",
+    "wert": 2,
+    "ziel": 8,
+    "einheit": "Stunden",
+    "quelle": "quelle-robotik"
+  },
+  "risiken": [
+    {
+      "thema": "Sicherheit",
+      "status": "kritik",
+      "beschreibung": "Erfundenes Risiko zum Prüfen der Darstellung. Keine Aussage über ein reales Unternehmen.",
+      "quellen": [
+        "quelle-robotik"
+      ]
+    }
+  ],
+  "beispiel": true,
+  "quellen": [
+    {
+      "id": "quelle-robotik",
+      "titel": "Erfundene Beispielquelle robotik",
+      "datum": "2026-11-12",
+      "beispiel": true
+    }
+  ]
+}
