@@ -54,7 +54,7 @@ Die Prototypen sind einzelne HTML-Dateien ohne `<html>`/`<body>`-Gerüst und ohn
 
 ### Ressort-Navigation (am 12.11.2026 umgesetzt)
 
-Die Startseite besteht nach dem Auftritt nur aus dem grossen Logo. Wunsch: Die Feld-Motive sollen **als Navigation dienen** (Klick auf Helix → Ressort Biotech mit seinen Projekten). Umgesetzt:
+Ausgangslage im alten Prototyp: Nach dem Auftritt stand nur das grosse Logo. Wunsch: Die Feld-Motive sollen **als Navigation dienen** (Klick auf Helix → Ressort Biotech mit seinen Projekten). Umgesetzt:
 
 - Nach dem Auftritt bleiben die Motive als **Ressort-Raster** direkt unter dem Hero stehen (statische Punktwolke + Name + Anzahl Projekte), jedes verlinkt auf `/[ressort]`.
 - **Erweiterbar:** Der Auftritt zeigt höchstens sechs Felder (Auswahl wechselt), das Raster zeigt alle. Die neun Segmente sind Stufen, keine Felder – die Zahl der Ressorts ist also frei.
@@ -94,7 +94,7 @@ docs/                HANDOVER.md, DESIGN-SYSTEM.md, CONTENT-GUIDE.md
 
 ## 5. Nächste Schritte in Reihenfolge
 
-0. Vorschau: Das Repo ist für Cloudflare Pages vorbereitet (`public/prototypes/index.html`, Anleitung in `docs/VORSCHAU.md`). Stand 12.11.2026: Eingerichtet als Cloudflare Worker `stufe9` mit statischen Dateien (`wrangler.jsonc`), Deploy bei jedem Push auf `ccr-7b8b05b1-pterr1`. Adresse laut Build-Log: https://stufe9.marco-speth.workers.dev `wrangler.jsonc` liefert jetzt `dist` aus. Der Auftraggeber muss in Cloudflare den Build-Befehl auf `npm run build` setzen und den Build erneut starten; Deploy-Befehl bleibt `npx wrangler deploy`. Anleitung in `docs/VORSCHAU.md`.
+0. Vorschau: Das Repo ist für Cloudflare Pages vorbereitet (`public/prototypes/index.html`, Anleitung in `docs/VORSCHAU.md`). Stand 12.11.2026: Eingerichtet als Cloudflare Worker `stufe9` mit statischen Dateien (`wrangler.jsonc`), Deploy bei jedem Push auf `ccr-7b8b05b1-pterr1`. Adresse laut Build-Log: https://stufe9.marco-speth.workers.dev `wrangler.jsonc` liefert jetzt `dist` aus. Build-Befehl `npm run build` und Deploy-Befehl `npx wrangler deploy` sind eingerichtet; der automatische Deploy ist erfolgreich bestätigt. Anleitung in `docs/VORSCHAU.md`.
 
 1. **Umgesetzt am 12.11.2026:** Astro-Projekt, Tokens und lokale Schriften, `BaseLayout` mit Seitenkopf-Logo. Der damalige Zwischenhalt ist erfolgt; der Auftraggeber hat am 12.11.2026 die Fortsetzung beauftragt.
 2. **Umgesetzt am 12.11.2026:** sechs Content-Schemas (Zod), Quellen-/Beziehungsprüfung und je zwei Beispiel-Einträge pro Collection. Sichtbar auf `/beispiele/`, klar als erfunden markiert.
@@ -192,3 +192,12 @@ docs/                HANDOVER.md, DESIGN-SYSTEM.md, CONTENT-GUIDE.md
 - Die Inhalts- und Stufenprüfung bleibt bestehen. Zusätzliche Tests prüfen gebaute lokale Links, Quellenanker, eindeutige HTML-IDs und die im HTML vorhandenen Kerninhalte ohne JavaScript.
 - Lokaler Browser-Test erneut versucht: der zusätzliche Headless-Shell-Download liefert kein gültiges ZIP; der bereits dokumentierte lokale Chromium-Socket-Fehler konnte daher nicht durch eine alternative Browserinstallation umgangen werden. Nach dem Push wird eine externe visuelle Prüfung versucht. Keine Handy-Performance oder visuelle Abnahme allein aus dem Build behaupten.
 - Prüfung vor dem Push: 8 Inhalts-Tests und 2 Tests der gebauten Seiten erfolgreich; Astro/TypeScript mit 0 Fehlern, Warnungen und Hinweisen. Statischer Build erstellt zwölf Seiten. `git diff --check` erfolgreich.
+
+### Live- und Sichtprüfung der Magazin-Seiten am 12.11.2026
+
+- Commit `97a38874140b93cf457a428035af9ed3da70acfe` wurde automatisch durch Cloudflare gebaut und veröffentlicht. GitHub-Check: `completed / success`. Build-ID `b4bf5d02-dfc2-4ef3-8508-29d71bf99825`, Worker-Version `2b0410ad-eb34-489d-9276-829931f879f6`.
+- Live-Abrufe von `/`, `/fusion/`, `/robotik/`, `/projekt/beispiel-fusion/` und `/projekt/beispiel-robotik/`: jeweils HTTP 200 und erwarteter Seiteninhalt sowie Scroll-Hinweis vorhanden.
+- Externe Browser-Screenshots wurden tatsächlich angesehen: mobile Startseite und mobile Fusion-Projektseite bei 390 Pixel Bildbreite sowie Fusion-Ressort auf Desktop bei 1280 Pixel Bildbreite. Kein heller Browser-Aussenrand, kein sichtbares horizontales Überlaufen. Raster, Projektkarten, Skala, Pipeline und Lesebereich erscheinen in der festgelegten Gestaltung.
+- Gerendertes Browser-HTML bestätigt `canvas-ready` nach dem Auftritt und `webgl-ready` auf der Fusion-Projektseite. Damit sind diese Client-Skripte auch ausserhalb des lokalen Builds ausgeführt worden. Der Scroll-Pfeil ist in der mobilen Aufnahme sichtbar. Seine vollständige Bedienung und die Leistung auf dem echten Handy bleiben noch vom Auftraggeber zu prüfen.
+- Screenshots sind eine Sichtprüfung, kein gemessener Performance-, Screenreader- oder vollständiger Interaktionstest. Die lokalen Tests prüfen 8 Inhaltsregeln und 2 Gruppen von Seiten-/Linkregeln.
+- Nächste fachliche Arbeiten: weitere Ressort-Inhalte und Motive, insbesondere Stellarator und Robotik-Bewegung; Methodik und übrige Seitentypen nach Abschnitt 5. Die eigentlichen Magazin-Seiten und ihr automatisches Deployment sind jetzt umgesetzt.
