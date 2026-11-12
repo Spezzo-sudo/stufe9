@@ -148,3 +148,11 @@ docs/                HANDOVER.md, DESIGN-SYSTEM.md, CONTENT-GUIDE.md
 - Die archivierten HTML-Prototypen bleiben unverändert. Der gemeinsame Hinweis erscheint in der Astro-Vorschau und später in den echten Seiten.
 - Handy-Auftritt für den nächsten Umsetzungsschritt: die Höhe an der kleinen sichtbaren Browser-Fläche (`svh`) ausrichten, Seitenkopf berücksichtigen, Abstände und Motive bei wenig Höhe verkleinern. Keine starre Mindesthöhe erzwingen, die Inhalte abschneidet. Das wurde besprochen, ist im Auftritt noch nicht umgesetzt.
 - Prüfung der Ergänzung: `npm run check` ohne Fehler/Warnungen und `npm run build` erfolgreich. Visuelle Handy-Prüfung weiterhin offen (Laufzeit-Sperre wie oben dokumentiert).
+
+### Live-Prüfung vom 12.11.2026: Cloudflare noch auf altem Stand
+
+- GitHub-Branch enthält die Astro-Grundlage und den Scroll-Hinweis (Commit `3b4c06b`). Der Push allein bestätigt kein erfolgreiches Cloudflare-Deployment.
+- Direkter Abruf von `https://stufe9.marco-speth.workers.dev/` liefert weiterhin die frühere Prototyp-Übersicht, auch mit zusätzlichem Query-Parameter. `/prototypes/01-prototyp-gesamt.html` liefert HTTP 404. Die neue Astro-Vorschau ist damit noch nicht live.
+- Der alte Gesamtprototyp setzt keinen Body-Margin zurück (auch im Live-Abruf bestätigt). Der Browser-Standardabstand erklärt den hellen Aussenrand. Das Astro-Layout setzt bereits `body { margin: 0; }`.
+- Für Commit `3b4c06b` meldet GitHub keine Check-Runs und keine Commit-Status-Einträge. Daraus lässt sich kein konkreter Cloudflare-Fehler ableiten. Cloudflare-Build-Einstellung und Build-Log sind von hier nicht einsehbar.
+- Nächster notwendiger Schritt: Auftraggeber prüft beim Worker `stufe9` den Build-Befehl `npm run build`, Deploy-Befehl `npx wrangler deploy` und Branch `ccr-7b8b05b1-pterr1`; danach neuesten Build erneut starten. Bei Fehlschlag das Build-Log prüfen. Ein erfolgreicher automatischer Deploy bleibt bis zur Live-Bestätigung offen.
