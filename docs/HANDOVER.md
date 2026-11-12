@@ -169,3 +169,10 @@ docs/                HANDOVER.md, DESIGN-SYSTEM.md, CONTENT-GUIDE.md
 - `/beispiele/` ist eine zusätzliche Prüfseite, keine fertige Ressort- oder Projektseite. Sie zeigt alle zwölf Einträge mit sichtbaren Beispiel-Hinweisen und Quellenkennzeichnung. Der gemeinsame Scroll-Pfeil ist dort ebenfalls aktiv. Die Startseite verlinkt darauf. Prototypen und Design-Referenz wurden nicht verändert.
 - `docs/CONTENT-GUIDE.md` erklärt alle Collections anhand vorhandener vollständiger Dateien. Neue echte Inhalte erfordern weiterhin Recherche und redaktionelle Prüfung.
 - Prüfung: 8 Tests erfolgreich; `npm run check` mit 0 Fehlern/Warnungen/Hinweisen; `npm run build` erfolgreich. Gebautes HTML enthält zwölf Beispiele und den Scroll-Hinweis. Visuelle Handy-Abnahme bleibt offen; die zuvor dokumentierte lokale Browser-Sperre besteht als Einschränkung.
+
+### Automatisches Deployment bestätigt am 12.11.2026
+
+- Push `d2baf711be960f5629137acb5da4c881ae6c3124` hat über die bestehende GitHub-Verbindung den Cloudflare-Check «Workers Builds: stufe9» ausgelöst. Ergebnis: `completed / success`.
+- Cloudflare Build-ID: `01ce94aa-21d4-441b-8b3b-693334609dcd`. Version: `eb3b5e4e-a64d-4ba9-9497-bd2f5bccdff2`.
+- Live-Abruf von `/beispiele/` an der Worker-Adresse liefert HTTP 200 mit «Inhalte zum Ausprobieren» und `data-scroll-hint`. Damit sind der automatische Build und die Veröffentlichung des neuen Astro-Stands belegt. Dies ersetzt den früher dokumentierten offenen Deployment-Status. Eine visuelle Handy-Abnahme bleibt davon getrennt.
+- Für weitere Schritte reicht der Push auf `ccr-7b8b05b1-pterr1`; anschliessend Check-Ergebnis und Live-Inhalt prüfen. Ein zusätzlicher GitHub-Actions-Deploy ist nicht nötig. Nächster Implementierungsschritt ist Abschnitt 5, Punkt 3 (Prototyp-Komponenten), danach Punkt 4 (Magazin-Seiten und Ressort-Raster).

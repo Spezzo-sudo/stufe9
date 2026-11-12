@@ -3,9 +3,9 @@
 Stand: 12.11.2026. Die Vorschau läuft als Cloudflare Worker **stufe9**:
 https://stufe9.marco-speth.workers.dev
 
-Jeder Push auf `ccr-7b8b05b1-pterr1` startet das Deployment.
+Jeder Push auf `ccr-7b8b05b1-pterr1` startet das Deployment. Am 12.11.2026 mit Commit `d2baf71` erfolgreich bestätigt: Cloudflare-Check erfolgreich und neue Astro-Beispielseite live mit HTTP 200.
 
-## Nach Schritt 1 einmalig ändern
+## Aktuelle Build-Einstellungen (eingerichtet)
 
 Cloudflare → **Workers & Pages** → **stufe9** → **Settings** → **Builds** → **Build configuration** → **Edit**:
 
@@ -21,6 +21,7 @@ Bis der Build-Befehl gesetzt ist, kann das Deployment scheitern, weil `dist` ers
 ## Was prüfen?
 
 - `/`: Astro-Grundlage mit Logo als Home-Link, Farben und lokalen Schriften.
+- `/beispiele/`: zwölf klar markierte Beispiele für die Inhaltsgrundlage; auch zum Prüfen des Scroll-Pfeils.
 - `/prototypes/`: Übersicht aller unveränderten Prototypen.
 - `/prototypes/01-prototyp-gesamt.html`: verbindliche Design-Referenz.
 
