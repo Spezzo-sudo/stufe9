@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ausgabe from '../../../content/entwurf/magazin.json';
+export function getStaticPaths() { return ausgabe.felder.filter(f => f.status === 'geplant').map(feld => ({ params: { slug: feld.slug }, props: { feld } })); }
+const { feld } = Astro.props;
+---
+<BaseLayout title={`${feld.name} – Magazin-Entwurf`} navigationBase="/entwurf/" fieldsAnchor="themen" checksAnchor="geschichten">
+  <section class="section"><div class="in editorial"><p class="tag">Magazin-Entwurf · Ressort in Vorbereitung</p><h1 class="page-title">{feld.name}</h1><p>{feld.intro}</p><p>Hier sind noch keine Artikel oder Projektbewertungen veröffentlicht.</p><a class="text-link" href="/entwurf/#themen">Zur Themenwelt zurück →</a></div></section>
+</BaseLayout>

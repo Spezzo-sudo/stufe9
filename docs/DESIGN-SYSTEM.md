@@ -67,3 +67,7 @@ Neue Einträge müssen ohne Design-Änderung funktionieren. Keine künstlichen Z
 ## Änderung des Einstiegs vom 12.11.2026
 
 Der frühere Logo-Auftritt ist archivierte Gestaltung. Die aktuelle Startseite bindet ihn nicht ein. Ihr Einstieg ist ein Aufmacher aus dem Projektinhalt mit Frage, kurzem Text und lesbarem Link. Das Punktwolken-Schema ist ebenfalls ein Link. Das kleine Logo im Seitenkopf dient als Home-Link. Die frühere Beschreibung des Canvas-Auftritts dokumentiert weiterhin das erhaltene Modul, nicht den aktuellen Einstieg.
+
+## Separater Magazin-Entwurf (12.11.2026)
+
+`/entwurf/` erprobt ein interaktives Titelbild mit vier grossen HTML-Linkflächen über einer gemeinsamen SVG-Punktillustration. Acht Ressort-Textlinks ergänzen die Bildnavigation. Die Illustration wird serverseitig erzeugt, bleibt ohne JavaScript nutzbar und ist ausdrücklich schematisch. Die noch nicht gefüllten Ressorts führen zu Vorbereitungsseiten im Entwurf. Darunter unterschiedlich gewichtete Geschichten ohne Bewertungsskalen auf der Einstiegsseite. Bestehende Tokens und Schriften gelten weiter. Der Entwurf ist noch nicht die abgenommene neue Startseite.

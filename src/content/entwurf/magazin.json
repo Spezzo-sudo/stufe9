@@ -1,0 +1,18 @@
+{
+  "titel": "Wie weit ist die Zukunft wirklich?",
+  "intro": "Neue Energie. Lernende Maschinen. Andere Wege zu rechnen. Stufe 9 schaut hinter die Versprechen – und auf das, was schon funktioniert.",
+  "felder": [
+    {"slug":"fusion","name":"Fusion","thema":"Energie gewinnen","motiv":"fusion","href":"/fusion/","status":"beispiel","intro":"Vom ersten Plasma zum Kraftwerk: Hier geht es um den Weg zur nutzbaren Fusionsenergie."},
+    {"slug":"robotik","name":"Robotik","thema":"Maschinen bewegen","motiv":"robotik","href":"/robotik/","status":"beispiel","intro":"Wie weit kommen Roboter ausserhalb der Vorführung? Wir schauen auf ihre Aufgaben und Grenzen."},
+    {"slug":"quanten","name":"Quanten","thema":"Anders rechnen","motiv":"quanten","href":"/entwurf/feld/quanten/","status":"geplant","intro":"Rechenleistung, Fehlerkorrektur und der Weg vom Experiment zur Anwendung. Dieses Ressort ist in Vorbereitung."},
+    {"slug":"unter-der-haube","name":"Unter der Haube","thema":"Technik verstehen","motiv":"antrieb","href":"/entwurf/feld/unter-der-haube/","status":"geplant","intro":"Antriebe, Bauteile und die Technik, auf der grosse Versprechen aufbauen. Dieses Ressort ist in Vorbereitung."},
+    {"slug":"ki-compute","name":"KI & Compute","thema":"","href":"/entwurf/feld/ki-compute/","status":"geplant","intro":"Modelle, Chips und Rechenzentren: die Grundlagen lernender Systeme. Dieses Ressort ist in Vorbereitung."},
+    {"slug":"kernspaltung","name":"Kernspaltung","thema":"","href":"/entwurf/feld/kernspaltung/","status":"geplant","intro":"Reaktorkonzepte und ihr Weg in den Betrieb. Dieses Ressort ist in Vorbereitung."},
+    {"slug":"forschung","name":"Forschung","thema":"","href":"/entwurf/feld/forschung/","status":"geplant","intro":"Ergebnisse aus dem Labor und die Fragen, die danach offenbleiben. Dieses Ressort ist in Vorbereitung."},
+    {"slug":"macht-kontrolle","name":"Macht & Kontrolle","thema":"","href":"/entwurf/feld/macht-kontrolle/","status":"geplant","intro":"Wer entwickelt, finanziert und kontrolliert Zukunftstechnologien? Dieses Ressort ist in Vorbereitung."}
+  ],
+  "geschichten": [
+    {"projekt":"beispiel-fusion","titel":"Sieben Sekunden sind noch kein Kraftwerk","einstieg":"Im erfundenen Testreaktor hält das Plasma sieben Sekunden. Der Reality Check zeigt, was damit erreicht ist – und was zum Dauerbetrieb fehlt."},
+    {"projekt":"beispiel-robotik","titel":"Wenn der Akku die Schicht beendet","einstieg":"Zwei Stunden Laufzeit, acht Stunden als Ziel. Ein erfundenes Beispiel dafür, wie sich Vorführung und Arbeitsalltag unterscheiden."}
+  ]
+}

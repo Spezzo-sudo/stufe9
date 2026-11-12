@@ -9,8 +9,8 @@ import '../styles/global.css';
 import Logo from '../components/Logo.astro';
 import ScrollHint from '../components/ScrollHint.astro';
 
-interface Props { title: string; description?: string; }
-const { title, description = 'Frontier-Tech im Reality Check. Serienreif oder nur versprochen?' } = Astro.props;
+interface Props { title: string; description?: string; navigationBase?: string; fieldsAnchor?: string; checksAnchor?: string; }
+const { title, navigationBase = '/', fieldsAnchor = 'forschungsfelder', checksAnchor = 'checks', description = 'Frontier-Tech im Reality Check. Serienreif oder nur versprochen?' } = Astro.props;
 ---
 <!doctype html>
 <html lang="de-CH">
@@ -27,7 +27,7 @@ const { title, description = 'Frontier-Tech im Reality Check. Serienreif oder nu
     <header class="top">
       <div class="in">
         <Logo />
-        <nav aria-label="Hauptnavigation"><a href="/#forschungsfelder">Felder</a><a href="/#checks">Reality Checks</a></nav>
+        <nav aria-label="Hauptnavigation"><a href={`${navigationBase}#${fieldsAnchor}`}>Felder</a><a href={`${navigationBase}#${checksAnchor}`}>Reality Checks</a></nav>
       </div>
     </header>
     <main id="inhalt" tabindex="-1"><slot /></main>
