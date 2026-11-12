@@ -201,3 +201,14 @@ docs/                HANDOVER.md, DESIGN-SYSTEM.md, CONTENT-GUIDE.md
 - Gerendertes Browser-HTML bestätigt `canvas-ready` nach dem Auftritt und `webgl-ready` auf der Fusion-Projektseite. Damit sind diese Client-Skripte auch ausserhalb des lokalen Builds ausgeführt worden. Der Scroll-Pfeil ist in der mobilen Aufnahme sichtbar. Seine vollständige Bedienung und die Leistung auf dem echten Handy bleiben noch vom Auftraggeber zu prüfen.
 - Screenshots sind eine Sichtprüfung, kein gemessener Performance-, Screenreader- oder vollständiger Interaktionstest. Die lokalen Tests prüfen 8 Inhaltsregeln und 2 Gruppen von Seiten-/Linkregeln.
 - Nächste fachliche Arbeiten: weitere Ressort-Inhalte und Motive, insbesondere Stellarator und Robotik-Bewegung; Methodik und übrige Seitentypen nach Abschnitt 5. Die eigentlichen Magazin-Seiten und ihr automatisches Deployment sind jetzt umgesetzt.
+
+### Startseite geordnet am 12.11.2026
+
+- Auftraggeber empfindet die bisherige Gesamtwirkung als unruhig. Vereinbart: zuerst die Startseite als zusammenhängenden Design-Durchgang fertigstellen, danach mobile Rückmeldung abwarten; Ressort- und Projektseiten folgen separat.
+- Reihenfolge jetzt: Auftritt → Forschungsfelder → Reality Checks → Hintergründe und Updates. Updates unterbrechen nicht mehr den Weg vom Thema zum Projekt. Die orange Leiste wird auf der Startseite durch eine ruhige Liste auf Blatt ersetzt; Orange konzentriert sich wieder auf Ziel und Behauptung. Die ursprüngliche Ticker-Variante und die archivierten Prototypen bleiben erhalten.
+- Auftritt auf `78svh` abzüglich Kopfhöhe verkürzt (maximal 620 Pixel). Dadurch beginnt der nächste Abschnitt bereits in der ersten Bildschirmansicht bei üblichen Handy-Höhen. Die bestehende Canvas-Logik, Logo-Masse, Schriften und Farben bleiben unverändert. Sehr niedrige Querformate behalten die kompakte Sonderregel.
+- Ressort-Raster zeigt auf üblichen Handys zwei kompakte Motiv-Karten nebeneinander. Raster bleibt inhaltsgesteuert und fällt bei sehr wenig Breite auf eine Spalte zurück.
+- Startseiten-Projektkarten bündeln Ressort und Beispiel-Hinweis in einer Zeile. Eine gemeinsame visuelle Legende erklärt belegt/behauptet und Stufe 9. Die normale Kartenvariante auf Unterseiten bleibt bestehen.
+- Beispielausgabe ist im Auftritt sichtbar markiert; jeder Beispieleintrag bleibt zusätzlich erkennbar. Der separate breite Warnstreifen entfällt hier. Technische Artikel-Zusammenfassungen erscheinen nicht mehr auf der Startseite; Titel führen zu den vorhandenen Artikeln. Keine Inhalte oder Fakten neu erfunden.
+- Einheitliche Abschnittsabstände und ruhigere Überschriften-Hierarchie auf der Startseite. Hintergründe und Updates stehen auf Desktop nebeneinander, auf Handy untereinander.
+- Vor Veröffentlichung: Astro/TypeScript und statischer Build sowie bestehende Seiten-/Linktests prüfen. Live-Deployment und mobile/ Desktop-Sichtprüfung anschliessend kontrollieren; echte Handy-Abnahme bleibt beim Auftraggeber.

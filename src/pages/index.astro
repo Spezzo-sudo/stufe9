@@ -4,7 +4,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import LogoAuftritt from '../components/LogoAuftritt.astro';
 import RessortGrid from '../components/RessortGrid.astro';
 import RealityCheckCard from '../components/RealityCheckCard.astro';
-import ExampleNotice from '../components/ExampleNotice.astro';
 import UpdateTicker from '../components/UpdateTicker.astro';
 import { title } from '../lib/magazin';
 const [ressorts, projekte, firmen, artikel, updates] = await Promise.all([
@@ -14,18 +13,37 @@ const latestUpdates = updates.toSorted((a, b) => b.data.datum.localeCompare(a.da
 ---
 <BaseLayout title="Serienreif oder nur versprochen?">
   <LogoAuftritt />
-  <ExampleNotice beispiel={projekte.some(({ data }) => data.beispiel)} />
-  <section class="section" id="forschungsfelder"><div class="in">
-    <div class="section-head"><h2 class="heading">Forschungsfelder</h2><p class="tag">Technik verstehen. Versprechen prüfen.</p></div>
+  <div class="home-content">
+  <section class="home-section fields-section" id="forschungsfelder"><div class="in">
+    <div class="section-head"><h2 class="heading">Forschungsfelder</h2><p class="section-intro">Wähle ein Feld. Entdecke die Projekte dahinter.</p></div>
     <RessortGrid ressorts={ressorts} projekte={projekte} />
   </div></section>
-  <UpdateTicker updates={latestUpdates} />
-  <section class="section" id="checks"><div class="in">
-    <div class="section-head"><h2 class="heading">Reality Checks</h2><p class="note">Jedes Projekt wird einzeln bewertet. Voll ist belegt, orange schraffiert ist behauptet.</p></div>
-    <div class="cards">{projekte.map(({ data: p }) => <RealityCheckCard projekt={p} firma={firmen.find(({ data }) => data.slug === p.firma)!.data.name} ressort={ressorts.find(({ data }) => data.slug === p.ressorts[0])!.data.name} />)}</div>
+  <section class="home-section checks-section" id="checks"><div class="in">
+    <div class="section-head"><h2 class="heading">Reality Checks</h2><p class="section-intro">Was ist versprochen? Was hält der Prüfung stand?</p></div>
+    <div class="scale-key tag"><span><i class="solid" aria-hidden="true"></i> Belegt</span><span><i class="hatched" aria-hidden="true"></i> Behauptet</span><span>9 = serienreif</span></div>
+    <div class="cards">{projekte.map(({ data: p }) => <RealityCheckCard editorial projekt={p} firma={firmen.find(({ data }) => data.slug === p.firma)!.data.name} ressort={ressorts.find(({ data }) => data.slug === p.ressorts[0])!.data.name} />)}</div>
   </div></section>
-  <section class="section"><div class="in">
-    <div class="section-head"><h2 class="heading">Unter der Oberfläche</h2><span class="tag">Erklärstücke</span></div>
-    <ul class="article-list">{artikel.toSorted((a, b) => b.data.datum.localeCompare(a.data.datum)).map(({ data: a }) => <li><a href={`/artikel/${a.slug}/`}><span class="tag">{a.beispiel ? 'Beispiel · frei erfunden' : a.typ}</span><h3>{title(a.titel)} <span aria-hidden="true">↗</span></h3><p class="note">{a.zusammenfassung}</p></a></li>)}</ul>
-  </div></section>
+  <section class="home-section reading-section"><div class="in reading-grid"><div>
+    <div class="section-head"><h2 class="heading">Unter der Oberfläche</h2></div>
+    <ul class="article-list">{artikel.toSorted((a, b) => b.data.datum.localeCompare(a.data.datum)).map(({ data: a }) => <li><a href={`/artikel/${a.slug}/`}><span class="tag">{a.beispiel ? 'Beispiel · frei erfunden' : a.typ}</span><h3>{title(a.titel)} <span aria-hidden="true">↗</span></h3></a></li>)}</ul>
+  </div><UpdateTicker updates={latestUpdates} quiet /></div></section>
+  </div>
 </BaseLayout>
+<style>
+  .home-section { padding-block: clamp(32px, 5vw, 64px); }
+  .home-section + .home-section { border-top: 1px solid var(--paper-line); }
+  .section-head { display: grid; gap: 12px; margin-bottom: 24px; }
+  .section-intro { color: var(--muted); max-width: 48ch; font-size: 15px; }
+  .scale-key { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-bottom: 20px; color: var(--muted); font-size: 10px; letter-spacing: .03em; }
+  .scale-key span { display: inline-flex; align-items: center; gap: 7px; }
+  .scale-key i { width: 12px; height: 14px; border: 1px solid var(--ink-2); }
+  .solid { background: var(--ink-2); }
+  .scale-key .hatched { border-color: var(--signal-dark); background: repeating-linear-gradient(45deg, var(--signal-dark) 0 1px, transparent 1px 4px); }
+  .reading-grid { display: grid; gap: 40px; }
+  .reading-section .heading { font-size: clamp(30px, 4vw, 40px); }
+  .article-list a { gap: 8px; padding-block: 20px; }
+  .article-list h3 { font-size: 26px; line-height: 1.1; }
+  .article-list .tag { font-size: 9px; color: var(--muted); }
+  .article-list li:first-child a { padding-top: 0; }
+  @media (min-width: 800px) { .reading-grid { grid-template-columns: 1.3fr 1fr; gap: 64px; } }
+</style>

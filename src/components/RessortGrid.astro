@@ -12,13 +12,13 @@ const { ressorts, projekte } = Astro.props;
   </a>;
 })}</div>
 <style>
-  .fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 14px; }
+  .fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 12px; }
   .field { color: var(--on-ink); background: var(--ink); border: 1px solid var(--ink-2); text-decoration: none; min-width: 0; }
   .field:hover, .field:focus-visible { background: var(--ink-2); }
-  .motif { position: relative; height: clamp(170px, 24vw, 230px); border-bottom: 1px solid var(--ink-line); }
-  .schema { position: absolute; bottom: 12px; left: 16px; color: var(--on-ink-muted); font-size: 9px; }
-  .label { display: flex; align-items: center; justify-content: space-between; padding: 18px; gap: 12px; }
-  h3 { font: 700 32px/1 var(--display); text-transform: uppercase; margin-bottom: 8px; }
-  .label .tag { color: var(--on-ink-muted); }
+  .motif { position: relative; height: clamp(120px, 19vw, 200px); border-bottom: 1px solid var(--ink-line); }
+  .schema { position: absolute; bottom: 8px; left: 12px; color: var(--on-ink-muted); font-size: 9px; }
+  .label { display: flex; align-items: center; justify-content: space-between; padding: 14px 12px; gap: 8px; }
+  h3 { font: 700 clamp(26px, 4vw, 36px)/1 var(--display); text-transform: uppercase; margin-bottom: 8px; }
+  .label .tag { font-size: 9px; letter-spacing: .03em; color: var(--on-ink-muted); }
   .label > span { font: 400 28px/1 var(--mono); }
 </style>

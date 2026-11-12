@@ -1,16 +1,24 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-interface Props { updates: CollectionEntry<'updates'>[]; }
-const { updates } = Astro.props;
+import { title } from '../lib/magazin';
+interface Props { updates: CollectionEntry<'updates'>[]; quiet?: boolean; }
+const { updates, quiet = false } = Astro.props;
 ---
-{updates.length > 0 && <aside class="ticker" aria-label="Aktuelle Updates"><div class="in"><span class="tag heading">Updates</span><div class="items">{updates.slice(0, 4).map(({ data: u }) => <a href={`/updates/#${u.id}`}><span class="tag">{u.beispiel ? 'Beispiel' : u.ressort}</span>{u.titel}<span aria-hidden="true"> →</span></a>)}</div></div></aside>}
+{updates.length > 0 && <aside class:list={['ticker', { quiet }]} aria-label="Aktuelle Updates"><div class="in"><h2 class="ticker-title">Updates</h2><div class="items">{updates.slice(0, 4).map(({ data: u }) => <a href={`/updates/#${u.id}`}><span class="tag">{u.beispiel ? 'Beispiel' : u.ressort}</span>{title(u.titel)}<span aria-hidden="true"> →</span></a>)}</div></div></aside>}
 <style>
   .ticker { background: var(--signal); color: var(--ink); border-block: 1px solid var(--ink); }
   .in { display: grid; grid-template-columns: auto 1fr; }
-  .heading { padding: 20px 20px 20px 0; }
+  .ticker-title { font: 700 30px/1 var(--display); text-transform: uppercase; padding: 20px 20px 20px 0; }
   .items { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   a { display: block; padding: 16px; border-left: 1px solid var(--ink); font-size: 13px; text-decoration: none; }
   a:hover { text-decoration: underline; }
   a .tag { display: block; width: fit-content; padding: 2px 6px; margin-bottom: 4px; background: var(--ink); color: var(--signal); }
-  @media (max-width: 600px) { .in { grid-template-columns: 1fr; } .heading { padding: 12px 0 0; } .items { grid-template-columns: 1fr; } a { padding: 12px 0; border-left: 0; } a + a { border-top: 1px solid var(--ink); } }
+  @media (max-width: 600px) { .in { grid-template-columns: 1fr; } .ticker-title { font: 700 30px/1 var(--display); text-transform: uppercase; padding: 12px 0 0; } .items { grid-template-columns: 1fr; } a { padding: 12px 0; border-left: 0; } a + a { border-top: 1px solid var(--ink); } }
+  .quiet { background: transparent; color: var(--ink-2); border: 0; }
+  .quiet .in { display: block; padding: 0; }
+  .quiet .ticker-title { padding: 0 0 24px; font-size: clamp(30px, 4vw, 40px); }
+  .quiet .items { grid-template-columns: 1fr; }
+  .quiet a { border: 0; border-bottom: 1px solid var(--paper-line); padding: 18px 0; font-size: 15px; line-height: 1.5; }
+  .quiet a:first-child { padding-top: 0; }
+  .quiet a .tag { padding: 0; margin-bottom: 8px; color: var(--muted); background: transparent; font-size: 9px; }
 </style>

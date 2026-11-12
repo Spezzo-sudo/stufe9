@@ -3,12 +3,12 @@ import type { Projekt } from '../lib/magazin';
 import { title, stageLabels } from '../lib/magazin';
 import TrlScale from './TrlScale.astro';
 import ExampleNotice from './ExampleNotice.astro';
-interface Props { projekt: Projekt; firma: string; ressort: string; }
-const { projekt: p, firma, ressort } = Astro.props;
+interface Props { projekt: Projekt; firma: string; ressort: string; editorial?: boolean; }
+const { projekt: p, firma, ressort, editorial = false } = Astro.props;
 ---
-<a class="card" href={`/projekt/${p.slug}/`}>
-  <div class="tag labels"><span>{ressort}</span><span>Reality Check</span></div>
-  <ExampleNotice beispiel={p.beispiel} compact />
+<a class:list={['card', { editorial }]} href={`/projekt/${p.slug}/`}>
+  <div class="tag labels"><span>{ressort}</span><span>{editorial && p.beispiel ? 'Beispiel · frei erfunden' : 'Reality Check'}</span></div>
+  {!editorial && <ExampleNotice beispiel={p.beispiel} compact />}
   <div><p class="company">{title(firma)}</p><h3>{title(p.name)}</h3></div>
   <TrlScale ist={p.trl_ist} behauptet={p.trl_behauptet} compact />
   <div class="value"><strong>{p.trl_ist}<small>/9</small></strong><span>{p.trl_behauptet > p.trl_ist ? `Lücke ${p.trl_behauptet - p.trl_ist}` : stageLabels[p.trl_ist]}</span></div>
@@ -26,4 +26,8 @@ const { projekt: p, firma, ressort } = Astro.props;
   .value span { font: 500 12px/1.2 var(--mono); color: var(--signal-dark); text-transform: uppercase; }
   .card:hover .value span, .card:focus-visible .value span { color: var(--signal); }
   .question { display: flex; justify-content: space-between; gap: 12px; margin-top: auto; border-top: 1px solid currentColor; padding-top: 12px; font-size: 14px; }
+  .editorial { gap: 18px; padding: 20px; }
+  .editorial .labels { font-size: 9px; letter-spacing: .04em; }
+  .editorial .company { font-size: 13px; }
+  .editorial h3 { font-size: 32px; line-height: 1.05; }
 </style>

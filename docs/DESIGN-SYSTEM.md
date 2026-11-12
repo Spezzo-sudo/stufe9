@@ -19,7 +19,7 @@ Alle Werte liegen in `src/styles/tokens.css`.
 
 Titel: Barlow Condensed 600/700. Text: IBM Plex Sans 400/500. Zahlen und Labels: IBM Plex Mono 400/500. Alle selbst gehostet über Fontsource. Keine Google-Fonts-Anfragen auf Magazin-Seiten.
 
-Keine Rundungen oder Schatten. Dunkle Bühnen für Auftritt und Projektkopf, helles Blatt für den Leseteil. Titel in Versalien. Orange bleibt die Ziel- und Behauptungsfarbe; die orange Update-Leiste stammt ebenfalls aus der abgenommenen Referenz.
+Keine Rundungen oder Schatten. Dunkle Bühnen für Auftritt und Projektkopf, helles Blatt für den Leseteil. Titel in Versalien. Orange bleibt die Ziel- und Behauptungsfarbe; die orange Update-Leiste stammt aus der Referenz, wird auf der Startseite seit dem Design-Durchgang vom 12.11.2026 aber als ruhige Liste unterhalb der Projekte dargestellt.
 
 ## Logo und Auftritt
 
@@ -27,7 +27,7 @@ Logo: neun Segmente, Breite 0.17em, Abstand 0.085em, Höhe 0.72em, letztes Segme
 
 `LogoAuftritt.astro` verwendet die Canvas-Silhouetten und die Federbewegung aus dem Prototyp. Sechs illustrative Motive fliessen in das Logo. Sie sind noch keine sechs veröffentlichten Ressorts. Das Raster darunter zeigt ausschliesslich tatsächlich angelegte Ressorts aus Content-Dateien. Aktuell sind das Fusion und Robotik. Der Auftritt läuft einmal pro Browser-Session und lässt sich durch Antippen des grossen Logos wiederholen.
 
-Die Hero-Höhe verwendet `100svh` abzüglich der gemessenen Kopfhöhe, maximal 740 Pixel. Für sehr niedrige Querformate gilt eine kompakte Fassung mit natürlichem Scrollen. Eine stabile kleine Viewport-Höhe vermeidet Sprünge durch ein- und ausfahrende Browserleisten. Geräte-Sicherheitsabstände werden berücksichtigt. Ohne JavaScript oder bei reduzierter Bewegung steht ein vollständiges CSS-Logo im Hero. Die Aussage ist als HTML vorhanden; nur während des kurzen Canvas-Auftritts blendet sie wie in der Vorlage vorübergehend aus.
+Die Hero-Höhe verwendet `78svh` abzüglich der gemessenen Kopfhöhe, maximal 620 Pixel. Für sehr niedrige Querformate gilt eine kompakte Fassung mit natürlichem Scrollen. Eine stabile kleine Viewport-Höhe vermeidet Sprünge durch ein- und ausfahrende Browserleisten. Geräte-Sicherheitsabstände werden berücksichtigt. Ohne JavaScript oder bei reduzierter Bewegung steht ein vollständiges CSS-Logo im Hero. Die Aussage ist als HTML vorhanden; nur während des kurzen Canvas-Auftritts blendet sie wie in der Vorlage vorübergehend aus.
 
 ## Bausteine
 
@@ -38,7 +38,7 @@ Die Hero-Höhe verwendet `100svh` abzüglich der gemessenen Kopfhöhe, maximal 7
 | TrlScale | Neun Segmente; voll = Ist, orange schraffiert = Behauptung, Klammer = Lücke |
 | RealityCheckCard | Verlinktes Projekt mit Firma, Skala und Engpass |
 | PipelineTable | Vergleich im Ressort; auf kleinen Flächen vertikal gestapelt |
-| UpdateTicker | Orange Update-Leiste, ruhige lesbare Links statt endlos bewegter Schrift |
+| UpdateTicker | Ruhige Update-Liste auf der Startseite (`quiet`); ursprüngliche orange Variante weiterhin vorhanden |
 | EngpassStage | Frage, belegter Messwert, Testziel und schematisches Motiv |
 | MilestoneTimeline | Datierte Meilensteine, Status, Freigabe und Quellen |
 | RiskPanel | Belegt, behauptet und Kritik mit Quellen trennen |
