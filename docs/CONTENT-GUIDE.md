@@ -19,7 +19,7 @@ Dateiname ohne Endung = `slug` oder `id`. Nur kleine Buchstaben, Zahlen und Bind
 
 ## Beispiele und echte Inhalte
 
-Jeder Eintrag hat ausdrücklich `beispiel: true` oder `beispiel: false`. Beispiel-Seiten zeigen an jedem Eintrag «Beispiel · frei erfunden». Künftige Karten, Tabellen und Detailseiten müssen dieses Merkmal ebenfalls sichtbar anzeigen. Der Datenwert allein genügt nicht.
+Jeder Eintrag ausser Ressorts hat ausdrücklich `beispiel: true` oder `beispiel: false`. Seiten mit Beispielen zeigen einen Hinweisstreifen und an jedem Eintrag das Wort «Beispiel». Künftige Karten, Tabellen und Detailseiten müssen dieses Merkmal ebenfalls sichtbar anzeigen. Der Datenwert allein genügt nicht.
 
 Beispielquellen haben `beispiel: true` und bewusst keine URL. Sie sind kein Beleg. Echte Quellen haben `beispiel: false`, einen Titel, eine ID, ein gültiges Datum und eine HTTPS-URL. Echte Inhalte dürfen keine Beispielquellen und keine Beziehungen zu Beispiel-Inhalten enthalten. Die Vorlage darf also erst nach echter Recherche als real markiert werden. Auch die Freigaben der Beispiele sind erfunden.
 
@@ -64,3 +64,24 @@ npm run build
 Diese Befehle haben keine Platzhalter. `npm test` prüft die Schutzregeln. `npm run check` prüft Daten, Astro und TypeScript. `npm run build` prüft alle Daten und Beziehungen erneut und baut die statische Website in `dist`.
 
 Ein Push auf `ccr-7b8b05b1-pterr1` soll über die vorhandene Cloudflare-GitHub-Verbindung den Build starten. Kein zusätzlicher Deployment-Workflow und keine neuen API-Schlüssel sind eingerichtet. Nach einem Push den echten Build-Status und die Live-Adresse prüfen; ein erfolgreicher Push ist kein Deployment-Nachweis.
+
+## Ressort anlegen (Stand 13.11.2026)
+
+Eine Datei in `src/content/ressorts/`, zum Beispiel `raumfahrt.json`:
+
+```json
+{
+  "slug": "raumfahrt",
+  "name": "Raumfahrt",
+  "thema": "Höher hinaus",
+  "intro": "Ein Satz, worum es in diesem Feld geht.",
+  "motiv": "neutral",
+  "status": "geplant",
+  "reihenfolge": 9
+}
+```
+
+- Ein Ressort ist eine Rubrik und braucht keine Quellen und kein Feld `beispiel`.
+- `motiv` ist optional und nennt einen Eintrag aus `src/motive/umrisse.ts`. Vorhanden sind: `fusion`, `robotik`, `quanten`, `antrieb`, `chip`, `reaktor`, `kollision`, `kontrolle`, `neutral`.
+- `reihenfolge` sortiert das Raster. Die ersten sechs Ressorts mit Motiv erscheinen im Auftritt.
+- Solange kein Projekt auf das Ressort verweist, zeigen Kachel und Seite «In Vorbereitung».

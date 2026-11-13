@@ -1,12 +1,12 @@
 {
   "slug": "beispiel-robotik-firma",
   "name": "Alpen Robotics (Beispiel)",
-  "land": "Schweiz (erfundenes Beispiel)",
+  "land": "Schweiz",
   "beispiel": true,
   "quellen": [
     {
       "id": "quelle-robotik",
-      "titel": "Erfundene Beispielquelle robotik",
+      "titel": "Beispielquelle Robotik",
       "datum": "2026-11-12",
       "beispiel": true
     }

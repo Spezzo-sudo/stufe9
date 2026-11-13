@@ -5,7 +5,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ExampleNotice from '../components/ExampleNotice.astro';
 import PipelineTable from '../components/PipelineTable.astro';
 import Motiv from '../components/Motiv.astro';
-import SourceList from '../components/SourceList.astro';
 import { title } from '../lib/magazin';
 export async function getStaticPaths() { return (await getCollection('ressorts')).map((ressort) => ({ params: { ressort: ressort.data.slug }, props: { ressort } })); }
 interface Props { ressort: CollectionEntry<'ressorts'>; }
@@ -15,20 +14,20 @@ const [projekte, firmen, artikel] = await Promise.all([getCollection('projekte',
 <BaseLayout title={r.name} description={r.intro}>
   <header class="page-head dark"><div class="in">
     <nav class="crumb tag" aria-label="Pfad"><a href="/#forschungsfelder">Forschungsfelder</a><span aria-current="page">{r.name}</span></nav>
-    <div class="head-grid"><div><p class="tag">Forschungsfeld</p><h1 class="page-title">{r.name}</h1><p class="intro">{r.intro}</p></div><div class="motif"><Motiv motiv={r.motiv} label={r.name} /><span class="tag">Schema</span></div></div>
+    <div class="head-grid"><div><p class="tag">{r.thema ?? 'Forschungsfeld'}</p><h1 class="page-title">{r.name}</h1><p class="intro">{r.intro}</p></div><div class="motif"><Motiv motiv={r.motiv} label={r.name} punkte={1800} /></div></div>
   </div></header>
-  <ExampleNotice beispiel={r.beispiel} />
-  <section class="section"><div class="in"><div class="section-head"><h2 class="heading">Die Pipeline</h2><p class="note">Was ist belegt – und was bleibt ein Versprechen?</p></div>
-    {projekte.length ? <PipelineTable projekte={projekte} firmen={firmen} /> : <p>Für dieses Forschungsfeld ist noch kein Projekt veröffentlicht.</p>}
+  <ExampleNotice beispiel={projekte.some(({ data }) => data.beispiel)} />
+  <section class="section"><div class="in">
+    {projekte.length ? <><div class="section-head"><h2 class="heading">Die Pipeline</h2><p class="note">Was ist belegt, und was bleibt ein Versprechen?</p></div><PipelineTable projekte={projekte} firmen={firmen} /></>
+      : <div class="empty"><h2 class="heading">In Vorbereitung</h2><p class="note">Zu diesem Feld sind noch keine Reality Checks veröffentlicht.</p><a class="text-link" href="/#forschungsfelder">← Alle Forschungsfelder</a></div>}
   </div></section>
-  {artikel.length > 0 && <section class="section"><div class="in"><h2 class="heading">Hintergründe</h2><ul class="article-list">{artikel.map(({ data: a }) => <li><a href={`/artikel/${a.slug}/`}><span class="tag">{a.beispiel ? 'Beispiel · frei erfunden' : a.typ}</span><h3>{title(a.titel)} ↗</h3><p class="note">{a.zusammenfassung}</p></a></li>)}</ul></div></section>}
-  <section class="section"><div class="in"><h2 class="heading">Quellen zum Ressort</h2><SourceList quellen={r.quellen} prefix={r.slug} /></div></section>
+  {artikel.length > 0 && <section class="section"><div class="in"><h2 class="heading">Hintergründe</h2><ul class="article-list">{artikel.map(({ data: a }) => <li><a href={`/artikel/${a.slug}/`}><span class="tag">{a.beispiel ? 'Beispiel' : a.typ}</span><h3>{title(a.titel)} ↗</h3><p class="note">{a.zusammenfassung}</p></a></li>)}</ul></div></section>}
 </BaseLayout>
 <style>
-  .head-grid { display: grid; grid-template-columns: 1fr 280px; align-items: center; gap: 32px; }
+  .head-grid { display: grid; grid-template-columns: 1fr 340px; align-items: center; gap: 32px; }
   h1 { margin-block: 12px 20px; }
-  .head-grid .tag { color: var(--on-ink-muted); }
-  .motif { height: 180px; position: relative; }
-  .motif > .tag { position: absolute; right: 0; bottom: 0; font-size: 9px; }
-  @media (max-width: 600px) { .head-grid { grid-template-columns: 1fr; gap: 20px; } .motif { height: 130px; } }
+  .head-grid .tag { color: var(--signal); }
+  .motif { height: 210px; }
+  .empty { display: grid; gap: 16px; justify-items: start; }
+  @media (max-width: 700px) { .head-grid { grid-template-columns: 1fr; gap: 12px; } .motif { height: 170px; order: -1; } }
 </style>

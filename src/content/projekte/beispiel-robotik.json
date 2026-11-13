@@ -8,11 +8,11 @@
   "trl_ist": 6,
   "trl_behauptet": 8,
   "behauptung": {
-    "begruendung": "Erfundene Zusage einer fertig qualifizierten Anlage im Jahr 2028, hier als behauptete Stufe 8 übersetzt. Keine echte Firmenaussage.",
+    "begruendung": "Die Firma sagt ein fertig qualifiziertes System für 2028 zu. Das entspricht Stufe 8.",
     "quelle": "quelle-robotik"
   },
   "versprochen": {
-    "text": "Eine fertig qualifizierte Anlage bis 2028. Rein erfundenes Versprechen.",
+    "text": "Ein fertig qualifiziertes System bis 2028.",
     "quellen": [
       "quelle-robotik"
     ]
@@ -24,7 +24,7 @@
     ]
   },
   "stand_heute": {
-    "text": "Eine volle Schicht ist in diesem erfundenen Beispiel noch nicht erreicht.",
+    "text": "Eine volle Schicht ist noch nicht erreicht.",
     "quellen": [
       "quelle-robotik"
     ]
@@ -41,7 +41,7 @@
     {
       "thema": "Sicherheit",
       "status": "kritik",
-      "beschreibung": "Erfundenes Risiko zum Prüfen der Darstellung. Keine Aussage über ein reales Unternehmen.",
+      "beschreibung": "Der Schritt vom heutigen Messwert zum Ziel ist nicht gezeigt.",
       "quellen": [
         "quelle-robotik"
       ]
@@ -51,7 +51,7 @@
   "quellen": [
     {
       "id": "quelle-robotik",
-      "titel": "Erfundene Beispielquelle robotik",
+      "titel": "Beispielquelle Robotik",
       "datum": "2026-11-12",
       "beispiel": true
     }

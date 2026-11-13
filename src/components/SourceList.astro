@@ -7,7 +7,7 @@ const { quellen, prefix = 'quelle' } = Astro.props;
 <ol class="sources">
   {quellen.map((q) => <li id={sourceId(prefix, q.id)}>
     {q.beispiel ? <span>{q.titel}</span> : <a href={q.url} target="_blank" rel="noopener noreferrer">{q.titel} ↗</a>}
-    <small>{datum(q.datum)} · {q.beispiel ? 'Erfunden · kein echter Beleg' : 'Externe Quelle'}</small>
+    <small>{datum(q.datum)} · {q.beispiel ? 'Beispielquelle' : 'Externe Quelle'}</small>
   </li>)}
 </ol>
 <style>

@@ -236,3 +236,19 @@ docs/                HANDOVER.md, DESIGN-SYSTEM.md, CONTENT-GUIDE.md
 - Titelillustration als deterministisches serverseitiges SVG aus `src/motive/titelwelt.ts`, native HTML-Navigation in `MagazineCover.astro`. Bestehende Plasma-/Canvas-Module und Prototypen bleiben erhalten. Keine Animation im Cover-Entwurf, dadurch gleiches Verhalten bei reduzierter Bewegung.
 - BaseLayout unterstützt optionale Navigationsziele für den Entwurf. Standardziele der bestehenden Seiten unverändert. Kleines Logo bleibt der Home-Link auf `/`.
 - Prüfung: Astro/TypeScript ohne Fehler/Warnungen/Hinweise, Inhaltsprüfung und Build mit 19 Seiten sowie beide Seiten-/Linktests erfolgreich. Cloudflare hat Commit `2420844` automatisch erfolgreich veröffentlicht. Externe mobile (390 Pixel) und Desktop-Aufnahmen (1280 Pixel) tatsächlich angesehen. Alle Motive und Beschriftungen sichtbar, keine sichtbare horizontale Überbreite. Anschliessend mobile Titelbreite und die Lesbarkeit der Statuszeilen verbessert. Vollständige Touch-/Screenreader-Prüfung und echte Handy-Abnahme bleiben offen.
+
+### Startseite neu aufgesetzt am 13.11.2026 (ersetzt die Einträge «Inhaltlicher Einstieg statt Logo-Auftritt» und «Magazin-Entwurf» vom 12.11.2026)
+
+Der Auftraggeber hat den Stand vom 12.11.2026 geprüft und abgelehnt: Die Startseite war hell und nüchtern geworden, der Auftritt fehlte, und unter `/entwurf/` lag eine zweite Startseite im Strichzeichnungs-Look. Verbindlich gilt jetzt wieder die Gestaltung aus `public/prototypes/01-prototyp-gesamt.html`, ergänzt um die Feld-Navigation.
+
+- **Aufbau der Startseite:** dunkler Hero mit dem Auftritt → Forschungsfelder als dunkles Raster (Navigation) → oranger Update-Streifen → Reality-Check-Karten → Hintergründe.
+- **Der Einwand «nur ein grosses Logo» ist so gelöst:** Die Felder, die im Auftritt ins Logo fliessen, stehen direkt darunter als Kacheln und führen zu den Ressort-Seiten. Der Hero selbst bleibt das Titelbild.
+- **Eine Quelle für alle Motive:** `src/motive/umrisse.ts` beschreibt jede Silhouette als einfache Formen. Daraus entstehen die Punktwolken im Auftritt (Canvas) und im Raster (SVG, beim Build). Ein neues Motiv ist ein Eintrag in `UMRISSE`.
+- **Auftritt und Ressorts sind gekoppelt:** Der Auftritt zeigt die ersten sechs Ressorts mit Motiv, sortiert nach `reihenfolge`. Das Raster zeigt alle.
+- **Acht Ressorts angelegt:** Fusion, Robotik, Quanten, Unter der Haube (`komponenten`), Kernspaltung, KI & Compute (`ki`), Forschung, Macht & Kontrolle (`kontrolle`). Ohne Projekt zeigt die Kachel «In Vorbereitung», die Ressort-Seite ebenfalls.
+- **Ressort-Schema geändert:** Ein Ressort ist eine Rubrik. Es hat keine Quellen und kein Beispiel-Kennzeichen mehr. Neue Felder: `thema` (kurze Zeile), `status` (`aktiv` | `geplant`), `reihenfolge`. Die Regel «Beispiel und echt nicht mischen» gilt weiter zwischen Projekten, Firmen, Meilensteinen, Artikeln und Updates, aber nicht mehr gegenüber Ressorts.
+- **Gelöscht:** `/entwurf/` samt `MagazineCover.astro`, `titelwelt.ts` und `content/entwurf/`. Strichzeichnungen bleiben verworfen.
+- **Beispiel-Hinweise gekürzt:** Ein Hinweisstreifen pro Seite («Beispielausgabe · Alle Firmen, Projekte, Zahlen und Quellen auf dieser Seite sind frei erfunden.») plus das kurze Wort «Beispiel» an Karten und Listen. Die Wiederholungen in den Beispieltexten selbst sind entfernt.
+- **Geprüft:** Build mit 18 Seiten, `npm test` (8), `npm run test:site` (2), `astro check` ohne Befund. Sichtprüfung als Standbilder bei 400 und 1280 Pixel Breite in einem Headless-Browser: Auftritt, Startseite, Ressort mit und ohne Projekt, Projektseite. **Nicht geprüft:** Bewegung und Leistung auf einem echten Handy. Auf schmalen Fenstern laufen im Auftritt 9'000 Punkte.
+
+**Nächste Schritte:** Fusion-Motiv um die Bauart Stellarator ergänzen. Engpass-Motive für Robotik, Unter der Haube und Quanten bauen. Methodik, Impressum und Datenschutz anlegen. Erste echte Reality Checks recherchieren.

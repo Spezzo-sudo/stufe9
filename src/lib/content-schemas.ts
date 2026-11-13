@@ -19,7 +19,12 @@ const sources = z.array(quelleSchema).min(1).refine((items) => unique(items.map(
 const sourcedText = z.object({ text, quellen: sourceIds }).strict();
 const metadata = { beispiel: z.boolean(), quellen: sources };
 
-export const ressortSchema = z.object({ slug, name: text, intro: text, motiv: slug.optional(), ...metadata }).strict();
+// Ein Ressort ist eine Rubrik. Es behauptet nichts, braucht also keine Quelle und trägt kein Beispiel-Kennzeichen.
+// status 'geplant' zeigt das Feld in der Navigation als «In Vorbereitung». reihenfolge sortiert Raster und Auftritt.
+export const ressortSchema = z.object({
+  slug, name: text, thema: text.optional(), intro: text, motiv: slug.optional(),
+  status: z.enum(['aktiv', 'geplant']).default('aktiv'), reihenfolge: z.number().int().optional(),
+}).strict();
 export const firmaSchema = z.object({ slug, name: text, land: text, ticker: text.optional(), ...metadata }).strict();
 export const projektSchema = z.object({
   slug, name: text, firma: slug, ressorts: z.array(slug).min(1).refine(unique),
@@ -76,8 +81,10 @@ export function validateRelations(content: ContentSet) {
     const ids = entries.map((item) => 'slug' in item ? item.slug : item.id);
     if (!unique(ids)) fail(`Doppelte ID in ${collection}.`);
     for (const entry of entries) {
-      if (!entry.beispiel && entry.quellen.some((source) => source.beispiel)) fail(`${collection}: echte Inhalte brauchen echte Quellen.`);
-      const known = new Set(entry.quellen.map((source) => source.id));
+      // Ressorts sind Rubriken ohne Quellen und ohne Beispiel-Kennzeichen.
+      const quellen = 'quellen' in entry ? entry.quellen : [];
+      if ('beispiel' in entry && !entry.beispiel && quellen.some((source) => source.beispiel)) fail(`${collection}: echte Inhalte brauchen echte Quellen.`);
+      const known = new Set(quellen.map((source) => source.id));
       const visit = (value: unknown): void => {
         if (!value || typeof value !== 'object') return;
         for (const [key, child] of Object.entries(value)) {
@@ -92,7 +99,7 @@ export function validateRelations(content: ContentSet) {
   }
   for (const project of content.projekte) {
     link(project, find('firmen', project.firma));
-    for (const id of project.ressorts) link(project, find('ressorts', id));
+    for (const id of project.ressorts) find('ressorts', id);
     const history = content.meilensteine.filter((milestone) => milestone.projekt === project.slug && milestone.status === 'erreicht' && milestone.trl_aenderung)
       .sort((a, b) => a.erreicht_am!.localeCompare(b.erreicht_am!));
     if (!history.length) fail(`${project.slug}: erreichter Meilenstein mit Stufenfreigabe fehlt.`);
@@ -101,12 +108,12 @@ export function validateRelations(content: ContentSet) {
   }
   for (const entry of content.meilensteine) link(entry, find('projekte', entry.projekt));
   for (const entry of content.artikel) {
-    for (const id of entry.ressorts) link(entry, find('ressorts', id));
+    for (const id of entry.ressorts) find('ressorts', id);
     for (const id of entry.projekte) link(entry, find('projekte', id));
     for (const id of entry.firmen) link(entry, find('firmen', id));
   }
   for (const entry of content.updates) {
-    link(entry, find('ressorts', entry.ressort));
+    find('ressorts', entry.ressort);
     if (entry.projekt) link(entry, find('projekte', entry.projekt));
     if (entry.meilenstein) {
       const milestone = find('meilensteine', entry.meilenstein);

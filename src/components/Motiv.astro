@@ -1,8 +1,15 @@
 ---
-import { motivPunkte } from '../motive/umrisse';
-interface Props { motiv?: string; label: string; }
-const { motiv, label } = Astro.props;
-const points = motivPunkte(motiv);
+// Statische Punktwolke eines Feld-Motivs. Rechts liegt der Signal-Anteil, wie das neunte Segment im Logo.
+import { motivPfad } from '../motive/umrisse';
+interface Props { motiv?: string; label: string; punkte?: number; }
+const { motiv, label, punkte = 1100 } = Astro.props;
+const { hell, signal } = motivPfad(motiv, punkte);
 ---
-<svg viewBox="0 0 280 170" role="img" aria-label={`${label}, schematische Punktwolke`}><g fill="currentColor">{points.map((p) => <circle cx={p.x} cy={p.y} r=".8" opacity={p.opacity} />)}</g></svg>
-<style>svg { display: block; width: 100%; height: 100%; color: var(--on-ink); }</style>
+<svg viewBox="0 0 280 170" role="img" aria-label={`${label}, schematische Punktwolke`} fill="none" stroke-linecap="round" stroke-width="1.5">
+  <path d={hell} stroke="currentColor" />
+  <path d={signal} class="signal" />
+</svg>
+<style>
+  svg { display: block; width: 100%; height: 100%; color: var(--on-ink); }
+  .signal { stroke: var(--signal); }
+</style>

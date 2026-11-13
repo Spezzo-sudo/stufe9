@@ -8,11 +8,11 @@
   "trl_ist": 5,
   "trl_behauptet": 8,
   "behauptung": {
-    "begruendung": "Erfundene Zusage einer fertig qualifizierten Anlage im Jahr 2028, hier als behauptete Stufe 8 übersetzt. Keine echte Firmenaussage.",
+    "begruendung": "Die Firma sagt ein fertig qualifiziertes System für 2028 zu. Das entspricht Stufe 8.",
     "quelle": "quelle-fusion"
   },
   "versprochen": {
-    "text": "Eine fertig qualifizierte Anlage bis 2028. Rein erfundenes Versprechen.",
+    "text": "Ein fertig qualifiziertes System bis 2028.",
     "quellen": [
       "quelle-fusion"
     ]
@@ -24,7 +24,7 @@
     ]
   },
   "stand_heute": {
-    "text": "Dauerbetrieb ist in diesem erfundenen Beispiel noch nicht erreicht.",
+    "text": "Dauerbetrieb ist noch nicht erreicht.",
     "quellen": [
       "quelle-fusion"
     ]
@@ -41,7 +41,7 @@
     {
       "thema": "Dauerbetrieb",
       "status": "kritik",
-      "beschreibung": "Erfundenes Risiko zum Prüfen der Darstellung. Keine Aussage über ein reales Unternehmen.",
+      "beschreibung": "Der Schritt vom heutigen Messwert zum Ziel ist nicht gezeigt.",
       "quellen": [
         "quelle-fusion"
       ]
@@ -51,7 +51,7 @@
   "quellen": [
     {
       "id": "quelle-fusion",
-      "titel": "Erfundene Beispielquelle fusion",
+      "titel": "Beispielquelle Fusion",
       "datum": "2026-11-12",
       "beispiel": true
     }

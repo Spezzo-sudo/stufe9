@@ -20,13 +20,13 @@ const ressort = ressorts.find(({ data }) => data.slug === p.ressorts[0])!.data;
 <BaseLayout title={title(p.name)} description={p.stand_heute.text}>
   <header class="page-head dark"><div class="in">
     <nav class="crumb tag" aria-label="Pfad"><a href="/#checks">Reality Checks</a><a href={`/${ressort.slug}/`}>{ressort.name}</a><span aria-current="page">Projekt</span></nav>
-    <ExampleNotice beispiel={p.beispiel} compact />
     <div><p class="tag company"><a href={`/firma/${firma.slug}/`}>{title(firma.name)} ↗</a></p><h1 class="page-title">{title(p.name)}</h1></div>
     <EngpassStage projekt={p} />
     <TrlScale ist={p.trl_ist} behauptet={p.trl_behauptet} />
     <div class="nums"><div><strong>{p.trl_ist}</strong><span class="tag">belegt · {stageLabels[p.trl_ist]}</span></div><div class="claimed"><strong>{p.trl_behauptet}</strong><span class="tag">behauptet · {stageLabels[p.trl_behauptet]}</span></div></div>
     <p class="legend">Voll ist belegt. Orange schraffiert ist behauptet. Der Reifegrad bewertet keine Unbedenklichkeit.</p>
   </div></header>
+  <ExampleNotice beispiel={p.beispiel} />
   <section class="body"><div class="in columns">
     <div class="primary">
       <section><h2>Reality Check</h2><dl class="facts">{[['Versprochen', p.versprochen], ['Geliefert', p.geliefert], ['Stand heute', p.stand_heute]].map(([label, fact]) => {

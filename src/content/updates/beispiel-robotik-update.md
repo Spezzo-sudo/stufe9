@@ -11,7 +11,7 @@
   "quellen": [
     {
       "id": "quelle-robotik",
-      "titel": "Erfundene Beispielquelle robotik",
+      "titel": "Beispielquelle Robotik",
       "datum": "2026-11-12",
       "beispiel": true
     }
@@ -19,4 +19,4 @@
 }
 ---
 
-Frei erfundenes Beispiel: Ein Testnachweis wurde eingetragen. Die Stufe folgt dem verknüpften Meilenstein. Dieser Text prüft nur den Update-Feed und beschreibt kein reales Ereignis.
+Ein Testnachweis wurde eingetragen. Die Stufe folgt dem verknüpften Meilenstein.

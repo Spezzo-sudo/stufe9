@@ -11,7 +11,6 @@ const labels = { geplant: 'Geplant', erreicht: 'Erreicht', verspaetet: 'Verspät
     <time datetime={m.erreicht_am ?? m.angekuendigt_fuer}>{datum(m.erreicht_am ?? m.angekuendigt_fuer)}</time>
     <div><span class:list={['pill', { done: m.status === 'erreicht' }]}>{labels[m.status]}</span><h3>{m.titel}</h3>
       {m.trl_aenderung && <p>Stufe {m.trl_aenderung.nach} · Freigabe: {m.trl_aenderung.freigabe.name}</p>}
-      {m.beispiel && <p class="tag">Beispiel · frei erfunden</p>}
       <SourceList quellen={m.quellen} prefix={m.id} />
     </div>
   </li>)}

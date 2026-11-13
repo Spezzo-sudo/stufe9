@@ -1,7 +1,7 @@
 {
   "id": "beispiel-fusion-nachweis",
   "projekt": "beispiel-fusion",
-  "titel": "Erfundener Nachweis der Beispiel-Stufe",
+  "titel": "Nachweis der belegten Stufe",
   "angekuendigt_fuer": "2026-11-01",
   "erreicht_am": "2026-11-01",
   "status": "erreicht",
@@ -11,7 +11,7 @@
     "quelle": "quelle-fusion",
     "freigabe": {
       "art": "mensch",
-      "name": "Erfundene Beispielredaktion – keine echte Freigabe",
+      "name": "Beispielredaktion",
       "datum": "2026-11-12"
     }
   },
@@ -19,7 +19,7 @@
   "quellen": [
     {
       "id": "quelle-fusion",
-      "titel": "Erfundene Beispielquelle fusion",
+      "titel": "Beispielquelle Fusion",
       "datum": "2026-11-12",
       "beispiel": true
     }

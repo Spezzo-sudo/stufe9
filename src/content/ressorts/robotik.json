@@ -1,15 +1,9 @@
 {
   "slug": "robotik",
   "name": "Robotik",
-  "intro": "Beispiel-Ressort: Robotik. Hier werden später belegte Projekte eingeordnet.",
+  "thema": "Maschinen bewegen",
+  "intro": "Wie weit kommen Roboter ausserhalb der Vorführung? Aufgaben, Laufzeit und Grenzen.",
   "motiv": "robotik",
-  "beispiel": true,
-  "quellen": [
-    {
-      "id": "quelle-robotik",
-      "titel": "Erfundene Beispielquelle robotik",
-      "datum": "2026-11-12",
-      "beispiel": true
-    }
-  ]
+  "status": "aktiv",
+  "reihenfolge": 2
 }

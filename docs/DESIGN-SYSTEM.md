@@ -64,10 +64,14 @@ Neue Einträge müssen ohne Design-Änderung funktionieren. Keine künstlichen Z
 
 `npm test`, `npm run check`, `npm run build` und danach `npm run test:site` im Repo-Verzeichnis. Keine Platzhalter in diesen Befehlen. Die Seitenprüfung kontrolliert lokale Links, Quellenanker, eindeutige HTML-IDs und die ohne JavaScript vorhandenen Kerninhalte. Sie ersetzt keine visuelle Browser- oder Handy-Prüfung.
 
-## Änderung des Einstiegs vom 12.11.2026
+## Startseite und Motive (Stand 13.11.2026)
 
-Der frühere Logo-Auftritt ist archivierte Gestaltung. Die aktuelle Startseite bindet ihn nicht ein. Ihr Einstieg ist ein Aufmacher aus dem Projektinhalt mit Frage, kurzem Text und lesbarem Link. Das Punktwolken-Schema ist ebenfalls ein Link. Das kleine Logo im Seitenkopf dient als Home-Link. Die frühere Beschreibung des Canvas-Auftritts dokumentiert weiterhin das erhaltene Modul, nicht den aktuellen Einstieg.
+Die Startseite beginnt mit dem dunklen Hero und dem Auftritt (`LogoAuftritt.astro`, `src/motive/auftritt.js`). Darunter stehen die Forschungsfelder als dunkles Raster (`RessortGrid.astro`), dann der orange Update-Streifen, dann die Karten auf hellem Blatt.
 
-## Separater Magazin-Entwurf (12.11.2026)
+Alle Feld-Motive kommen aus `src/motive/umrisse.ts`. Jede Silhouette besteht aus einfachen Formen (Ring, Linie, Rechteck, Scheibe, Vieleck). `punkte()` macht daraus eine Punktwolke, von links nach rechts sortiert; der rechte Rand erscheint in Signalfarbe, wie das neunte Segment im Logo. Der Auftritt und das Raster benutzen dieselbe Funktion.
 
-`/entwurf/` erprobt ein interaktives Titelbild mit vier grossen HTML-Linkflächen über einer gemeinsamen SVG-Punktillustration. Acht Ressort-Textlinks ergänzen die Bildnavigation. Die Illustration wird serverseitig erzeugt, bleibt ohne JavaScript nutzbar und ist ausdrücklich schematisch. Die noch nicht gefüllten Ressorts führen zu Vorbereitungsseiten im Entwurf. Darunter unterschiedlich gewichtete Geschichten ohne Bewertungsskalen auf der Einstiegsseite. Bestehende Tokens und Schriften gelten weiter. Der Entwurf ist noch nicht die abgenommene neue Startseite.
+- Neues Motiv: Eintrag in `UMRISSE` ergänzen und im Ressort als `motiv` nennen.
+- Ressort ohne `motiv`: bekommt ein neutrales Punktfeld und erscheint nicht im Auftritt.
+- Keine Strichzeichnungen, keine Icons. Der frühere Entwurf unter `/entwurf/` ist gelöscht.
+
+Beispiel-Hinweise: ein Hinweisstreifen pro Seite (`ExampleNotice`), dazu das kurze Wort «Beispiel» an Karten und Listen. Nicht in jedem Absatz wiederholen.

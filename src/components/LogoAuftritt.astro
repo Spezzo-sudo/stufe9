@@ -1,25 +1,27 @@
 ---
-import { getCollection } from 'astro:content';
-const hasExamples = (await getCollection('projekte')).some(({ data }) => data.beispiel);
+// Der grosse Auftritt der Startseite: Die Forschungsfelder stehen als Punktwolken um das Logo
+// und fliessen in die neun Segmente. Ohne JavaScript und bei reduzierter Bewegung steht das fertige Logo.
+interface Props { felder: { name: string; motiv: string }[]; }
+const { felder } = Astro.props;
 ---
-<section class="hero dark" id="hero" aria-label="Stufe 9">
+<section class="hero dark" id="hero" aria-label="Stufe 9" data-felder={JSON.stringify(felder)}>
   <canvas id="icv" aria-hidden="true"></canvas>
-  <button class="lock" id="lock" type="button" aria-label="Stufe 9 – Teilchen-Auftritt erneut abspielen">
+  <button class="lock" id="lock" type="button" aria-label="Stufe 9 – Auftritt erneut abspielen">
     <span class="ph" id="ph" aria-hidden="true">{Array.from({ length: 9 }, () => <i />)}</span><b>STUFE 9</b>
   </button>
   <div class="copy"><h1>Serienreif oder nur <em>versprochen?</em></h1><p class="tag">Frontier-Tech im Reality Check</p></div>
-  <a class="explore tag" href="#forschungsfelder">Forschungsfelder entdecken <span aria-hidden="true">↓</span></a>
-  <div class="hero-meta tag"><span>Motive: Schema</span>{hasExamples && <span>Beispielausgabe · frei erfunden</span>}</div>
+  <a class="explore tag" href="#forschungsfelder">Forschungsfelder <span aria-hidden="true">↓</span></a>
 </section>
 <script>
   import { initAuftritt } from '../motive/auftritt.js';
   initAuftritt();
 </script>
 <style>
-  .hero { position: relative; height: calc(78svh - var(--header-height, 56px)); min-height: 360px; max-height: 620px; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(20px, 4vw, 36px); padding: 54px 16px 74px; }
+  .hero { position: relative; height: calc(82svh - var(--header-height, 56px)); min-height: 420px; max-height: 660px; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(20px, 4vw, 36px); padding: 16px 16px 40px;
+    background-image: linear-gradient(var(--ink-2) 1px, transparent 1px), linear-gradient(90deg, var(--ink-2) 1px, transparent 1px); background-size: 32px 32px; }
   canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; visibility: hidden; }
   .hero.canvas-ready canvas { visibility: visible; }
-  .lock { all: unset; cursor: pointer; display: inline-flex; align-items: flex-end; gap: .4em; font-size: clamp(30px, 9.2vw, 100px); -webkit-tap-highlight-color: transparent; }
+  .lock { all: unset; cursor: pointer; display: inline-flex; align-items: flex-end; gap: .4em; font-size: clamp(34px, 9.2vw, 100px); -webkit-tap-highlight-color: transparent; }
   .lock:focus-visible { outline: 2px solid var(--signal); outline-offset: 8px; }
   .lock b { font: 700 1.08em/.72 var(--display); letter-spacing: .07em; white-space: nowrap; }
   .ph { display: inline-flex; align-items: flex-end; gap: var(--logo-segment-gap); width: 2.21em; height: 1em; }
@@ -27,14 +29,13 @@ const hasExamples = (await getCollection('projekte')).some(({ data }) => data.be
   .ph i:last-child { height: 1em; background: var(--signal); }
   .canvas-ready .ph i { visibility: hidden; }
   .copy { display: grid; gap: 12px; text-align: center; position: relative; }
-  h1 { font: 700 clamp(26px, 5vw, 52px)/.95 var(--display); text-transform: uppercase; max-width: 24ch; }
+  h1 { font: 700 clamp(28px, 5vw, 52px)/.95 var(--display); text-transform: uppercase; max-width: 24ch; }
   em { color: var(--signal); font-style: normal; }
   .copy .tag { color: var(--on-ink-muted); }
   .canvas-ready.pre .copy, .canvas-ready.pre .explore { opacity: 0; }
-  .copy, .explore { transition: opacity .35s ease-out; }
-  .explore { position: absolute; bottom: 26px; color: var(--on-ink); text-decoration: none; padding-block: 10px; }
-  .explore span { margin-left: 12px; }
-  .hero-meta { position: absolute; top: 16px; inset-inline: max(16px, env(safe-area-inset-left, 0px)); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; color: var(--on-ink-muted); font-size: 9px; letter-spacing: .04em; }
-  @media (max-height: 500px) and (orientation: landscape) { .hero { height: auto; min-height: 300px; padding-block: 36px 68px; gap: 20px; } .lock { font-size: 46px; } h1 { font-size: 32px; } }
+  .copy, .explore { transition: opacity .5s ease-out; }
+  .explore { position: absolute; bottom: 14px; color: var(--on-ink-muted); text-decoration: none; padding-block: 10px; }
+  .explore span { margin-left: 10px; color: var(--signal); }
+  @media (max-height: 500px) and (orientation: landscape) { .hero { height: auto; min-height: 300px; padding-block: 36px 60px; gap: 20px; } .lock { font-size: 46px; } h1 { font-size: 32px; } }
   @media (prefers-reduced-motion: reduce) { canvas { display: none; } .canvas-ready .ph i { visibility: visible; } .canvas-ready.pre .copy, .canvas-ready.pre .explore { opacity: 1; transition: none; } }
 </style>

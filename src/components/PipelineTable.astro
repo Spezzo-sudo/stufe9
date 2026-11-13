@@ -8,7 +8,7 @@ const { projekte, firmen } = Astro.props;
 <table class="pipeline"><caption class="tag">Projekte im Vergleich</caption>
   <thead><tr><th scope="col">Projekt / Firma</th><th scope="col">Reifegrad</th><th scope="col">Belegt</th><th scope="col">Behauptet</th></tr></thead>
   <tbody>{projekte.map(({ data: p }) => <tr>
-    <th scope="row"><a href={`/projekt/${p.slug}/`}>{title(p.name)} <span aria-hidden="true">↗</span></a><span class="company">{title(firmen.find(({ data }) => data.slug === p.firma)!.data.name)}</span>{p.beispiel && <span class="tag example">Beispiel · frei erfunden</span>}</th>
+    <th scope="row"><a href={`/projekt/${p.slug}/`}>{title(p.name)} <span aria-hidden="true">↗</span></a><span class="company">{title(firmen.find(({ data }) => data.slug === p.firma)!.data.name)}</span>{p.beispiel && <span class="tag example">Beispiel</span>}</th>
     <td class="scale-cell"><TrlScale ist={p.trl_ist} behauptet={p.trl_behauptet} compact /><span class="tag">{p.trl_behauptet > p.trl_ist ? `Lücke ${p.trl_behauptet - p.trl_ist}` : 'Ziel erreicht'}</span></td>
     <td class="number"><span class="mobile-label">Belegt</span>{p.trl_ist}<small>/9</small></td>
     <td class="number claimed"><span class="mobile-label">Behauptet</span>{p.trl_behauptet}<small>/9</small></td>

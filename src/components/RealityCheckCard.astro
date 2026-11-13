@@ -2,13 +2,11 @@
 import type { Projekt } from '../lib/magazin';
 import { title, stageLabels } from '../lib/magazin';
 import TrlScale from './TrlScale.astro';
-import ExampleNotice from './ExampleNotice.astro';
 interface Props { projekt: Projekt; firma: string; ressort: string; editorial?: boolean; }
 const { projekt: p, firma, ressort, editorial = false } = Astro.props;
 ---
 <a class:list={['card', { editorial }]} href={`/projekt/${p.slug}/`}>
-  <div class="tag labels"><span>{ressort}</span><span>{editorial && p.beispiel ? 'Beispiel · frei erfunden' : 'Reality Check'}</span></div>
-  {!editorial && <ExampleNotice beispiel={p.beispiel} compact />}
+  <div class="tag labels"><span>{ressort}</span><span>{p.beispiel ? 'Beispiel' : 'Reality Check'}</span></div>
   <div><p class="company">{title(firma)}</p><h3>{title(p.name)}</h3></div>
   <TrlScale ist={p.trl_ist} behauptet={p.trl_behauptet} compact />
   <div class="value"><strong>{p.trl_ist}<small>/9</small></strong><span>{p.trl_behauptet > p.trl_ist ? `Lücke ${p.trl_behauptet - p.trl_ist}` : stageLabels[p.trl_ist]}</span></div>

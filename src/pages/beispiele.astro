@@ -2,13 +2,13 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 const [ressorts, firmen, projekte, meilensteine, artikel, updates] = await Promise.all([
-  getCollection('ressorts', ({ data }) => data.beispiel), getCollection('firmen', ({ data }) => data.beispiel),
+  getCollection('ressorts'), getCollection('firmen', ({ data }) => data.beispiel),
   getCollection('projekte', ({ data }) => data.beispiel), getCollection('meilensteine', ({ data }) => data.beispiel),
   getCollection('artikel', ({ data }) => data.beispiel), getCollection('updates', ({ data }) => data.beispiel),
 ]);
 const renderedUpdates = await Promise.all(updates.map(async (entry) => ({ entry, ...await render(entry) })));
 const groups = [
-  { title: 'Forschungsfelder', entries: ressorts.map(({ data }) => ({ title: data.name, text: data.intro, sources: data.quellen })) },
+  { title: 'Forschungsfelder', entries: ressorts.map(({ data }) => ({ title: data.name, text: data.intro, sources: [] })) },
   { title: 'Firmen', entries: firmen.map(({ data }) => ({ title: data.name, text: data.land, sources: data.quellen })) },
   { title: 'Meilensteine', entries: meilensteine.map(({ data }) => ({ title: data.titel, text: `${data.erreicht_am} · Stufe ${data.trl_aenderung?.nach} · ${data.trl_aenderung?.freigabe.name}`, sources: data.quellen })) },
 ];
