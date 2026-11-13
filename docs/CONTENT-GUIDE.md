@@ -85,3 +85,12 @@ Eine Datei in `src/content/ressorts/`, zum Beispiel `raumfahrt.json`:
 - `motiv` ist optional und nennt einen Eintrag aus `src/motive/umrisse.ts`. Vorhanden sind: `fusion`, `robotik`, `quanten`, `antrieb`, `chip`, `reaktor`, `kollision`, `kontrolle`, `neutral`.
 - `reihenfolge` sortiert das Raster. Die ersten sechs Ressorts mit Motiv erscheinen im Auftritt.
 - Solange kein Projekt auf das Ressort verweist, zeigen Kachel und Seite «In Vorbereitung».
+
+## Pflichtfelder eines Projekts seit 13.11.2026
+
+- `titel`: die Schlagzeile. Sie macht eine Aussage, zum Beispiel «Sieben Sekunden sind noch kein Kraftwerk». Kein Projektname.
+- `stand`: Datum der letzten Prüfung, `JJJJ-MM-TT`.
+- `autor`: wer den Reality Check verantwortet.
+- `aufmacher` (optional, `true`): setzt das Projekt oben auf die Startseite. Ohne dieses Feld gewinnt der jüngste `stand`.
+
+Ein Update mit `meilenstein` bekommt im Streifen «Was sich bewegt hat» automatisch eine Marke: bei einer belegten Stufe «Stufe 4 → 5», bei Status `verspaetet` «Termin verschoben». Der Update-Titel sollte sagen, was passiert ist, nicht nur das Ressort nennen.

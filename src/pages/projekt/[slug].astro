@@ -9,7 +9,7 @@ import MilestoneTimeline from '../../components/MilestoneTimeline.astro';
 import RiskPanel from '../../components/RiskPanel.astro';
 import SourceList from '../../components/SourceList.astro';
 import SourceRefs from '../../components/SourceRefs.astro';
-import { title, stageLabels } from '../../lib/magazin';
+import { title, stageLabels, datum } from '../../lib/magazin';
 export async function getStaticPaths() { return (await getCollection('projekte')).map((projekt) => ({ params: { slug: projekt.data.slug }, props: { projekt } })); }
 interface Props { projekt: CollectionEntry<'projekte'>; }
 const { projekt: { data: p } } = Astro.props;
@@ -17,10 +17,10 @@ const [firmen, ressorts, meilensteine] = await Promise.all([getCollection('firme
 const firma = firmen.find(({ data }) => data.slug === p.firma)!.data;
 const ressort = ressorts.find(({ data }) => data.slug === p.ressorts[0])!.data;
 ---
-<BaseLayout title={title(p.name)} description={p.stand_heute.text}>
+<BaseLayout title={p.titel} description={p.stand_heute.text}>
   <header class="page-head dark"><div class="in">
     <nav class="crumb tag" aria-label="Pfad"><a href="/#checks">Reality Checks</a><a href={`/${ressort.slug}/`}>{ressort.name}</a><span aria-current="page">Projekt</span></nav>
-    <div><p class="tag company"><a href={`/firma/${firma.slug}/`}>{title(firma.name)} ↗</a></p><h1 class="page-title">{title(p.name)}</h1></div>
+    <div><p class="tag company"><a href={`/firma/${firma.slug}/`}>{title(firma.name)}</a> · {title(p.name)}</p><h1 class="page-title">{p.titel}</h1><p class="tag byline">Stand {datum(p.stand)} · {p.autor}</p></div>
     <EngpassStage projekt={p} />
     <TrlScale ist={p.trl_ist} behauptet={p.trl_behauptet} />
     <div class="nums"><div><strong>{p.trl_ist}</strong><span class="tag">belegt · {stageLabels[p.trl_ist]}</span></div><div class="claimed"><strong>{p.trl_behauptet}</strong><span class="tag">behauptet · {stageLabels[p.trl_behauptet]}</span></div></div>
@@ -42,7 +42,10 @@ const ressort = ressorts.find(({ data }) => data.slug === p.ressorts[0])!.data;
   </div></section>
 </BaseLayout>
 <style>
-  .company { color: var(--on-ink-muted); margin-bottom: 12px; }
+  .company { color: var(--signal); margin-bottom: 12px; }
+  .company a { text-decoration: none; }
+  .byline { color: var(--on-ink-muted); margin-top: 16px; }
+  .page-title { font-size: clamp(40px, 7.4vw, 80px); text-wrap: balance; }
   .nums { display: flex; flex-wrap: wrap; gap: 22px 40px; padding-top: 10px; }
   .nums div { display: grid; gap: 10px; }
   .nums strong { font: 700 clamp(58px, 9vw, 84px)/.85 var(--display); }

@@ -1,0 +1,27 @@
+{
+  "id": "beispiel-robotik-labor",
+  "projekt": "beispiel-robotik",
+  "titel": "Erster freier Gang in der Testhalle",
+  "angekuendigt_fuer": "2025-09-02",
+  "erreicht_am": "2025-09-02",
+  "status": "erreicht",
+  "quelle": "quelle-robotik",
+  "trl_aenderung": {
+    "nach": 5,
+    "quelle": "quelle-robotik",
+    "freigabe": {
+      "art": "mensch",
+      "name": "Beispielredaktion",
+      "datum": "2025-09-02"
+    }
+  },
+  "beispiel": true,
+  "quellen": [
+    {
+      "id": "quelle-robotik",
+      "titel": "Beispielquelle Robotik",
+      "datum": "2026-11-12",
+      "beispiel": true
+    }
+  ]
+}

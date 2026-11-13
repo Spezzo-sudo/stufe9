@@ -1,0 +1,46 @@
+---
+// Der Aufmacher der Startseite: ein Reality Check als Geschichte, mit Schlagzeile, Skala und dem Engpass als Bild.
+import type { Projekt } from '../lib/magazin';
+import { title, datum, stageLabels } from '../lib/magazin';
+import TrlScale from './TrlScale.astro';
+import EngpassStage from './EngpassStage.astro';
+interface Props { projekt: Projekt; firma: string; ressort: { slug: string; name: string }; }
+const { projekt: p, firma, ressort } = Astro.props;
+const href = `/projekt/${p.slug}/`;
+---
+<section class="lead dark"><div class="in grid">
+  <div class="copy">
+    <p class="tag kicker"><a href={`/${ressort.slug}/`}>{ressort.name}</a><span>Reality Check</span>{p.beispiel && <span>Beispiel</span>}</p>
+    <h1><a href={href}>{p.titel}</a></h1>
+    <p class="dek">{p.geliefert.text} {p.stand_heute.text}</p>
+    <div class="verdict">
+      <TrlScale ist={p.trl_ist} behauptet={p.trl_behauptet} />
+      <p class="tag nums"><span><b>{p.trl_ist}</b> belegt · {stageLabels[p.trl_ist]}</span><span class="claimed"><b>{p.trl_behauptet}</b> behauptet · {stageLabels[p.trl_behauptet]}</span></p>
+    </div>
+    <p class="byline tag">{title(firma)} · {title(p.name)} · Stand {datum(p.stand)}</p>
+    <a class="more" href={href}>Zum Reality Check <span aria-hidden="true">→</span></a>
+  </div>
+  <div class="image"><EngpassStage projekt={p} /></div>
+</div></section>
+<style>
+  .lead { padding-block: clamp(22px, 4vw, 44px) clamp(28px, 5vw, 52px); background-image: linear-gradient(var(--ink-2) 1px, transparent 1px), linear-gradient(90deg, var(--ink-2) 1px, transparent 1px); background-size: 32px 32px; }
+  .grid { display: grid; gap: 28px; }
+  .copy { display: grid; gap: 18px; align-content: start; min-width: 0; }
+  .image { min-width: 0; background: var(--ink); }
+  .kicker { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--on-ink-muted); }
+  .kicker a { color: var(--signal); text-decoration: none; }
+  h1 { font: 700 clamp(44px, 6vw, 72px)/.94 var(--display); text-transform: uppercase; text-wrap: balance; }
+  h1 a { text-decoration: none; }
+  h1 a:hover { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; }
+  .dek { max-width: 46ch; font-size: 18px; line-height: 1.5; color: var(--on-ink); }
+  .verdict { display: grid; gap: 10px; background: var(--ink); padding-top: 4px; }
+  .verdict :global(.trl i) { height: clamp(34px, 5vw, 48px); }
+  .nums { display: flex; flex-wrap: wrap; gap: 4px 22px; color: var(--on-ink-muted); }
+  .nums b { font: 700 22px/1 var(--display); color: var(--on-ink); margin-right: 4px; }
+  .nums .claimed b { color: var(--signal); }
+  .byline { color: var(--on-ink-muted); }
+  .more { justify-self: start; font: 500 13px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; text-decoration: none; padding: 14px 18px; background: var(--on-ink); color: var(--ink); }
+  .more:hover, .more:focus-visible { background: var(--signal); }
+  .more span { margin-left: 10px; }
+  @media (min-width: 900px) { .grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 48px; align-items: center; } }
+</style>

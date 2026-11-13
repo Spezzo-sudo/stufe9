@@ -28,6 +28,8 @@ export const ressortSchema = z.object({
 export const firmaSchema = z.object({ slug, name: text, land: text, ticker: text.optional(), ...metadata }).strict();
 export const projektSchema = z.object({
   slug, name: text, firma: slug, ressorts: z.array(slug).min(1).refine(unique),
+  // titel ist die Schlagzeile mit einer Aussage, stand das Datum der letzten Prüfung. aufmacher setzt das Projekt oben auf die Startseite.
+  titel: text, stand: date, autor: text, aufmacher: z.boolean().optional(),
   trl_ist: stage, trl_behauptet: stage,
   behauptung: z.object({ begruendung: text, quelle: slug }).strict(),
   versprochen: sourcedText, geliefert: sourcedText, stand_heute: sourcedText,

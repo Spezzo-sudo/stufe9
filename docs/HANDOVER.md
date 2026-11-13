@@ -252,3 +252,17 @@ Der Auftraggeber hat den Stand vom 12.11.2026 geprüft und abgelehnt: Die Starts
 - **Geprüft:** Build mit 18 Seiten, `npm test` (8), `npm run test:site` (2), `astro check` ohne Befund. Sichtprüfung als Standbilder bei 400 und 1280 Pixel Breite in einem Headless-Browser: Auftritt, Startseite, Ressort mit und ohne Projekt, Projektseite. **Nicht geprüft:** Bewegung und Leistung auf einem echten Handy. Auf schmalen Fenstern laufen im Auftritt 9'000 Punkte.
 
 **Nächste Schritte:** Fusion-Motiv um die Bauart Stellarator ergänzen. Engpass-Motive für Robotik, Unter der Haube und Quanten bauen. Methodik, Impressum und Datenschutz anlegen. Erste echte Reality Checks recherchieren.
+
+### Startseite als Magazin am 13.11.2026
+
+Anlass: Vergleich mit acht Tech-Magazinen am Handy-Format (Quanta, MIT Technology Review, Ars Technica, The Verge, Wired, IEEE Spectrum, heise, t3n). Alle zeigen im ersten Bildschirm eine Geschichte mit Schlagzeile und Bild, das Logo steht klein im Kopf. Unsere Startseite zeigte Logo und Navigation, die erste Karte kam nach rund 1400 Pixeln. Vom Auftraggeber beauftragt wurden die Punkte Aufmacher, Schlagzeilen, Stufenwechsel als Nachricht und schlankere Feld-Navigation.
+
+- **Der Auftritt läuft nur noch beim ersten Besuch.** Ein kleines Inline-Skript in `index.astro` setzt vor dem ersten Bild die Klasse `intro` auf `html`; nur dann ist der Hero sichtbar. Ohne JavaScript, bei reduzierter Bewegung und ab dem zweiten Aufruf beginnt die Seite direkt mit dem Aufmacher. `/?auftritt=1` (Link in der Fusszeile) zeigt ihn erneut.
+- **Aufmacher** (`Aufmacher.astro`): dunkle Bühne mit Rubrik, Schlagzeile, zwei Sätzen, Skala mit Lücke und dem Engpass als bewegtem Bild. Gewählt wird das Projekt mit `aufmacher: true`, sonst das mit dem jüngsten `stand`.
+- **Jeder Reality Check ist eine Geschichte.** Neue Pflichtfelder im Projekt: `titel` (Schlagzeile mit einer Aussage), `stand` (Datum der letzten Prüfung), `autor`. Karten, Aufmacher und Projektseite zeigen die Schlagzeile; der Projektname steht als Zeile darüber oder darunter.
+- **Stufenwechsel als Nachricht:** Der orange Streifen heisst «Was sich bewegt hat» und zeigt Datum, Marke und Titel. Die Marke kommt aus dem verknüpften Meilenstein (`bewegung()` in `src/lib/magazin.ts`): «Stufe 4 → 5», «Stufe 5 belegt», «Termin verschoben» oder «Abgesagt». Dafür hat jedes Beispielprojekt einen zweiten, früheren Beispiel-Meilenstein bekommen.
+- **Feld-Navigation:** schmale Leiste unter dem Seitenkopf mit den Feldern, die Inhalt haben. Das Raster steht unten auf der Seite und zeigt Kacheln nur für Felder mit Reality Check; die übrigen stehen als Zeile «In Vorbereitung».
+- **Reihenfolge der Startseite:** (Auftritt beim ersten Besuch) → Feld-Leiste → Aufmacher → «Was sich bewegt hat» → weitere Reality Checks → Hintergründe → Forschungsfelder.
+- **Geprüft:** Build mit 18 Seiten, `npm test` (8), `npm run test:site` (2), `astro check` ohne Befund. Standbilder bei 400 und 1280 Pixel Breite: erster Besuch mit Auftritt, zweiter Besuch ohne, erzwungener Auftritt, Projekt-, Update- und Firmenseite. Bewegung und Leistung auf einem echten Handy bleiben ungeprüft.
+
+**Bewusst offen gelassen (vom Auftraggeber zurückgestellt):** Newsletter-Anmeldung, Methodik-Seite, Autorenprofile und Impressum, sowie echte recherchierte Reality Checks. Ohne diese drei Punkte ist die Seite kein fertiges Magazin.

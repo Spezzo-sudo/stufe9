@@ -1,24 +1,29 @@
 ---
+// Der orange Streifen: was sich bewegt hat. Stufenwechsel und verschobene Termine stehen als Marke vor dem Titel.
 import type { CollectionEntry } from 'astro:content';
-import { title } from '../lib/magazin';
-interface Props { updates: CollectionEntry<'updates'>[]; quiet?: boolean; }
-const { updates, quiet = false } = Astro.props;
+import { title, datum, bewegung } from '../lib/magazin';
+interface Props { updates: CollectionEntry<'updates'>[]; meilensteine: CollectionEntry<'meilensteine'>[]; }
+const { updates, meilensteine } = Astro.props;
+const liste = meilensteine.map(({ data }) => data);
 ---
-{updates.length > 0 && <aside class:list={['ticker', { quiet }]} aria-label="Aktuelle Updates"><div class="in"><h2 class="ticker-title">Updates</h2><div class="items">{updates.slice(0, 4).map(({ data: u }) => <a href={`/updates/#${u.id}`}><span class="tag">{u.beispiel ? 'Beispiel' : u.ressort}</span>{title(u.titel)}<span aria-hidden="true"> →</span></a>)}</div></div></aside>}
+{updates.length > 0 && <aside class="ticker" aria-label="Was sich bewegt hat"><div class="in">
+  <h2 class="ticker-title"><a href="/updates/">Was sich bewegt hat</a></h2>
+  <ul class="items">{updates.slice(0, 4).map(({ data: u }) => { const marke = bewegung(u.meilenstein, liste); return <li><a href={`/updates/#${u.id}`}>
+    <span class="meta"><time datetime={u.datum}>{datum(u.datum)}</time>{marke && <b>{marke}</b>}{u.beispiel && <span>Beispiel</span>}</span>
+    <span class="headline">{title(u.titel)}</span>
+  </a></li>; })}</ul>
+</div></aside>}
 <style>
-  .ticker { background: var(--signal); color: var(--ink); border-block: 1px solid var(--ink); }
-  .in { display: grid; grid-template-columns: auto 1fr; }
-  .ticker-title { font: 700 30px/1 var(--display); text-transform: uppercase; padding: 20px 20px 20px 0; }
-  .items { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  a { display: block; padding: 16px; border-left: 1px solid var(--ink); font-size: 13px; text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  a .tag { display: block; width: fit-content; padding: 2px 6px; margin-bottom: 4px; background: var(--ink); color: var(--signal); }
-  @media (max-width: 600px) { .in { grid-template-columns: 1fr; } .ticker-title { font: 700 30px/1 var(--display); text-transform: uppercase; padding: 12px 0 0; } .items { grid-template-columns: 1fr; } a { padding: 12px 0; border-left: 0; } a + a { border-top: 1px solid var(--ink); } }
-  .quiet { background: transparent; color: var(--ink-2); border: 0; }
-  .quiet .in { display: block; padding: 0; }
-  .quiet .ticker-title { padding: 0 0 24px; font-size: clamp(30px, 4vw, 40px); }
-  .quiet .items { grid-template-columns: 1fr; }
-  .quiet a { border: 0; border-bottom: 1px solid var(--paper-line); padding: 18px 0; font-size: 15px; line-height: 1.5; }
-  .quiet a:first-child { padding-top: 0; }
-  .quiet a .tag { padding: 0; margin-bottom: 8px; color: var(--muted); background: transparent; font-size: 9px; }
+  .ticker { background: var(--signal); color: var(--ink); }
+  .in { display: grid; grid-template-columns: 1fr; gap: 0; padding-block: 16px 6px; }
+  .ticker-title { font: 700 24px/1 var(--display); text-transform: uppercase; padding-bottom: 12px; }
+  .ticker-title a { text-decoration: none; }
+  .items { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); column-gap: 28px; }
+  li { border-top: 1px solid var(--ink); }
+  li a { display: grid; gap: 6px; padding-block: 12px; text-decoration: none; }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font: 500 11px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+  .meta b { font-weight: 500; background: var(--ink); color: var(--signal); padding: 3px 7px; }
+  .headline { font: 500 16px/1.35 var(--body); }
+  li a:hover .headline { text-decoration: underline; text-underline-offset: 3px; }
+  @media (min-width: 900px) { .in { grid-template-columns: 220px 1fr; column-gap: 28px; padding-block: 18px; } .ticker-title { padding: 12px 0 0; } }
 </style>

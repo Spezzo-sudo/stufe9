@@ -1,7 +1,7 @@
 ---
 {
   "id": "beispiel-robotik-update",
-  "titel": "Robotik: neuer Testnachweis (Beispiel)",
+  "titel": "Testroboter läuft zwei Stunden am Stück (Beispiel)",
   "datum": "2026-11-12",
   "ressort": "robotik",
   "projekt": "beispiel-robotik",
@@ -19,4 +19,4 @@
 }
 ---
 
-Ein Testnachweis wurde eingetragen. Die Stufe folgt dem verknüpften Meilenstein.
+Der Testroboter läuft jetzt 2 Stunden ohne Akkuwechsel. Damit ist Stufe 6 belegt. Das Ziel von 8 Stunden bleibt offen.

@@ -3,13 +3,14 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ExampleNotice from '../components/ExampleNotice.astro';
 import SourceList from '../components/SourceList.astro';
-import { datum, title } from '../lib/magazin';
+import { datum, title, bewegung } from '../lib/magazin';
+const meilensteine = (await getCollection('meilensteine')).map(({ data }) => data);
 const entries = (await getCollection('updates')).toSorted((a, b) => b.data.datum.localeCompare(a.data.datum));
 const updates = await Promise.all(entries.map(async (entry) => ({ entry, ...await render(entry) })));
 ---
 <BaseLayout title="Updates">
-  <header class="page-head dark"><div class="in"><a class="tag" href="/">← Startseite</a><h1 class="page-title">Was sich bewegt</h1><p class="intro">Neue Nachweise, Meilensteine und verschobene Versprechen.</p></div></header>
+  <header class="page-head dark"><div class="in"><a class="tag" href="/">← Startseite</a><h1 class="page-title">Was sich bewegt hat</h1><p class="intro">Neue Nachweise, Meilensteine und verschobene Versprechen.</p></div></header>
   <ExampleNotice beispiel={entries.some(({ data }) => data.beispiel)} />
-  <div class="in">{updates.map(({ entry: { data: u }, Content }) => <article class="section" id={u.id}><p class="tag">{datum(u.datum)} · {u.beispiel ? 'Beispiel' : u.ressort}</p><h2 class="heading">{title(u.titel)}</h2><div class="editorial"><Content /></div><p class="links"><a href={`/${u.ressort}/`}>Zum Forschungsfeld →</a>{u.projekt && <a href={`/projekt/${u.projekt}/`}>Zum Projekt →</a>}</p><SourceList quellen={u.quellen} prefix={u.id} /></article>)}</div>
+  <div class="in">{updates.map(({ entry: { data: u }, Content }) => <article class="section" id={u.id}><p class="tag meta">{datum(u.datum)}{bewegung(u.meilenstein, meilensteine) && <b>{bewegung(u.meilenstein, meilensteine)}</b>}{u.beispiel && <span>Beispiel</span>}</p><h2 class="heading">{title(u.titel)}</h2><div class="editorial"><Content /></div><p class="links"><a href={`/${u.ressort}/`}>Zum Forschungsfeld →</a>{u.projekt && <a href={`/projekt/${u.projekt}/`}>Zum Projekt →</a>}</p><SourceList quellen={u.quellen} prefix={u.id} /></article>)}</div>
 </BaseLayout>
-<style>h2 { margin-block: 16px 24px; } .links { display: flex; flex-wrap: wrap; gap: 16px; margin-block: 20px; }</style>
+<style>h2 { margin-block: 16px 24px; font-size: clamp(30px, 5vw, 44px); } .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; } .meta b { font-weight: 500; background: var(--signal); color: var(--ink); padding: 3px 7px; } .links { display: flex; flex-wrap: wrap; gap: 16px; margin-block: 20px; }</style>

@@ -2,45 +2,69 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LogoAuftritt from '../components/LogoAuftritt.astro';
+import Aufmacher from '../components/Aufmacher.astro';
 import RessortGrid from '../components/RessortGrid.astro';
 import RealityCheckCard from '../components/RealityCheckCard.astro';
 import UpdateTicker from '../components/UpdateTicker.astro';
 import ExampleNotice from '../components/ExampleNotice.astro';
-import { title, nachReihenfolge } from '../lib/magazin';
-const [alleRessorts, projekte, firmen, artikel, updates] = await Promise.all([
-  getCollection('ressorts'), getCollection('projekte'), getCollection('firmen'), getCollection('artikel'), getCollection('updates'),
+import { title, datum, nachReihenfolge, nachAktualitaet } from '../lib/magazin';
+const [alleRessorts, alleProjekte, firmen, artikel, updates, meilensteine] = await Promise.all([
+  getCollection('ressorts'), getCollection('projekte'), getCollection('firmen'), getCollection('artikel'), getCollection('updates'), getCollection('meilensteine'),
 ]);
-const ressorts = nachReihenfolge(alleRessorts);
-// Der Auftritt zeigt höchstens sechs Felder mit eigenem Motiv, das Raster darunter zeigt alle.
+const ressorts = nachReihenfolge(alleRessorts), projekte = nachAktualitaet(alleProjekte);
+const firmaVon = (slug: string) => firmen.find(({ data }) => data.slug === slug)!.data.name;
+const ressortVon = (slug: string) => ressorts.find(({ data }) => data.slug === slug)!.data;
+const [aufmacher, ...weitere] = projekte;
+// Der Auftritt zeigt höchstens sechs Felder mit eigenem Motiv.
 const felder = ressorts.filter(({ data }) => data.motiv).slice(0, 6).map(({ data }) => ({ name: data.name, motiv: data.motiv! }));
+const mitInhalt = ressorts.filter(({ data }) => projekte.some(({ data: p }) => p.ressorts.includes(data.slug)));
 const latestUpdates = updates.toSorted((a, b) => b.data.datum.localeCompare(a.data.datum));
-const hatBeispiele = projekte.some(({ data }) => data.beispiel);
 ---
 <BaseLayout title="Serienreif oder nur versprochen?">
+  <!-- Der Auftritt läuft nur beim ersten Besuch. Dieses kleine Skript entscheidet das vor dem ersten Bild, damit nichts springt. -->
+  <script is:inline>
+    (function () {
+      var erzwungen = /[?&]auftritt\b/.test(location.search), gesehen = false;
+      try { if (erzwungen) sessionStorage.removeItem('s9-auftritt'); gesehen = sessionStorage.getItem('s9-auftritt') === '1'; } catch (e) {}
+      if (!gesehen && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('intro');
+    })();
+  </script>
   <LogoAuftritt felder={felder} />
+  <nav class="rubrics dark" id="aufmacher" aria-label="Forschungsfelder mit Inhalt"><div class="in">
+    {mitInhalt.map(({ data: r }) => <a href={`/${r.slug}/`}>{r.name}</a>)}<a class="all" href="#forschungsfelder">Alle Felder <span aria-hidden="true">↓</span></a>
+  </div></nav>
+  {aufmacher ? <Aufmacher projekt={aufmacher.data} firma={firmaVon(aufmacher.data.firma)} ressort={ressortVon(aufmacher.data.ressorts[0])} />
+    : <section class="empty dark"><div class="in"><h1 class="heading">Serienreif oder nur versprochen?</h1></div></section>}
+  <UpdateTicker updates={latestUpdates} meilensteine={meilensteine} />
+  <ExampleNotice beispiel={projekte.some(({ data }) => data.beispiel)} />
+  <section class="home-section" id="checks"><div class="in">
+    <div class="head"><h2 class="heading">Reality Checks</h2><p>Was ist versprochen, und was hält der Prüfung stand?</p></div>
+    <div class="scale-key tag"><span><i class="solid" aria-hidden="true"></i> Belegt</span><span><i class="hatched" aria-hidden="true"></i> Behauptet</span><span>9 = serienreif</span></div>
+    {weitere.length > 0 ? <div class="cards">{weitere.map(({ data: p }) => <RealityCheckCard projekt={p} firma={firmaVon(p.firma)} ressort={ressortVon(p.ressorts[0]).name} />)}</div>
+      : <p class="note">Weitere Reality Checks folgen.</p>}
+  </div></section>
+  {artikel.length > 0 && <section class="home-section"><div class="in">
+    <div class="head"><h2 class="heading">Hintergründe</h2></div>
+    <ul class="article-list">{artikel.toSorted((a, b) => b.data.datum.localeCompare(a.data.datum)).map(({ data: a }) => <li><a href={`/artikel/${a.slug}/`}><span class="tag">{datum(a.datum)} · {a.autor}{a.beispiel ? ' · Beispiel' : ''}</span><h3>{title(a.titel)} <span aria-hidden="true">↗</span></h3></a></li>)}</ul>
+  </div></section>}
   <section class="fields-section dark" id="forschungsfelder"><div class="in">
     <div class="head"><h2 class="heading">Forschungsfelder</h2><p>Wähle ein Feld und sieh, welche Projekte dahinterstehen und wie weit sie wirklich sind.</p></div>
     <RessortGrid ressorts={ressorts} projekte={projekte} />
   </div></section>
-  <UpdateTicker updates={latestUpdates} />
-  <ExampleNotice beispiel={hatBeispiele} />
-  <section class="home-section" id="checks"><div class="in">
-    <div class="head"><h2 class="heading">Reality Checks</h2><p>Was ist versprochen, und was hält der Prüfung stand?</p></div>
-    <div class="scale-key tag"><span><i class="solid" aria-hidden="true"></i> Belegt</span><span><i class="hatched" aria-hidden="true"></i> Behauptet</span><span>9 = serienreif</span></div>
-    <div class="cards">{projekte.map(({ data: p }) => <RealityCheckCard editorial projekt={p} firma={firmen.find(({ data }) => data.slug === p.firma)!.data.name} ressort={ressorts.find(({ data }) => data.slug === p.ressorts[0])!.data.name} />)}</div>
-  </div></section>
-  {artikel.length > 0 && <section class="home-section"><div class="in">
-    <div class="head"><h2 class="heading">Hintergründe</h2></div>
-    <ul class="article-list">{artikel.toSorted((a, b) => b.data.datum.localeCompare(a.data.datum)).map(({ data: a }) => <li><a href={`/artikel/${a.slug}/`}><span class="tag">{a.beispiel ? 'Beispiel' : a.typ}</span><h3>{title(a.titel)} <span aria-hidden="true">↗</span></h3></a></li>)}</ul>
-  </div></section>}
 </BaseLayout>
 <style>
-  .fields-section { padding-block: 8px clamp(36px, 6vw, 64px); }
+  .rubrics { border-bottom: 1px solid var(--ink-line); }
+  .rubrics .in { display: flex; gap: 22px; overflow-x: auto; padding-block: 2px; font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; scrollbar-width: none; }
+  .rubrics a { flex: none; padding-block: 12px; color: var(--on-ink); text-decoration: none; white-space: nowrap; }
+  .rubrics a:hover { color: var(--signal); }
+  .rubrics .all { margin-left: auto; color: var(--on-ink-muted); }
+  .empty { padding-block: 48px; }
   .head { display: grid; gap: 10px; margin-bottom: 22px; }
   .head p { max-width: 52ch; font-size: 15px; color: var(--muted); }
   .dark .head p { color: var(--on-ink-muted); }
-  .home-section { padding-block: clamp(36px, 5vw, 64px); }
+  .home-section, .fields-section { padding-block: clamp(36px, 5vw, 64px); }
   .home-section + .home-section { border-top: 1px solid var(--paper-line); }
+  .cards { grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
   .scale-key { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-bottom: 20px; color: var(--muted); font-size: 10px; letter-spacing: .03em; }
   .scale-key span { display: inline-flex; align-items: center; gap: 7px; }
   .scale-key i { width: 12px; height: 14px; border: 1px solid var(--ink-2); }

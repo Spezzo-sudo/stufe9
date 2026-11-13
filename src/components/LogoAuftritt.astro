@@ -1,6 +1,6 @@
 ---
 // Der grosse Auftritt der Startseite: Die Forschungsfelder stehen als Punktwolken um das Logo
-// und fliessen in die neun Segmente. Ohne JavaScript und bei reduzierter Bewegung steht das fertige Logo.
+// und fliessen in die neun Segmente. Er ist nur sichtbar, wenn html die Klasse «intro» trägt (erster Besuch, siehe index.astro).
 interface Props { felder: { name: string; motiv: string }[]; }
 const { felder } = Astro.props;
 ---
@@ -9,15 +9,17 @@ const { felder } = Astro.props;
   <button class="lock" id="lock" type="button" aria-label="Stufe 9 – Auftritt erneut abspielen">
     <span class="ph" id="ph" aria-hidden="true">{Array.from({ length: 9 }, () => <i />)}</span><b>STUFE 9</b>
   </button>
-  <div class="copy"><h1>Serienreif oder nur <em>versprochen?</em></h1><p class="tag">Frontier-Tech im Reality Check</p></div>
-  <a class="explore tag" href="#forschungsfelder">Forschungsfelder <span aria-hidden="true">↓</span></a>
+  <div class="copy"><p class="claim">Serienreif oder nur <em>versprochen?</em></p><p class="tag">Frontier-Tech im Reality Check</p></div>
+  <a class="explore tag" href="#aufmacher">Zur Ausgabe <span aria-hidden="true">↓</span></a>
 </section>
 <script>
   import { initAuftritt } from '../motive/auftritt.js';
   initAuftritt();
 </script>
 <style>
-  .hero { position: relative; height: calc(82svh - var(--header-height, 56px)); min-height: 420px; max-height: 660px; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(20px, 4vw, 36px); padding: 16px 16px 40px;
+  .hero { display: none; }
+  :global(html.intro) .hero { display: flex; }
+  .hero { position: relative; height: calc(82svh - var(--header-height, 56px)); min-height: 420px; max-height: 660px; overflow: hidden; flex-direction: column; align-items: center; justify-content: center; gap: clamp(20px, 4vw, 36px); padding: 16px 16px 40px;
     background-image: linear-gradient(var(--ink-2) 1px, transparent 1px), linear-gradient(90deg, var(--ink-2) 1px, transparent 1px); background-size: 32px 32px; }
   canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; visibility: hidden; }
   .hero.canvas-ready canvas { visibility: visible; }
@@ -29,13 +31,13 @@ const { felder } = Astro.props;
   .ph i:last-child { height: 1em; background: var(--signal); }
   .canvas-ready .ph i { visibility: hidden; }
   .copy { display: grid; gap: 12px; text-align: center; position: relative; }
-  h1 { font: 700 clamp(28px, 5vw, 52px)/.95 var(--display); text-transform: uppercase; max-width: 24ch; }
+  .claim { font: 700 clamp(28px, 5vw, 52px)/.95 var(--display); text-transform: uppercase; max-width: 24ch; }
   em { color: var(--signal); font-style: normal; }
   .copy .tag { color: var(--on-ink-muted); }
   .canvas-ready.pre .copy, .canvas-ready.pre .explore { opacity: 0; }
   .copy, .explore { transition: opacity .5s ease-out; }
   .explore { position: absolute; bottom: 14px; color: var(--on-ink-muted); text-decoration: none; padding-block: 10px; }
   .explore span { margin-left: 10px; color: var(--signal); }
-  @media (max-height: 500px) and (orientation: landscape) { .hero { height: auto; min-height: 300px; padding-block: 36px 60px; gap: 20px; } .lock { font-size: 46px; } h1 { font-size: 32px; } }
+  @media (max-height: 500px) and (orientation: landscape) { .hero { height: auto; min-height: 300px; padding-block: 36px 60px; gap: 20px; } .lock { font-size: 46px; } .claim { font-size: 32px; } }
   @media (prefers-reduced-motion: reduce) { canvas { display: none; } .canvas-ready .ph i { visibility: visible; } .canvas-ready.pre .copy, .canvas-ready.pre .explore { opacity: 1; transition: none; } }
 </style>

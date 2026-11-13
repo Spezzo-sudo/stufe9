@@ -1,7 +1,7 @@
 ---
 {
   "id": "beispiel-fusion-update",
-  "titel": "Fusion: neuer Testnachweis (Beispiel)",
+  "titel": "Testreaktor hält das Plasma sieben Sekunden (Beispiel)",
   "datum": "2026-11-12",
   "ressort": "fusion",
   "projekt": "beispiel-fusion",
@@ -19,4 +19,4 @@
 }
 ---
 
-Ein Testnachweis wurde eingetragen. Die Stufe folgt dem verknüpften Meilenstein.
+Der Testreaktor hält das Plasma jetzt 7 Sekunden. Damit ist Stufe 5 belegt. Das Ziel von 60 Sekunden bleibt offen.

@@ -1,0 +1,27 @@
+{
+  "id": "beispiel-fusion-labor",
+  "projekt": "beispiel-fusion",
+  "titel": "Erstes Plasma im Labor",
+  "angekuendigt_fuer": "2025-06-10",
+  "erreicht_am": "2025-06-10",
+  "status": "erreicht",
+  "quelle": "quelle-fusion",
+  "trl_aenderung": {
+    "nach": 4,
+    "quelle": "quelle-fusion",
+    "freigabe": {
+      "art": "mensch",
+      "name": "Beispielredaktion",
+      "datum": "2025-06-10"
+    }
+  },
+  "beispiel": true,
+  "quellen": [
+    {
+      "id": "quelle-fusion",
+      "titel": "Beispielquelle Fusion",
+      "datum": "2026-11-12",
+      "beispiel": true
+    }
+  ]
+}

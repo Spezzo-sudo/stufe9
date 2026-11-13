@@ -1,6 +1,9 @@
 {
   "slug": "beispiel-robotik",
   "name": "Humanoider Testroboter (Beispiel)",
+  "titel": "Zwei Stunden reichen nicht für eine Schicht",
+  "stand": "2026-11-12",
+  "autor": "Beispielredaktion",
   "firma": "beispiel-robotik-firma",
   "ressorts": [
     "robotik"
